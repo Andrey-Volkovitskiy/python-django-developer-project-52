@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = "Task manager (training Django web app)"
+authors = ["Andrey <volk000@gmail.com>"]
+readme = "README.md"
+packages = [{include = "task_manager"}]
+repository = "https://github.com/Andrey-Volkovitskiy/python-django-developer-project-52"
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Education",
+    "Operating System :: Unix",
+    "Framework :: Django :: 4.2",
+    "Natural Language :: Russian",
+    "Natural Language :: English",
+    "Topic :: Office/Business :: Groupware"
+]
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+Django = "^4.2"
+python-dotenv = "^1.0.0"
+dj-database-url = "^1.3.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.3.0"
+pytest-cov = "^4.0.0"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
