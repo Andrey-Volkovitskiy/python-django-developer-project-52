@@ -29,7 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'webserver',
     '127.0.0.1',
-    'https://task-man.up.railway.app/']
+    'task-man.up.railway.app']
 
 
 # Application definition
