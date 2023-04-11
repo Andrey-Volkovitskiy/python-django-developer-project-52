@@ -9,5 +9,8 @@ start:
 dev:
 	$(MANAGE) runserver
 
+db-container:
+	docker compose up -d
+
 lint:
 	poetry run flake8 task_manager
