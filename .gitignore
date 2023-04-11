@@ -16,3 +16,6 @@ test_database
 
 # VS Code
 .vscode/
+
+# Data Bases
+*.sqlite3
