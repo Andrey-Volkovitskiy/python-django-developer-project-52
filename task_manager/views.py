@@ -7,7 +7,7 @@ def index(request):
     from django.db.utils import OperationalError
     db_conn = connections['default']
     try:
-        c = db_conn.cursor()
+        _ = db_conn.cursor()
     except OperationalError:
         db_connected = False
     else:
