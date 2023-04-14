@@ -26,3 +26,6 @@ re-translate:
 
 compile-msg:
 	django-admin compilemessages
+
+migrate:
+	poetry run python3 manage.py migrate
