@@ -14,3 +14,12 @@ db-container:
 
 lint:
 	poetry run flake8 task_manager
+
+translate-to-ru:
+	django-admin makemessages -l ru
+
+re-translate:
+	django-admin makemessages -a
+
+compile-msg:
+	django-admin compilemessages
