@@ -9,6 +9,9 @@ start:
 dev:
 	$(MANAGE) runserver
 
+dev-eng:
+	env LANGUAGE_CODE='en-us' $(MANAGE) runserver
+
 db-container:
 	docker compose up -d
 
