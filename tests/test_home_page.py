@@ -1,5 +1,8 @@
+from django.urls import reverse
+
+
 def test_basic_content(client):
-    responce = client.get('/')
+    responce = client.get(reverse('home-page'))
     content = responce.content.decode()
     assert responce.status_code == 200
     assert "Практические курсы по программированию" in content
