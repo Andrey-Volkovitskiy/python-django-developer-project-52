@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-17 11:31+0600\n"
+"POT-Creation-Date: 2023-04-17 11:53+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,8 @@ msgstr ""
 msgid "Task manager"
 msgstr "Менеджер задач"
 
-#: task_manager/templates/base.html:29
+#: task_manager/templates/base.html:29 task_manager/templates/users/list.html:7
+#: task_manager/templates/users/list.html:11
 msgid "Users"
 msgstr "Пользователи"
 
@@ -56,3 +57,23 @@ msgstr "Практические курсы по программировани�
 #: task_manager/templates/index.html:16
 msgid "Learn more"
 msgstr "Узнать больше"
+
+#: task_manager/templates/users/list.html:16
+msgid "Nickname"
+msgstr "Имя пользователя"
+
+#: task_manager/templates/users/list.html:17
+msgid "Name and Surname"
+msgstr "Полное имя"
+
+#: task_manager/templates/users/list.html:18
+msgid "Created at"
+msgstr "Дата создания"
+
+#: task_manager/templates/users/list.html:30
+msgid "Edit"
+msgstr "Изменить"
+
+#: task_manager/templates/users/list.html:32
+msgid "Delete"
+msgstr "Удалить"

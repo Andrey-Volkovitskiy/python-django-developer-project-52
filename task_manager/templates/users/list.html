@@ -9,5 +9,31 @@
 
 {% block content %}
   <h1 class="my-4"> {% translate "Users" %}</h1>
-  <p>Some text</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>{% translate "Nickname" %}</th>
+        <th>{% translate "Name and Surname" %}</th>
+        <th>{% translate "Created at" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for user in all_users %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.get_full_name }}</td>
+          <td>{{ user.date_joined }}</td>
+          <td>
+            <a href="#">{% translate "Edit" %}</a>
+            <br>
+            <a href="#">{% translate "Delete" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
