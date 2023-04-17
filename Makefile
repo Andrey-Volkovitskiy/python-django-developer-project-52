@@ -15,6 +15,9 @@ dev-eng:
 db-container:
 	docker compose up -d
 
+createsuperuser:
+	python manage.py createsuperuser
+
 lint:
 	poetry run flake8 task_manager
 
