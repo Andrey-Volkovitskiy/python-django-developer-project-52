@@ -6,6 +6,9 @@ install:
 start:
 	poetry run gunicorn task_manager.wsgi
 
+railway-start:
+	python manage.py migrate && gunicorn task_manager.wsgi
+
 dev:
 	$(MANAGE) runserver
 
