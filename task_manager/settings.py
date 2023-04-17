@@ -88,8 +88,7 @@ WSGI_APPLICATION = 'task_manager.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        test_options={'NAME': 'test_db'}
+        default=os.getenv('DATABASE_URL')
     )
 }
 
