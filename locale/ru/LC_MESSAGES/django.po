@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-17 11:53+0600\n"
+"POT-Creation-Date: 2023-04-18 14:14+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,11 +20,11 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/settings.py:123
+#: task_manager/settings.py:122
 msgid "English"
 msgstr ""
 
-#: task_manager/settings.py:124
+#: task_manager/settings.py:123
 msgid "Russian"
 msgstr ""
 
@@ -58,6 +58,15 @@ msgstr "Практические курсы по программировани�
 msgid "Learn more"
 msgstr "Узнать больше"
 
+#: task_manager/templates/users/create.html:7
+#: task_manager/templates/users/create.html:11
+msgid "New User Registration"
+msgstr "Регистрация"
+
+#: task_manager/templates/users/create.html:17
+msgid "Submit"
+msgstr "Зарегистрировать"
+
 #: task_manager/templates/users/list.html:16
 msgid "Nickname"
 msgstr "Имя пользователя"
@@ -70,10 +79,18 @@ msgstr "Полное имя"
 msgid "Created at"
 msgstr "Дата создания"
 
-#: task_manager/templates/users/list.html:30
+#: task_manager/templates/users/list.html:31
 msgid "Edit"
 msgstr "Изменить"
 
-#: task_manager/templates/users/list.html:32
+#: task_manager/templates/users/list.html:33
 msgid "Delete"
 msgstr "Удалить"
+
+#: task_manager/users/views.py:39
+msgid "User successfully created"
+msgstr "Пользователь успешно зарегистрирован"
+
+#: task_manager/users/views.py:43
+msgid "User can't be created"
+msgstr "Пользователь не зарегистрирован"

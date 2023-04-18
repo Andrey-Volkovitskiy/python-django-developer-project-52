@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block title %}
+  {% translate "New User Registration" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="my-4"> {% translate "New User Registration" %}</h1>
+  <form action="{% url 'users-create' %}" method="post" class="form">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary">
+          {% translate "Submit" %}
+        </button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

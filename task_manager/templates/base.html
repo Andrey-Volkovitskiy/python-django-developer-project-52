@@ -17,7 +17,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100">
-  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="{% url 'home-page' %}">{% translate "Task manager" %}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -34,18 +34,18 @@
           <a class="nav-link" href="#">{% translate "Sign In" %}</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">{% translate "Sign Up" %}</a>
+          <a class="nav-link" href="{% url 'users-create' %}">{% translate "Sign Up" %}</a>
         </li>
       </ul>
     </div>
   </nav>
 
   <main role="main" class="mb-auto">
-    <h1 class="my-4"></h1>
-    {% bootstrap_messages %}  # TODO
-    <h1 class="my-4"></h1>
-    <div class="container wrapper flex-grow-1 mt-5">
-      {% block content %}{% endblock %}
+      <div class="container wrapper flex-grow-1 mt-3">
+        {% bootstrap_messages %}
+        
+        {% block content %}{% endblock %}
+      </div>
     </div>
   </main>
 
