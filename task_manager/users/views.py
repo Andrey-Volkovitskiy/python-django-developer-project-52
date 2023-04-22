@@ -1,9 +1,9 @@
 from django.views.generic.base import TemplateView
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.utils.translation import gettext
+from django.utils.translation import gettext as _
 from task_manager.users import forms
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 
 
@@ -36,9 +36,12 @@ class CreateView(TemplateView):
             # # Дополнительно обрабатываем модель
             # comment.content = check_for_spam(form.data['content'])
             # comment.save()
-            messages.success(request, gettext("User successfully created"))
+            messages.success(request, _("User successfully created"))
             return redirect(reverse('users-list'))  # TODO
 
         else:
-            messages.error(request, gettext("User can't be created"))
-            return redirect(reverse('users-create'))
+            # messages.error(request, _("User can't be created"))
+            return render(
+                request,
+                "users/create.html",
+                {'form': form})  # TODO
