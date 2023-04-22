@@ -11,7 +11,6 @@ class UserListView(ListView):
 
 
 class CreateUserView(SuccessMessageMixin, CreateView):
-    model = User
     form_class = UserForm
     template_name = "users/create.html"
     success_url = '/users/'  # TODO
