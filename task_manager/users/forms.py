@@ -4,36 +4,38 @@ from django.utils.translation import gettext as _
 
 
 class UserForm(forms.ModelForm):
-
-    confirm_password = forms.CharField(
-        required=True,
-        widget=forms.PasswordInput(),
-        label=_("Confirm password"),
-        help_text=_("Please enter your password one more time"))
-
     class Meta:
         model = User
         fields = [
             'first_name',
             'last_name',
-            'username',
-            'password',
-        ]
+            'username']
 
-    # TODO Change to pass validation
+    password1 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(),
+        label=_("Password"),
+        help_text=_("Your password must contain at least 3 characters."))
+
+    password2 = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(),
+        label=_("Confirm password"),
+        help_text=_("Please enter your password one more time"))
+
     def clean(self):
         cleaned_data = super().clean()
-
-        password = cleaned_data.get('password')
-        if len(password) < 3:
+        password1 = cleaned_data.get('password1')
+        if len(password1) < 3:
             self.add_error(
-                "password",
-                _("Your password must contain at least 3 characters."))
+                "password1",
+                _("Your password is too short. " +
+                  "It must contain at least 3 characters."))
 
-        confirm_password = cleaned_data.get('confirm_password')
-        if confirm_password != password:
+        password2 = cleaned_data.get('password2')
+        if password1 != password2:
             self.add_error(
-                "confirm_password",
+                "password2",
                 _("The entered passwords do not match."))
 
         return cleaned_data

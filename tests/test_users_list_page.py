@@ -59,7 +59,7 @@ def test_all_users_are_displayed(client):
         assert user['username'] in content
         assert user['first_name'] in content
         assert user['last_name'] in content
-        time = user['created_at'].strftime("%H:%M")
+        time = user['created_at'].strftime("%-H:%M")
         assert time in content
 
 

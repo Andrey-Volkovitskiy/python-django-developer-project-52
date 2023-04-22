@@ -30,12 +30,10 @@ class CreateView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         form = forms.UserForm(request.POST)  # Получаем данные формы из запроса
-        if form.is_valid():  # Проверяем данные формы на корректность
-            form.save()
-            # comment = form.save(commit=False)  # Получаем заполненную модель
-            # # Дополнительно обрабатываем модель
-            # comment.content = check_for_spam(form.data['content'])
-            # comment.save()
+        if form.is_valid():
+            new_user = form.save(commit=False)  # Получаем заполненную модель
+            new_user.password = form.data['password1']
+            new_user.save()
             messages.success(request, _("User successfully created"))
             return redirect(reverse('users-list'))  # TODO
 
@@ -44,4 +42,5 @@ class CreateView(TemplateView):
             return render(
                 request,
                 "users/create.html",
-                {'form': form})  # TODO
+                {'form': form},
+                status=422)  # TODO

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-22 12:53+0600\n"
+"POT-Creation-Date: 2023-04-22 13:27+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,23 +87,32 @@ msgstr "Изменить"
 msgid "Delete"
 msgstr "Удалить"
 
-#: task_manager/users/forms.py:10
+#: task_manager/users/forms.py:11
+msgid "Password"
+msgstr "Пароль"
+
+#: task_manager/users/forms.py:12
+msgid "Your password must contain at least 3 characters."
+msgstr "Ваш пароль должен содержать как минимум 3 символа."
+
+#: task_manager/users/forms.py:18
 msgid "Confirm password"
 msgstr "Подтверждение пароля"
 
-#: task_manager/users/forms.py:11
+#: task_manager/users/forms.py:19
 msgid "Please enter your password one more time"
 msgstr "Для подтверждения введите, пожалуйста, пароль ещё раз."
 
-#: task_manager/users/forms.py:30
-msgid "Your password must contain at least 3 characters."
-msgstr "Введённый пароль слишком короткий. Он должен содержать как минимум 3 символа."
+#: task_manager/users/forms.py:38
+msgid "Your password is too short. It must contain at least 3 characters."
+msgstr ""
+"Введённый пароль слишком короткий. Он должен содержать как минимум 3 символа."
 
-#: task_manager/users/forms.py:36
+#: task_manager/users/forms.py:45
 msgid "The entered passwords do not match."
 msgstr "Введенные пароли не совпадают."
 
-#: task_manager/users/views.py:39
+#: task_manager/users/views.py:40
 msgid "User successfully created"
 msgstr "Пользователь успешно зарегистрирован"
 
