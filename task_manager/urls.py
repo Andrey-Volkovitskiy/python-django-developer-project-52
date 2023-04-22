@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from task_manager import views
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path('', views.IndexView.as_view(), name='home-page'),
+    path('', TemplateView.as_view(
+            template_name="index.html"
+        ), name='home-page'),
     path('users/', include('task_manager.users.urls')),
     path('service/', views.service),
     path('admin/', admin.site.urls),
