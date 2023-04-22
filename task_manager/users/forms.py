@@ -39,3 +39,12 @@ class UserForm(forms.ModelForm):
                 _("The entered passwords do not match."))
 
         return cleaned_data
+
+    def save(self, commit=True):
+        user = super(UserForm, self).save(commit=False)
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get('password1')
+        user.password = password1
+        if commit:
+            user.save()
+        return user
