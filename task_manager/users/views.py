@@ -1,4 +1,4 @@
-from django.views.generic.base import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.utils.translation import gettext as _
@@ -7,15 +7,19 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 
 
-class ListView(TemplateView):
-
+class UserListView(ListView):
     template_name = "users/list.html"
+    model = User
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        all_users = User.objects.all()
-        context['all_users'] = all_users
-        return context
+# class ListView(TemplateView):
+
+#     template_name = "users/list.html"
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         all_users = User.objects.all()
+#         context['all_users'] = all_users
+#         return context
 
 
 class CreateView(TemplateView):
@@ -35,7 +39,7 @@ class CreateView(TemplateView):
             new_user.password = form.data['password1']
             new_user.save()
             messages.success(request, _("User successfully created"))
-            return redirect(reverse('users-list'))  # TODO
+            return redirect(reverse('user-list'))  # TODO
 
         else:
             # messages.error(request, _("User can't be created"))

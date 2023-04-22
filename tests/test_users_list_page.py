@@ -1,11 +1,10 @@
 import pytest
-from django.urls import reverse
 from django.contrib.auth.models import User
 from bs4 import BeautifulSoup
 from datetime import datetime
 
 
-TESTED_URL = reverse('users-list')
+TESTED_URL = "/users/"
 
 
 def make_users(quantity):
