@@ -21,7 +21,7 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_all_users_are_displayed(client):
-    users = conftest.make_users(quantity=3)
+    users = conftest.make_users(quantity=conftest.DEFAULT_USERS_COUNT)
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
@@ -38,4 +38,5 @@ def test_no_redundant_users_are_displayed(client):
     response = client.get(TESTED_URL)
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == conftest.DEFAULT_USERS_COUNT + 1
+    assert len(rows) == (
+        conftest.DEFAULT_USERS_COUNT + conftest.USER_LIST_HEADER_ROWS)

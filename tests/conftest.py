@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from datetime import datetime
 
 DEFAULT_USERS_COUNT = 3
+USER_LIST_HEADER_ROWS = 1
+USER_LIST_URL = "/users/"
 
 
 @pytest.fixture
@@ -15,7 +17,8 @@ def client():
 @pytest.fixture(scope='session')
 def django_db_setup(django_db_setup, django_db_blocker):
     with django_db_blocker.unblock():
-        add_users_to_db(quantity=DEFAULT_USERS_COUNT)
+        users = make_users(quantity=DEFAULT_USERS_COUNT)
+        add_users_to_db(users)
 
 
 def make_users(quantity):
@@ -33,8 +36,7 @@ def make_users(quantity):
 
 
 @pytest.mark.django_db
-def add_users_to_db(quantity):
-    users = make_users(quantity)
+def add_users_to_db(users):
     for user in users:
         User.objects.create(
             username=user['username'],
@@ -42,4 +44,8 @@ def add_users_to_db(quantity):
             last_name=user['last_name'],
             password=user['password']
         )
-    return users
+
+
+@pytest.mark.django_db
+def get_user_from_db(username):
+    return User.objects.get(username=username)
