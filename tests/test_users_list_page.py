@@ -1,5 +1,5 @@
 import pytest
-from conftest import add_users_to_db
+import conftest
 from bs4 import BeautifulSoup
 
 
@@ -8,7 +8,6 @@ TESTED_URL = "/users/"
 
 @pytest.mark.django_db
 def test_basic_content(client):
-    add_users_to_db(quantity=1)
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
@@ -22,7 +21,7 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_all_users_are_displayed(client):
-    users = add_users_to_db(quantity=3)
+    users = conftest.make_users(quantity=3)
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
@@ -36,9 +35,7 @@ def test_all_users_are_displayed(client):
 
 @pytest.mark.django_db
 def test_no_redundant_users_are_displayed(client):
-    TEST_USERS_COUNT = 3
-    add_users_to_db(quantity=TEST_USERS_COUNT)
     response = client.get(TESTED_URL)
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == TEST_USERS_COUNT + 1
+    assert len(rows) == conftest.DEFAULT_USERS_COUNT + 1

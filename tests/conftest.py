@@ -2,11 +2,20 @@ import pytest
 from django.contrib.auth.models import User
 from datetime import datetime
 
+DEFAULT_USERS_COUNT = 3
+
 
 @pytest.fixture
 def client():
     from django.test.client import Client
     return Client()
+
+
+# Populate default database with N users
+@pytest.fixture(scope='session')
+def django_db_setup(django_db_setup, django_db_blocker):
+    with django_db_blocker.unblock():
+        add_users_to_db(quantity=DEFAULT_USERS_COUNT)
 
 
 def make_users(quantity):
@@ -16,7 +25,8 @@ def make_users(quantity):
             username=f'Usr{i}',
             first_name=f'First_name{i}',
             last_name=f'Last_name{i}',
-            password=f'password_for_usr{i}'
+            password=f'password_for_usr{i}',
+            created_at=datetime.utcnow()
         )
         users.append(user)
     return users
@@ -32,5 +42,4 @@ def add_users_to_db(quantity):
             last_name=user['last_name'],
             password=user['password']
         )
-        user['created_at'] = datetime.utcnow()
     return users
