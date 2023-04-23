@@ -38,7 +38,7 @@ ALLOWED_HOSTS = [
     'task-man.up.railway.app']
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://task-man.up.railway.app/']
+    'https://task-man.up.railway.app']
 
 # Application definition
 
