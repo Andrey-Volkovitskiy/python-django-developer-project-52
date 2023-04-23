@@ -1,16 +1,21 @@
 import pytest
 import conftest
+import django
 from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
-TESTED_USER_ID = conftest.DEFAULT_USERS_COUNT + 1
-TESTED_URL = f"/users/{TESTED_USER_ID}/update/"
-SUCCESS_URL = "/users/"  # TODO  Change to /login/
+TESTED_URL_PATTERN = "/users/???/update/"
+SUCCESS_URL = "/users/"
+CREATE_USER_URL = "/users/create/"
 
 
 @pytest.mark.django_db
 def test_basic_content(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
+    INITIAL_USER = deepcopy(TEST_USER_A)
+    client.post(CREATE_USER_URL, INITIAL_USER)
+
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
@@ -28,10 +33,11 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_successfuly_updated_user(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
     UPDATED_USER = deepcopy(TEST_USER_B)
+    client.post(CREATE_USER_URL, INITIAL_USER)
 
-    conftest.add_users_to_db(INITIAL_USER)
     response = client.post(TESTED_URL, UPDATED_USER, follow=True)
     assert response.redirect_chain == [
         (SUCCESS_URL, 302)
@@ -49,20 +55,24 @@ def test_successfuly_updated_user(client):
     assert updated_user.password == UPDATED_USER['password1']
 
     # Is old username removed from the database?
-    old_user = conftest.get_user_from_db(INITIAL_USER['username'])
-    assert old_user is None
+    with pytest.raises(django.contrib.auth.models.User.DoesNotExist):
+        conftest.get_user_from_db(INITIAL_USER['username'])
 
     # Is the user list length the same as before the update?
+    y = client.get(SUCCESS_URL)
+    z = y.content.decode()
+    print(z)
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        TESTED_USER_ID + conftest.USER_LIST_HEADER_ROWS)
+        conftest.DEFAULT_USERS_COUNT + 1 + conftest.USER_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db
 def test_with_incorrect_chars_in_username(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    conftest.add_users_to_db(INITIAL_USER)
+    client.post(CREATE_USER_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['username'] = "aaa#%="
@@ -76,8 +86,9 @@ def test_with_incorrect_chars_in_username(client):
 
 @pytest.mark.django_db
 def test_with_incorrect_existing_username(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    conftest.add_users_to_db(INITIAL_USER)
+    client.post(CREATE_USER_URL, INITIAL_USER)
 
     EXISTING_USER = deepcopy(TEST_USER_B)
     EXISTING_USER['username'] = 'Usr1'
@@ -92,8 +103,9 @@ def test_with_incorrect_existing_username(client):
 
 @pytest.mark.django_db
 def test_with_incorrect_short_pass(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    conftest.add_users_to_db(INITIAL_USER)
+    client.post(CREATE_USER_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "ab"
@@ -109,8 +121,9 @@ def test_with_incorrect_short_pass(client):
 
 @pytest.mark.django_db
 def test_with_incorrect_confirm_pass(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    conftest.add_users_to_db(INITIAL_USER)
+    client.post(CREATE_USER_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "pass-1"

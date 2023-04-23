@@ -25,7 +25,7 @@ lint:
 	poetry run flake8 task_manager
 
 test:
-	env poetry run python3 -m pytest -ra -s -vvv tests/
+	poetry run python3 -m pytest -ra -s -vvv tests/
 
 cov:
 	poetry run python3 -m pytest --cov=task_manager/ tests/
