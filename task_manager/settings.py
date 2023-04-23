@@ -37,6 +37,10 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'task-man.up.railway.app']
 
+CSRF_TRUSTED_ORIGINS = [
+    'webserver',
+    '127.0.0.1',
+    'task-man.up.railway.app']
 
 # Application definition
 
