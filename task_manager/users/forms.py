@@ -44,7 +44,7 @@ class UserForm(forms.ModelForm):
         user = super(UserForm, self).save(commit=False)
         cleaned_data = super().clean()
         password1 = cleaned_data.get('password1')
-        user.password = password1
+        user.set_password(password1)
         if commit:
             user.save()
         return user

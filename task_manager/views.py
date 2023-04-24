@@ -1,5 +1,20 @@
 from django.shortcuts import render
 from . import settings
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.utils.translation import gettext as _
+
+
+class SiteLoginView(SuccessMessageMixin, LoginView):
+    redirect_authenticated_user = True
+    template_name = "login.html"
+    success_message = _("You are logged in")
+
+
+class SiteLogoutView(SuccessMessageMixin, LogoutView):
+    # redirect_authenticated_user = True
+    # template_name = "logout.html"
+    success_message = _("You are logged out")
 
 
 def service(request):
