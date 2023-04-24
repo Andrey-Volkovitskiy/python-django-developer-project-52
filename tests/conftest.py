@@ -4,6 +4,10 @@ from datetime import datetime
 
 DEFAULT_USERS_COUNT = 3
 USER_LIST_HEADER_ROWS = 1
+
+HOME_URL = "/"
+LOGIN_URL = "/login/"
+LOGOUT_URL = "/logout/"
 USER_LIST_URL = "/users/"
 USER_CREATE_URL = "/users/create/"
 
