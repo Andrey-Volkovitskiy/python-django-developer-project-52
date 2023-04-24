@@ -7,14 +7,13 @@ from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 TESTED_URL_PATTERN = "/users/???/update/"
 SUCCESS_URL = "/users/"
-CREATE_USER_URL = "/users/create/"
 
 
 @pytest.mark.django_db
 def test_basic_content(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     response = client.get(TESTED_URL)
     content = response.content.decode()
@@ -36,7 +35,7 @@ def test_successfuly_updated_user(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
     UPDATED_USER = deepcopy(TEST_USER_B)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     response = client.post(TESTED_URL, UPDATED_USER, follow=True)
     assert response.redirect_chain == [
@@ -45,10 +44,12 @@ def test_successfuly_updated_user(client):
     response_content = response.content.decode()
     assert "Пользователь успешно изменён" in response_content
 
-    # Is the user added to the list?
-    assert UPDATED_USER['username'] in response_content
-    assert UPDATED_USER['first_name'] in response_content
-    assert UPDATED_USER['last_name'] in response_content
+    # Is new user added to the list?
+    list_response = client.get(conftest.USER_LIST_URL)
+    list_content = list_response.content.decode()
+    assert UPDATED_USER['username'] in list_content
+    assert UPDATED_USER['first_name'] in list_content
+    assert UPDATED_USER['last_name'] in list_content
 
     # Is users password correcly added to the database?
     updated_user = conftest.get_user_from_db(UPDATED_USER['username'])
@@ -59,7 +60,7 @@ def test_successfuly_updated_user(client):
         conftest.get_user_from_db(INITIAL_USER['username'])
 
     # Is the user list length the same as before the update?
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
         conftest.DEFAULT_USERS_COUNT + 1 + conftest.USER_LIST_HEADER_ROWS)
@@ -69,7 +70,7 @@ def test_successfuly_updated_user(client):
 def test_with_incorrect_chars_in_username(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['username'] = "aaa#%="
@@ -85,7 +86,7 @@ def test_with_incorrect_chars_in_username(client):
 def test_with_incorrect_existing_username(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     EXISTING_USER = deepcopy(TEST_USER_B)
     EXISTING_USER['username'] = 'Usr1'
@@ -102,7 +103,7 @@ def test_with_incorrect_existing_username(client):
 def test_with_incorrect_short_pass(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "ab"
@@ -120,7 +121,7 @@ def test_with_incorrect_short_pass(client):
 def test_with_incorrect_confirm_pass(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(CREATE_USER_URL, INITIAL_USER)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "pass-1"

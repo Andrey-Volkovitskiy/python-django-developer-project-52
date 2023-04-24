@@ -5,6 +5,7 @@ from datetime import datetime
 DEFAULT_USERS_COUNT = 3
 USER_LIST_HEADER_ROWS = 1
 USER_LIST_URL = "/users/"
+USER_CREATE_URL = "/users/create/"
 
 
 @pytest.fixture

@@ -12,7 +12,7 @@
 <h1 class="my-4"> {% translate "Delete User" %}</h1>
   <form method="post" class="form">
       {% csrf_token %}
-      <p>{% translate "Are you sure you want to delete" %} {{ object }}?</p>
+      <p>{% translate "Are you sure you want to delete" %} {{ object.first_name }} {{ object.last_name }}?</p>
       {% bootstrap_form form %}
       {% buttons %}
         <button type="submit" class="btn btn-danger">
