@@ -59,9 +59,6 @@ def test_successfuly_updated_user(client):
         conftest.get_user_from_db(INITIAL_USER['username'])
 
     # Is the user list length the same as before the update?
-    y = client.get(SUCCESS_URL)
-    z = y.content.decode()
-    print(z)
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
