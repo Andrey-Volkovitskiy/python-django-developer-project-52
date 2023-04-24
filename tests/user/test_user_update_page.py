@@ -6,7 +6,7 @@ from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 TESTED_URL_PATTERN = "/users/???/update/"
-SUCCESS_URL = "/users/"
+SUCCESS_URL = conftest.USER_LIST_URL
 
 
 @pytest.mark.django_db

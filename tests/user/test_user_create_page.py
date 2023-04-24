@@ -5,8 +5,8 @@ from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 
-TESTED_URL = "/users/create/"
-SUCCESS_URL = "/users/"  # TODO  Change to /login/
+TESTED_URL = conftest.USER_CREATE_URL
+SUCCESS_URL = conftest.LOGIN_URL
 
 
 @pytest.mark.django_db

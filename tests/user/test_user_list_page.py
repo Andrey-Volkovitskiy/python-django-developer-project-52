@@ -3,7 +3,7 @@ import conftest
 from bs4 import BeautifulSoup
 
 
-TESTED_URL = "/users/"
+TESTED_URL = conftest.USER_LIST_URL
 
 
 @pytest.mark.django_db

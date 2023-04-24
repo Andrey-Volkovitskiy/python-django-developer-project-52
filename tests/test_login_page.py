@@ -3,8 +3,8 @@ import conftest
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A
 
-TESTED_URL = "/login/"
-SUCCESS_URL = "/"
+TESTED_URL = conftest.LOGIN_URL
+SUCCESS_URL = conftest.HOME_URL
 
 
 @pytest.mark.django_db

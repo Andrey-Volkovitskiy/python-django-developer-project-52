@@ -1,6 +1,7 @@
 import pytest
+import conftest
 
-TESTED_URL = "/"
+TESTED_URL = conftest.HOME_URL
 
 
 @pytest.mark.django_db
