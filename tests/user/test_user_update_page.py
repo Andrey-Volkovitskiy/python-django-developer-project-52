@@ -53,7 +53,7 @@ def test_successfuly_updated_user(client):
 
     # Is users password correcly added to the database?
     updated_user = conftest.get_user_from_db(UPDATED_USER['username'])
-    assert updated_user.password == UPDATED_USER['password1']
+    assert updated_user.check_password(UPDATED_USER['password1'])
 
     # Is old username removed from the database?
     with pytest.raises(django.contrib.auth.models.User.DoesNotExist):

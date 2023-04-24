@@ -12,8 +12,6 @@ class SiteLoginView(SuccessMessageMixin, LoginView):
 
 
 class SiteLogoutView(SuccessMessageMixin, LogoutView):
-    # redirect_authenticated_user = True
-    # template_name = "logout.html"
     success_message = _("You are logged out")
 
 

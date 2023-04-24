@@ -47,7 +47,7 @@ def test_successfuly_crated_user(client):
 
     # Is users password correcly added to the database?
     new_user = conftest.get_user_from_db(CORRECT_USER['username'])
-    assert new_user.password == CORRECT_USER['password1']
+    assert new_user.check_password(CORRECT_USER['password1'])
 
     # Is only one user added to the list?
     soup = BeautifulSoup(user_list_response.content, 'html.parser')
