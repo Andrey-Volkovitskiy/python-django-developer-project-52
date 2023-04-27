@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 15:29+0600\n"
+"POT-Creation-Date: 2023-04-27 20:07+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr ""
 #: task_manager/settings.py:126
 msgid "Russian"
 msgstr ""
+
+#: task_manager/statuses/views.py:22 task_manager/users/views.py:50
+msgid "You are not authorized! Please sign in."
+msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
 #: task_manager/templates/base.html:14 task_manager/templates/base.html:21
 #: task_manager/templates/index.html:7
@@ -74,21 +78,25 @@ msgstr "Узнать больше"
 msgid "Sign In "
 msgstr "Войти"
 
-#: task_manager/templates/statuses/list.html:16
+#: task_manager/templates/statuses/list.html:12
+msgid "Create new status"
+msgstr "Создать статус"
+
+#: task_manager/templates/statuses/list.html:17
 msgid "Name"
 msgstr "Имя"
 
-#: task_manager/templates/statuses/list.html:17
+#: task_manager/templates/statuses/list.html:18
 #: task_manager/templates/users/list.html:18
 msgid "Created at"
 msgstr "Дата создания"
 
-#: task_manager/templates/statuses/list.html:29
+#: task_manager/templates/statuses/list.html:30
 #: task_manager/templates/users/list.html:31
 msgid "Edit"
 msgstr "Изменить"
 
-#: task_manager/templates/statuses/list.html:31
+#: task_manager/templates/statuses/list.html:32
 #: task_manager/templates/users/list.html:33
 msgid "Delete"
 msgstr "Удалить"
@@ -164,10 +172,6 @@ msgstr "Пользователь успешно зарегистрирован"
 #: task_manager/users/views.py:42
 msgid "You do not have rights to change another user."
 msgstr "У вас нет прав для изменения другого пользователя."
-
-#: task_manager/users/views.py:50
-msgid "You are not authorized! Please sign in."
-msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
 #: task_manager/users/views.py:64
 msgid "User successfully updated"

@@ -26,6 +26,7 @@ def test_all_users_are_displayed(client):
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
+    # All items from database are dispayed
     for user in users:
         assert user['username'] in content
         assert user['first_name'] in content
@@ -33,10 +34,7 @@ def test_all_users_are_displayed(client):
         time = user['created_at'].strftime("%-H:%M")
         assert time in content
 
-
-@pytest.mark.django_db
-def test_no_redundant_users_are_displayed(client):
-    response = client.get(TESTED_URL)
+    # No redundant items are displayed
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (

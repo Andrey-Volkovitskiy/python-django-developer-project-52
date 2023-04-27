@@ -15,4 +15,4 @@ def test_basic_content(client):
     assert "Вход" in content
     assert "Регистрация" in content
 
-# TODO Test all nav links
+# TODO Test all nav links with and without login
