@@ -1,5 +1,6 @@
 import pytest
 import conftest
+from user import conftest as user_conftest
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A
 
@@ -10,7 +11,7 @@ SUCCESS_URL = conftest.HOME_URL
 @pytest.mark.django_db
 def test_successfully_logout(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+    client.post(user_conftest.USER_CREATE_URL, INITIAL_USER)
 
     # Log in
     response = client.post(conftest.LOGIN_URL, INITIAL_USER, follow=True)

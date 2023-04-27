@@ -1,11 +1,12 @@
 import pytest
 import conftest
+from user import conftest as user_conftest
 from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 
-TESTED_URL = conftest.USER_CREATE_URL
+TESTED_URL = user_conftest.USER_CREATE_URL
 SUCCESS_URL = conftest.LOGIN_URL
 
 
@@ -38,7 +39,7 @@ def test_successfuly_crated_user(client):
     assert "Пользователь успешно зарегистрирован" in response_content
 
     # Is the user added to the list?
-    user_list_response = client.get(conftest.USER_LIST_URL)
+    user_list_response = client.get(user_conftest.USER_LIST_URL)
     user_list_content = user_list_response.content.decode()
     assert user_list_response.status_code == 200
     assert CORRECT_USER['username'] in user_list_content
@@ -46,14 +47,15 @@ def test_successfuly_crated_user(client):
     assert CORRECT_USER['last_name'] in user_list_content
 
     # Is users password correcly added to the database?
-    new_user = conftest.get_user_from_db(CORRECT_USER['username'])
+    new_user = user_conftest.get_user_from_db(CORRECT_USER['username'])
     assert new_user.check_password(CORRECT_USER['password1'])
 
     # Is only one user added to the list?
     soup = BeautifulSoup(user_list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        conftest.DEFAULT_USERS_COUNT + conftest.USER_LIST_HEADER_ROWS + 1)
+        user_conftest.DEFAULT_USERS_COUNT +
+        user_conftest.USER_LIST_HEADER_ROWS + 1)
 
 
 @pytest.mark.django_db

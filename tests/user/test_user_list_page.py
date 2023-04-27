@@ -1,9 +1,9 @@
 import pytest
-import conftest
+from user import conftest as user_conftest
 from bs4 import BeautifulSoup
 
 
-TESTED_URL = conftest.USER_LIST_URL
+TESTED_URL = user_conftest.USER_LIST_URL
 
 
 @pytest.mark.django_db
@@ -21,7 +21,8 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_all_users_are_displayed(client):
-    users = conftest.make_users(quantity=conftest.DEFAULT_USERS_COUNT)
+    users = user_conftest.make_users(
+        quantity=user_conftest.DEFAULT_USERS_COUNT)
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
@@ -39,4 +40,5 @@ def test_no_redundant_users_are_displayed(client):
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        conftest.DEFAULT_USERS_COUNT + conftest.USER_LIST_HEADER_ROWS)
+        user_conftest.DEFAULT_USERS_COUNT +
+        user_conftest.USER_LIST_HEADER_ROWS)

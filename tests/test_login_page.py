@@ -1,5 +1,6 @@
 import pytest
 import conftest
+from user import conftest as user_conftest
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A
 
@@ -23,7 +24,7 @@ def test_basic_content(client):
 @pytest.mark.django_db
 def test_successfully_log_in(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+    client.post(user_conftest.USER_CREATE_URL, INITIAL_USER)
 
     response = client.post(TESTED_URL, INITIAL_USER, follow=True)
     assert response.redirect_chain == [
@@ -40,7 +41,7 @@ def test_successfully_log_in(client):
 @pytest.mark.django_db
 def test_deny_with_incorrect_pass(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+    client.post(user_conftest.USER_CREATE_URL, INITIAL_USER)
 
     WRONG_USER = deepcopy(TEST_USER_A)
     WRONG_USER['password'] = "wrong"
