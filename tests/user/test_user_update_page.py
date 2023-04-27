@@ -15,6 +15,10 @@ def test_basic_content(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
+
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
@@ -36,6 +40,10 @@ def test_successfuly_updated_user(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
     UPDATED_USER = deepcopy(TEST_USER_B)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
 
     response = client.post(TESTED_URL, UPDATED_USER, follow=True)
     assert response.redirect_chain == [
@@ -72,6 +80,10 @@ def test_with_incorrect_chars_in_username(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
+
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['username'] = "aaa#%="
     response = client.post(TESTED_URL, INCORRECT_UPDATED_USER, follow=True)
@@ -91,6 +103,10 @@ def test_with_incorrect_existing_username(client):
     EXISTING_USER = deepcopy(TEST_USER_B)
     EXISTING_USER['username'] = 'Usr1'
 
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
+
     response = client.post(TESTED_URL, EXISTING_USER, follow=True)
     assert response.status_code == 200
     assert response.redirect_chain == []
@@ -104,6 +120,10 @@ def test_with_incorrect_short_pass(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
 
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "ab"
@@ -123,6 +143,10 @@ def test_with_incorrect_confirm_pass(client):
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
 
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
+
     INCORRECT_UPDATED_USER = deepcopy(TEST_USER_B)
     INCORRECT_UPDATED_USER['password1'] = "pass-1"
     INCORRECT_UPDATED_USER['password2'] = "pass-2"
@@ -133,4 +157,36 @@ def test_with_incorrect_confirm_pass(client):
     response_content = response.content.decode()
     assert "Введенные пароли не совпадают." in response_content
 
-# TODO Add tests for Login
+
+@pytest.mark.django_db
+def test_with_anonymous_user(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
+    INITIAL_USER = deepcopy(TEST_USER_A)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    response = client.get(TESTED_URL, follow=True)
+    content = response.content.decode()
+    assert response.redirect_chain == [
+        (conftest.LOGIN_URL, 302)
+    ]
+    assert "Вы не авторизованы! Пожалуйста, выполните вход." in content
+
+
+@pytest.mark.django_db
+def test_with_another_user(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
+    INITIAL_USER = deepcopy(TEST_USER_A)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    ANOTHER_USER = deepcopy(TEST_USER_B)
+    client.post(conftest.USER_CREATE_URL, ANOTHER_USER)
+    assert client.login(
+        username=ANOTHER_USER['username'],
+        password=ANOTHER_USER['password'])
+
+    response = client.get(TESTED_URL, follow=True)
+    content = response.content.decode()
+    assert response.redirect_chain == [
+        (conftest.USER_LIST_URL, 302)
+    ]
+    assert "У вас нет прав для изменения другого пользователя." in content

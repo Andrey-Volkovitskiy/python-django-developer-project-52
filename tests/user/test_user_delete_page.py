@@ -3,7 +3,7 @@ import conftest
 import django
 from bs4 import BeautifulSoup
 from copy import deepcopy
-from fixtures.test_users import TEST_USER_A
+from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 TESTED_URL_PATTERN = "/users/???/delete/"
 SUCCESS_URL = conftest.USER_LIST_URL
@@ -14,6 +14,10 @@ def test_basic_content(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
 
     response = client.get(TESTED_URL)
     content = response.content.decode()
@@ -33,6 +37,10 @@ def test_successfuly_delete_user(client):
     TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
     INITIAL_USER = deepcopy(TEST_USER_A)
     client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    assert client.login(
+        username=INITIAL_USER['username'],
+        password=INITIAL_USER['password'])
 
     response = client.post(TESTED_URL, follow=True)
     assert response.redirect_chain == [
@@ -59,4 +67,35 @@ def test_successfuly_delete_user(client):
         conftest.DEFAULT_USERS_COUNT + conftest.USER_LIST_HEADER_ROWS)
 
 
-# TODO Add tests for Login
+@pytest.mark.django_db
+def test_with_anonymous_user(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
+    INITIAL_USER = deepcopy(TEST_USER_A)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    response = client.get(TESTED_URL, follow=True)
+    content = response.content.decode()
+    assert response.redirect_chain == [
+        (conftest.LOGIN_URL, 302)
+    ]
+    assert "Вы не авторизованы! Пожалуйста, выполните вход." in content
+
+
+@pytest.mark.django_db
+def test_with_another_user(client):
+    TESTED_URL = conftest.get_tested_url_for_next_id(TESTED_URL_PATTERN)
+    INITIAL_USER = deepcopy(TEST_USER_A)
+    client.post(conftest.USER_CREATE_URL, INITIAL_USER)
+
+    ANOTHER_USER = deepcopy(TEST_USER_B)
+    client.post(conftest.USER_CREATE_URL, ANOTHER_USER)
+    assert client.login(
+        username=ANOTHER_USER['username'],
+        password=ANOTHER_USER['password'])
+
+    response = client.get(TESTED_URL, follow=True)
+    content = response.content.decode()
+    assert response.redirect_chain == [
+        (conftest.USER_LIST_URL, 302)
+    ]
+    assert "У вас нет прав для изменения другого пользователя." in content
