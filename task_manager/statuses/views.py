@@ -2,9 +2,6 @@
 # from django.contrib import messages
 # from django.shortcuts import redirect
 from django.views.generic import (ListView)
-                                #   CreateView,
-                                #   UpdateView,
-                                #   DeleteView)
 from task_manager.statuses.models import Status
 # from django.contrib.auth.mixins import (UserPassesTestMixin,
 #                                        LoginRequiredMixin)
