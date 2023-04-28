@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-27 20:07+0600\n"
+"POT-Creation-Date: 2023-04-28 08:10+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,9 +28,18 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: task_manager/statuses/views.py:22 task_manager/users/views.py:50
+#: task_manager/statuses/forms.py:12
+#: task_manager/templates/statuses/list.html:17
+msgid "Name"
+msgstr "Имя"
+
+#: task_manager/statuses/views.py:17 task_manager/users/views.py:50
 msgid "You are not authorized! Please sign in."
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
+
+#: task_manager/statuses/views.py:35
+msgid "Status successfully created"
+msgstr "Статус успешно создан"
 
 #: task_manager/templates/base.html:14 task_manager/templates/base.html:21
 #: task_manager/templates/index.html:7
@@ -44,21 +53,21 @@ msgstr "Менеджер задач"
 msgid "Users"
 msgstr "Пользователи"
 
-#: task_manager/templates/base.html:32
+#: task_manager/templates/base.html:33
 #: task_manager/templates/statuses/list.html:11
 msgid "Statuses"
 msgstr "Статусы"
 
-#: task_manager/templates/base.html:38
+#: task_manager/templates/base.html:40
 msgid "Logout"
 msgstr "Выход"
 
-#: task_manager/templates/base.html:42 task_manager/templates/login.html:7
+#: task_manager/templates/base.html:44 task_manager/templates/login.html:7
 #: task_manager/templates/login.html:11
 msgid "Sign In"
 msgstr "Вход"
 
-#: task_manager/templates/base.html:45
+#: task_manager/templates/base.html:47
 msgid "Sign Up"
 msgstr "Регистрация"
 
@@ -78,13 +87,18 @@ msgstr "Узнать больше"
 msgid "Sign In "
 msgstr "Войти"
 
+#: task_manager/templates/statuses/create.html:7
+#: task_manager/templates/statuses/create.html:11
+msgid "Craete new status"
+msgstr "Создать статус"
+
+#: task_manager/templates/statuses/create.html:17
+msgid "Create"
+msgstr "Создать"
+
 #: task_manager/templates/statuses/list.html:12
 msgid "Create new status"
 msgstr "Создать статус"
-
-#: task_manager/templates/statuses/list.html:17
-msgid "Name"
-msgstr "Имя"
 
 #: task_manager/templates/statuses/list.html:18
 #: task_manager/templates/users/list.html:18

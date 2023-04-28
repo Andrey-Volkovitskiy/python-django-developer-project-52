@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block title %}
+  {% translate "Craete new status" %}
+{% endblock %}
+
+{% block content %}
+<h1 class="my-4"> {% translate "Craete new status" %}</h1>
+  <form method="post" class="form">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      {% buttons %}
+        <button type="submit" class="btn btn-primary">
+          {% translate "Create" %}
+        </button>
+    {% endbuttons %}
+  </form>
+{% endblock %}

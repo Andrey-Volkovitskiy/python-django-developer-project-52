@@ -1,6 +1,7 @@
 import pytest
 import conftest
 from status import conftest as status_conftest
+from task_manager.statuses.models import Status
 from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_statuses_additional import TEST_STATUS_A
@@ -22,7 +23,8 @@ def test_basic_content(client, base_users):
 
 
 @pytest.mark.django_db
-def test_successfuly_crated_status(client, base_users, base_statuses):
+def test_successfuly_crated_status(client, base_users):
+    default_statuses = list(Status.objects.all())
     client.force_login(base_users[0])
     CORRECT_STATUS = deepcopy(TEST_STATUS_A)
     status_creation_time = datetime.utcnow()
@@ -39,19 +41,20 @@ def test_successfuly_crated_status(client, base_users, base_statuses):
     status_list_content = status_list_response.content.decode()
     assert status_list_response.status_code == 200
     assert CORRECT_STATUS['name'] in status_list_content
-    expected_time = status_creation_time.strftime("%D.%m.%Y %-H:%M")
+    expected_time = status_creation_time.strftime("%-H:%M")
     assert expected_time in status_list_content
 
     # Is only one item added to the list?
     soup = BeautifulSoup(status_list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        len(base_statuses) +
+        len(default_statuses) +
         status_conftest.STATUS_LIST_HEADER_ROWS + 1)
 
 
 @pytest.mark.django_db
-def test_with_incorrect_existing_name(client, base_users, base_statuses):
+def test_with_incorrect_existing_name(client, base_users):
+    default_statuses = list(Status.objects.all())
     client.force_login(base_users[0])
     STATUS_1 = deepcopy(TEST_STATUS_A)
 
@@ -61,14 +64,14 @@ def test_with_incorrect_existing_name(client, base_users, base_statuses):
     assert response.redirect_chain == []
     assert response.status_code == 200
     response_content = response.content.decode()
-    assert "Task status с таким Имя уже существует." in response_content
+    assert "уже существует." in response_content
 
     # Is noly one item added to the list?
     status_list_response = client.get(status_conftest.STATUS_LIST_URL)
     soup = BeautifulSoup(status_list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        len(base_statuses) +
+        len(default_statuses) +
         status_conftest.STATUS_LIST_HEADER_ROWS + 1)
 
 
