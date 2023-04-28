@@ -2,7 +2,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import (ListView,
-                                  CreateView)
+                                  CreateView,
+                                  UpdateView)
 from task_manager.statuses.models import Status
 from task_manager.statuses.forms import StatusForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -33,3 +34,14 @@ class StatusCreateView(StatusLoginRequiredMixin,
     template_name = "statuses/create.html"
     success_url = reverse_lazy("status-list")
     success_message = _("Status successfully created")
+
+
+class StatusUpdateView(
+            StatusLoginRequiredMixin,
+            SuccessMessageMixin,
+            UpdateView):
+    model = Status
+    form_class = StatusForm
+    template_name = "statuses/update.html"
+    success_url = reverse_lazy("status-list")
+    success_message = _("Status successfully updated")

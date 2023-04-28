@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-28 08:10+0600\n"
+"POT-Creation-Date: 2023-04-28 11:45+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,18 +28,22 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
-#: task_manager/statuses/forms.py:12
+#: task_manager/statuses/forms.py:10
 #: task_manager/templates/statuses/list.html:17
 msgid "Name"
 msgstr "Имя"
 
-#: task_manager/statuses/views.py:17 task_manager/users/views.py:50
+#: task_manager/statuses/views.py:19 task_manager/users/views.py:50
 msgid "You are not authorized! Please sign in."
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
-#: task_manager/statuses/views.py:35
+#: task_manager/statuses/views.py:36
 msgid "Status successfully created"
 msgstr "Статус успешно создан"
+
+#: task_manager/statuses/views.py:47
+msgid "Status successfully updated"
+msgstr "Статус успешно изменён"
 
 #: task_manager/templates/base.html:14 task_manager/templates/base.html:21
 #: task_manager/templates/index.html:7
@@ -115,10 +119,19 @@ msgstr "Изменить"
 msgid "Delete"
 msgstr "Удалить"
 
+#: task_manager/templates/statuses/update.html:7
+#: task_manager/templates/statuses/update.html:11
+msgid "Edit Status"
+msgstr "Изменение статуса"
+
+#: task_manager/templates/statuses/update.html:17
+#: task_manager/templates/users/update.html:17
+msgid "Save"
+msgstr "Изменить"
+
 #: task_manager/templates/users/create.html:7
 #: task_manager/templates/users/create.html:11
 #: task_manager/templates/users/delete.html:7
-#: task_manager/templates/users/update.html:7
 msgid "New User Registration"
 msgstr "Регистрация"
 
@@ -146,13 +159,10 @@ msgstr "Имя пользователя"
 msgid "Name and Surname"
 msgstr "Полное имя"
 
+#: task_manager/templates/users/update.html:7
 #: task_manager/templates/users/update.html:11
 msgid "Edit User"
 msgstr "Изменение пользователя"
-
-#: task_manager/templates/users/update.html:17
-msgid "Save"
-msgstr "Изменить"
 
 #: task_manager/users/forms.py:17
 msgid "Password"
