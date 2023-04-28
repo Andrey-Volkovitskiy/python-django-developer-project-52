@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import (ListView,
                                   CreateView,
-                                  UpdateView)
+                                  UpdateView,
+                                  DeleteView)
 from task_manager.statuses.models import Status
 from task_manager.statuses.forms import StatusForm
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -45,3 +46,14 @@ class StatusUpdateView(
     template_name = "statuses/update.html"
     success_url = reverse_lazy("status-list")
     success_message = _("Status successfully updated")
+
+
+class StatusDeleteView(
+            StatusLoginRequiredMixin,
+            SuccessMessageMixin,
+            DeleteView):
+    model = Status
+    fields = []
+    template_name = "statuses/delete.html"
+    success_url = reverse_lazy("status-list")
+    success_message = _("Status successfully deleted")

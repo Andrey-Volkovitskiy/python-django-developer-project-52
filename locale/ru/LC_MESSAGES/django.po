@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-28 11:45+0600\n"
+"POT-Creation-Date: 2023-04-28 13:21+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,17 +33,21 @@ msgstr ""
 msgid "Name"
 msgstr "Имя"
 
-#: task_manager/statuses/views.py:19 task_manager/users/views.py:50
+#: task_manager/statuses/views.py:20 task_manager/users/views.py:50
 msgid "You are not authorized! Please sign in."
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
-#: task_manager/statuses/views.py:36
+#: task_manager/statuses/views.py:37
 msgid "Status successfully created"
 msgstr "Статус успешно создан"
 
-#: task_manager/statuses/views.py:47
+#: task_manager/statuses/views.py:48
 msgid "Status successfully updated"
 msgstr "Статус успешно изменён"
+
+#: task_manager/statuses/views.py:59
+msgid "Status successfully deleted"
+msgstr "Статус успешно удалён"
 
 #: task_manager/templates/base.html:14 task_manager/templates/base.html:21
 #: task_manager/templates/index.html:7
@@ -100,6 +104,21 @@ msgstr "Создать статус"
 msgid "Create"
 msgstr "Создать"
 
+#: task_manager/templates/statuses/delete.html:7
+#: task_manager/templates/statuses/delete.html:12
+msgid "Delete Status"
+msgstr "Удаление статуса"
+
+#: task_manager/templates/statuses/delete.html:15
+#: task_manager/templates/users/delete.html:15
+msgid "Are you sure you want to delete"
+msgstr "Вы уверены, что хотите удалить"
+
+#: task_manager/templates/statuses/delete.html:19
+#: task_manager/templates/users/delete.html:19
+msgid "Yes, delete"
+msgstr "Да, удалить"
+
 #: task_manager/templates/statuses/list.html:12
 msgid "Create new status"
 msgstr "Создать статус"
@@ -131,7 +150,6 @@ msgstr "Изменить"
 
 #: task_manager/templates/users/create.html:7
 #: task_manager/templates/users/create.html:11
-#: task_manager/templates/users/delete.html:7
 msgid "New User Registration"
 msgstr "Регистрация"
 
@@ -139,17 +157,10 @@ msgstr "Регистрация"
 msgid "Submit"
 msgstr "Зарегистрировать"
 
+#: task_manager/templates/users/delete.html:7
 #: task_manager/templates/users/delete.html:12
 msgid "Delete User"
 msgstr "Удаление пользователя"
-
-#: task_manager/templates/users/delete.html:15
-msgid "Are you sure you want to delete"
-msgstr "Вы уверены, что хотите удалить"
-
-#: task_manager/templates/users/delete.html:19
-msgid "Yes, delete"
-msgstr "Да, удалить"
 
 #: task_manager/templates/users/list.html:16
 msgid "Nickname"
