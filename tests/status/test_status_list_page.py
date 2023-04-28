@@ -1,10 +1,10 @@
 import pytest
 import conftest
-from status import conftest as status_conftest
-from task_manager.statuses.models import Status
+from status import conftest as package_conftest
+from task_manager.statuses.models import Status as PackageModel
 from bs4 import BeautifulSoup
 
-TESTED_URL = status_conftest.STATUS_LIST_URL
+TESTED_URL = package_conftest.ITEM_LIST_URL
 
 
 @pytest.mark.django_db
@@ -23,25 +23,25 @@ def test_basic_content(client, base_users):
 
 
 @pytest.mark.django_db
-def test_all_statuses_are_displayed(client, base_users):
-    default_statuses = list(Status.objects.all())
+def test_all_items_are_displayed(client, base_users):
+    default_items_in_db = list(PackageModel.objects.all())
     client.force_login(base_users[0])
 
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
     # All items from database are dispayed
-    for status in default_statuses:
-        assert str(status.id) in content
-        assert status.name in content
-        time = status.created_at.strftime("%-H:%M")
+    for item in default_items_in_db:
+        assert str(item.id) in content
+        assert item.name in content
+        time = item.created_at.strftime("%-H:%M")
         assert time in content
 
     # No redundant items are displayed
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == (len(default_statuses) +
-                         status_conftest.STATUS_LIST_HEADER_ROWS)
+    assert len(rows) == (len(default_items_in_db) +
+                         package_conftest.ITEM_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db

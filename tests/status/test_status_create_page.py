@@ -1,14 +1,14 @@
 import pytest
 import conftest
-from status import conftest as status_conftest
-from task_manager.statuses.models import Status
+from status import conftest as package_conftest
+from task_manager.statuses.models import Status as PackageModel
 from bs4 import BeautifulSoup
 from copy import deepcopy
-from fixtures.test_statuses_additional import TEST_STATUS_A
+from fixtures.test_statuses_additional import TEST_STATUSES as TEST_ITEMS
 from datetime import datetime
 
-TESTED_URL = status_conftest.STATUS_CREATE_URL
-SUCCESS_URL = status_conftest.STATUS_LIST_URL
+TESTED_URL = package_conftest.ITEM_CREATE_URL
+SUCCESS_URL = package_conftest.ITEM_LIST_URL
 
 
 @pytest.mark.django_db
@@ -23,13 +23,13 @@ def test_basic_content(client, base_users):
 
 
 @pytest.mark.django_db
-def test_successfuly_crated_status(client, base_users):
-    default_statuses = list(Status.objects.all())
+def test_successfuly_crated(client, base_users):
+    default_items_in_db = list(PackageModel.objects.all())
     client.force_login(base_users[0])
-    CORRECT_STATUS = deepcopy(TEST_STATUS_A)
-    status_creation_time = datetime.utcnow()
+    CORRECT_ITEM = deepcopy(TEST_ITEMS[0])
+    item_creation_time = datetime.utcnow()
 
-    response = client.post(TESTED_URL, CORRECT_STATUS, follow=True)
+    response = client.post(TESTED_URL, CORRECT_ITEM, follow=True)
     assert response.redirect_chain == [
         (SUCCESS_URL, 302)
     ]
@@ -37,29 +37,29 @@ def test_successfuly_crated_status(client, base_users):
     assert "Статус успешно создан" in response_content
 
     # Is the item added to the list?
-    status_list_response = client.get(status_conftest.STATUS_LIST_URL)
-    status_list_content = status_list_response.content.decode()
-    assert status_list_response.status_code == 200
-    assert CORRECT_STATUS['name'] in status_list_content
-    expected_time = status_creation_time.strftime("%-H:%M")
-    assert expected_time in status_list_content
+    list_response = client.get(package_conftest.ITEM_LIST_URL)
+    list_content = list_response.content.decode()
+    assert list_response.status_code == 200
+    assert CORRECT_ITEM['name'] in list_content
+    expected_time = item_creation_time.strftime("%-H:%M")
+    assert expected_time in list_content
 
     # Is only one item added to the list?
-    soup = BeautifulSoup(status_list_response.content, 'html.parser')
+    soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        len(default_statuses) +
-        status_conftest.STATUS_LIST_HEADER_ROWS + 1)
+        len(default_items_in_db) +
+        package_conftest.ITEM_LIST_HEADER_ROWS + 1)
 
 
 @pytest.mark.django_db
 def test_with_incorrect_existing_name(client, base_users):
-    default_statuses = list(Status.objects.all())
+    default_items_in_db = list(PackageModel.objects.all())
     client.force_login(base_users[0])
-    STATUS_1 = deepcopy(TEST_STATUS_A)
+    ITEM_1 = deepcopy(TEST_ITEMS[0])
 
-    response = client.post(TESTED_URL, STATUS_1)
-    response = client.post(TESTED_URL, STATUS_1, follow=True)
+    response = client.post(TESTED_URL, ITEM_1)
+    response = client.post(TESTED_URL, ITEM_1, follow=True)
 
     assert response.redirect_chain == []
     assert response.status_code == 200
@@ -67,12 +67,12 @@ def test_with_incorrect_existing_name(client, base_users):
     assert "уже существует." in response_content
 
     # Is noly one item added to the list?
-    status_list_response = client.get(status_conftest.STATUS_LIST_URL)
-    soup = BeautifulSoup(status_list_response.content, 'html.parser')
+    list_response = client.get(package_conftest.ITEM_LIST_URL)
+    soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        len(default_statuses) +
-        status_conftest.STATUS_LIST_HEADER_ROWS + 1)
+        len(default_items_in_db) +
+        package_conftest.ITEM_LIST_HEADER_ROWS + 1)
 
 
 @pytest.mark.django_db

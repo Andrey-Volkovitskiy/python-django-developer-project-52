@@ -2,10 +2,10 @@ import pytest
 from django.core.management import call_command
 from django.contrib.auth.models import User
 
-STATUS_LIST_HEADER_ROWS = 1
+ITEM_LIST_HEADER_ROWS = 1
 
-STATUS_LIST_URL = "/statuses/"
-STATUS_CREATE_URL = "/statuses/create/"
+ITEM_LIST_URL = "/statuses/"
+ITEM_CREATE_URL = "/statuses/create/"
 
 # @pytest.fixture(scope='function')
 # def django_db_setup(django_db_setup, django_db_blocker):
