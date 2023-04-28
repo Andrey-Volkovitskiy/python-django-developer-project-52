@@ -1,15 +1,14 @@
 import pytest
 import conftest
 from status import conftest as status_conftest
-from task_manager.statuses.models import Status
 from bs4 import BeautifulSoup
 
 TESTED_URL = status_conftest.STATUS_LIST_URL
 
 
 @pytest.mark.django_db
-def test_basic_content(client, test_users):
-    client.force_login(test_users[0])
+def test_basic_content(client, base_users):
+    client.force_login(base_users[0])
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
@@ -23,15 +22,14 @@ def test_basic_content(client, test_users):
 
 
 @pytest.mark.django_db
-def test_all_statuses_are_displayed(client, test_users):
-    client.force_login(test_users[0])
-    test_statuses = Status.objects.all()
+def test_all_statuses_are_displayed(client, base_users, base_statuses):
+    client.force_login(base_users[0])
 
     response = client.get(TESTED_URL)
     content = response.content.decode()
 
     # All items from database are dispayed
-    for status in test_statuses:
+    for status in base_statuses:
         assert str(status.id) in content
         assert status.name in content
         time = status.created_at.strftime("%-H:%M")
@@ -40,7 +38,7 @@ def test_all_statuses_are_displayed(client, test_users):
     # No redundant items are displayed
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == (len(test_statuses) +
+    assert len(rows) == (len(base_statuses) +
                          status_conftest.STATUS_LIST_HEADER_ROWS)
 
 

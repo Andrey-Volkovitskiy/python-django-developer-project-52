@@ -1,6 +1,7 @@
 import pytest
 from django.core.management import call_command
 from django.contrib.auth.models import User
+from task_manager.statuses.models import Status
 
 STATUS_LIST_HEADER_ROWS = 1
 
@@ -21,5 +22,10 @@ def default_db_setup():
 
 
 @pytest.fixture(scope='package')
-def test_users():
+def base_users():
     return User.objects.all()
+
+
+@pytest.fixture(scope='package')
+def base_statuses():
+    return Status.objects.all()
