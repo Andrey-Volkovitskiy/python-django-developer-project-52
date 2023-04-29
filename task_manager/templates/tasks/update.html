@@ -4,11 +4,11 @@
 {% load i18n %}
 
 {% block title %}
-  {% translate "Edit status" %}
+  {% translate "Edit task" as title %}
 {% endblock %}
 
 {% block content %}
-<h1 class="my-4"> {% translate "Edit status" %}</h1>
+<h1 class="my-4">{{ title }}</h1>
   <form method="post" class="form">
       {% csrf_token %}
       {% bootstrap_form form %}

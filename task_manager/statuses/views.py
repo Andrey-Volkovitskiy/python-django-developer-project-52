@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 
 
-class StatusLoginRequiredMixin(LoginRequiredMixin):
+class StatusPermissions(LoginRequiredMixin):
     def handle_no_permission(self):
         messages.add_message(
             self.request,
@@ -22,13 +22,14 @@ class StatusLoginRequiredMixin(LoginRequiredMixin):
         return redirect(reverse_lazy('login'))
 
 
-class StatusListView(StatusLoginRequiredMixin,
+class StatusListView(StatusPermissions,
                      ListView):
     model = Status
     template_name = "statuses/list.html"
+    ordering = ['id']
 
 
-class StatusCreateView(StatusLoginRequiredMixin,
+class StatusCreateView(StatusPermissions,
                        SuccessMessageMixin,
                        CreateView):
     form_class = StatusForm
@@ -38,7 +39,7 @@ class StatusCreateView(StatusLoginRequiredMixin,
 
 
 class StatusUpdateView(
-            StatusLoginRequiredMixin,
+            StatusPermissions,
             SuccessMessageMixin,
             UpdateView):
     model = Status
@@ -49,7 +50,7 @@ class StatusUpdateView(
 
 
 class StatusDeleteView(
-            StatusLoginRequiredMixin,
+            StatusPermissions,
             SuccessMessageMixin,
             DeleteView):
     model = Status

@@ -4,12 +4,12 @@
 {% load i18n %}
 
 {% block title %}
-  {% translate "Delete Status" %}
+  {% translate "Delete status" %}
 {% endblock %}
 
 {% block content %}
 
-<h1 class="my-4"> {% translate "Delete Status" %}</h1>
+<h1 class="my-4"> {% translate "Delete status" %}</h1>
   <form method="post" class="form">
       {% csrf_token %}
       <p>{% translate "Are you sure you want to delete" %} {{ object.name }}?</p>

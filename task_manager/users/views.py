@@ -16,6 +16,7 @@ from task_manager.users.forms import UserForm
 class UserListView(ListView):
     model = User
     template_name = "users/list.html"
+    ordering = ['id']
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
@@ -25,7 +26,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     success_message = _("User successfully created")
 
 
-class UserPermissionsMixin(UserPassesTestMixin):
+class UserPermissions(UserPassesTestMixin):
     def test_func(self):
         subject_user_id = self.request.user.id
         object_user_id = self.kwargs['pk']
@@ -54,7 +55,7 @@ class UserPermissionsMixin(UserPassesTestMixin):
 
 class UserUpdateView(
             LoginRequiredMixin,
-            UserPermissionsMixin,
+            UserPermissions,
             SuccessMessageMixin,
             UpdateView):
     model = User
@@ -66,7 +67,7 @@ class UserUpdateView(
 
 class UserDeleteView(
             LoginRequiredMixin,
-            UserPermissionsMixin,
+            UserPermissions,
             SuccessMessageMixin,
             DeleteView):
     model = User

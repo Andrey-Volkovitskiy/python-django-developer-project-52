@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block title %}
+  {% translate "Tasks" %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="my-4">{% translate "Tasks" %}</h1>
+  <a class="nav-link" href="{% url 'task-create' %}">{% translate "Create new task" %}</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Status" %}</th>
+        <th>{% translate "Author" %}</th>
+        <th>{% translate "Executor" %}</th>
+        <th>{% translate "Created at" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for object in object_list %}
+        <tr>
+          <td>{{ object.id }}</td>
+          <td>{{ object.name }}</td>
+          <td>{{ object.status }}</td>
+          <td>{{ object.author }}</td>
+          <td>
+            {% if object.executor %}
+              {{ object.executor }}
+            {% endif %}
+          </td>
+          <td>{{ object.created_at }}</td>
+          <td>
+            <a href="{% url 'task-update' object.id %}">{% translate "Edit" %}</a>
+            <br>
+            <a href="{% url 'task-delete' object.id %}">{% translate "Delete" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

@@ -4,11 +4,11 @@
 {% load i18n %}
 
 {% block title %}
-  {% translate "New User Registration" %}
+  {% translate "New user registration" %}
 {% endblock %}
 
 {% block content %}
-<h1 class="my-4"> {% translate "New User Registration" %}</h1>
+<h1 class="my-4"> {% translate "New user registration" %}</h1>
   <form method="post" class="form">
       {% csrf_token %}
       {% bootstrap_form form %}
