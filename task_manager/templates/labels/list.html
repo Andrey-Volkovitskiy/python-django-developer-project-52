@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% load bootstrap4 %}
+{% load i18n %}
+
+{% block title %}
+  {% translate "Labels" %}
+{% endblock %}
+
+{% block content %}
+  <h1 class="my-4"> {% translate "Labels" %}</h1>
+  <a class="nav-link" href="{% url 'label-create' %}">{% translate "Create new label" %}</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>{% translate "Name" %}</th>
+        <th>{% translate "Created at" %}</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for status in object_list %}
+        <tr>
+          <td>{{ status.id }}</td>
+          <td>{{ status.name }}</td>
+          <td>{{ status.created_at }}</td>
+          <td>
+            <a href="{% url 'label-update' status.id %}">{% translate "Edit" %}</a>
+            <br>
+            <a href="{% url 'label-delete' status.id %}">{% translate "Delete" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

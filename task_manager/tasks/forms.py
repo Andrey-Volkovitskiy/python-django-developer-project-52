@@ -11,14 +11,14 @@ class TaskForm(forms.ModelForm):
             'description',
             'status',
             'executor',
-            # 'labels',
+            'labels',
             ]
         labels = {
             'name': _('Name'),
             'description': _('Description'),
             'status': _('Status'),
             'executor': _('Executor'),
-            # 'labels': _('Labels')
+            'labels': _('Labels')
             }
 
     def __init__(self, *args, **kwargs):

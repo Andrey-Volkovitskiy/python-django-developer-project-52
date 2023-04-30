@@ -1,10 +1,14 @@
 from django.db import models
 from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 from django.contrib.auth.models import User
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=150, unique=True, )
+    name = models.CharField(
+            max_length=150,
+            unique=True,
+            )
     description = models.TextField(
             blank=True,
             )
@@ -24,7 +28,11 @@ class Task(models.Model):
             related_name='author_set',
             on_delete=models.PROTECT,
             )
-    # labels = models.ForeignKey(, on_delete=models.PROTECT, blank=True)
+    labels = models.ManyToManyField(
+            Label,
+            null=True,
+            blank=True,
+            )
     created_at = models.DateTimeField(
             auto_now_add=True
             )
