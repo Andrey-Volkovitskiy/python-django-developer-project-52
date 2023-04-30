@@ -110,6 +110,3 @@ def test_invalid_deleting_user(client, base_users):
     list_response = client.get(package_conftest.ITEM_LIST_URL)
     list_content = list_response.content.decode()
     assert INITIAL_ITEM['name'] in list_content
-
-
-# TODO  Невозможно удалить статус, потому что он используется

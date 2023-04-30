@@ -85,4 +85,37 @@ def test_with_anonymous_user(client):
     assert "Вы не авторизованы! Пожалуйста, выполните вход." in content
 
 
-# TODO  Невозможно удалить статус, потому что он используется
+@pytest.mark.django_db
+def test_unable_delete_with_related_task(client, base_users):
+    from fixtures.test_tasks_additional import TEST_TASKS
+    from task import conftest as task_conftest
+
+    client.force_login(base_users[0])
+
+    RELATED_STATUS = deepcopy(TEST_ITEMS[0])
+    response = client.post(package_conftest.ITEM_CREATE_URL,
+                           RELATED_STATUS, follow=True)
+    assert response.redirect_chain == [
+        (SUCCESS_URL, 302)
+    ]
+    pre_response1 = response.content.decode()
+    assert "Статус успешно создан" in pre_response1
+
+    RELATED_TASK = deepcopy(TEST_TASKS[0])
+    related_stsus_object = PackageModel.objects.get(
+            name=RELATED_STATUS['name'])
+    RELATED_TASK['status'] = related_stsus_object.id
+    pre_response2 = client.post(task_conftest.ITEM_CREATE_URL,
+                                RELATED_TASK, follow=True)
+    assert "Задача успешно создана" in pre_response2.content.decode()
+
+    TESTED_URL = conftest.get_tested_url_for_max_id(
+        TESTED_URL_PATTERN, PackageModel)
+
+    response = client.post(TESTED_URL, follow=True)
+    response_content = response.content.decode()
+    assert response.redirect_chain == [
+        (SUCCESS_URL, 302)
+    ]
+    assert ("Невозможно удалить статус, "
+            "потому что он используется") in response_content

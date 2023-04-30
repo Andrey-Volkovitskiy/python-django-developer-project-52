@@ -1,4 +1,5 @@
 from django.contrib.messages.views import SuccessMessageMixin
+from django.db.models.deletion import ProtectedError
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import (ListView,
@@ -75,3 +76,13 @@ class UserDeleteView(
     template_name = "users/delete.html"
     success_url = reverse_lazy("user-list")
     success_message = _("User successfully deleted")
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except ProtectedError:
+            messages.add_message(
+                        self.request,
+                        messages.ERROR,
+                        _("The user cannot be deleted because it is in use"))
+        return redirect(reverse_lazy('user-list'))

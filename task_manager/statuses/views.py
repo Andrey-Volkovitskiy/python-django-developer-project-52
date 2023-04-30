@@ -1,6 +1,7 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
+from django.db.models.deletion import ProtectedError
 from django.views.generic import (ListView,
                                   CreateView,
                                   UpdateView,
@@ -58,3 +59,24 @@ class StatusDeleteView(
     template_name = "statuses/delete.html"
     success_url = reverse_lazy("status-list")
     success_message = _("Status successfully deleted")
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except ProtectedError:
+            messages.add_message(
+                        self.request,
+                        messages.ERROR,
+                        _("The status cannot be deleted because it is in use"))
+        return redirect(reverse_lazy('status-list'))
+
+    # def delete(self, request, *args, **kwargs):
+    #     try:
+    #         return super().delete(request, *args, **kwargs)
+    #     except ProtectedError:
+    #         messages.add_message(
+    #                     self.request,
+    #                     messages.ERROR,
+    #                     _("The status cannot be deleted "
+    #                       "because it is in use"))
+    #     return redirect(reverse_lazy('status-list'))

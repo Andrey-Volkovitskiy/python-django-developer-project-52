@@ -105,3 +105,46 @@ def test_with_another_user(client):
         (user_conftest.USER_LIST_URL, 302)
     ]
     assert "У вас нет прав для изменения другого пользователя." in content
+
+
+@pytest.mark.django_db
+def test_unable_delete_with_related_task(client):
+    from fixtures.test_tasks_additional import TEST_TASKS
+    from task import conftest as task_conftest
+    from fixtures.test_statuses_additional import TEST_STATUSES
+    from status import conftest as ststus_conftest
+    from task_manager.statuses.models import Status
+
+    TESTED_URL = user_conftest.get_tested_url_for_next_id(
+        TESTED_URL_PATTERN)
+    RELATED_USER = deepcopy(TEST_USER_A)
+    client.post(user_conftest.USER_CREATE_URL, RELATED_USER)
+
+    assert client.login(
+        username=RELATED_USER['username'],
+        password=RELATED_USER['password'])
+
+    RELATED_STATUS = deepcopy(TEST_STATUSES[0])
+    response = client.post(ststus_conftest.ITEM_CREATE_URL,
+                           RELATED_STATUS, follow=True)
+    assert response.redirect_chain == [
+        (ststus_conftest.ITEM_LIST_URL, 302)
+    ]
+    pre_response1 = response.content.decode()
+    assert "Статус успешно создан" in pre_response1
+
+    RELATED_TASK = deepcopy(TEST_TASKS[0])
+    related_stsus_object = Status.objects.get(
+            name=RELATED_STATUS['name'])
+    RELATED_TASK['status'] = related_stsus_object.id
+    pre_response2 = client.post(task_conftest.ITEM_CREATE_URL,
+                                RELATED_TASK, follow=True)
+    assert "Задача успешно создана" in pre_response2.content.decode()
+
+    response = client.post(TESTED_URL, follow=True)
+    response_content = response.content.decode()
+    assert response.redirect_chain == [
+        (SUCCESS_URL, 302)
+    ]
+    assert ("Невозможно удалить пользователя, "
+            "потому что он используется") in response_content
