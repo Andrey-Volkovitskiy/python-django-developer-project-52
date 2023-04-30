@@ -17,5 +17,15 @@
             "last_name": "last_name_B",
             "password": "password_B"
         }
+    },
+
+    {
+        "model": "auth.user",
+        "fields": {
+            "username": "username_C",
+            "first_name": "first_name_C",
+            "last_name": "last_name_C",
+            "password": "password_C"
+        }
     }
     ]

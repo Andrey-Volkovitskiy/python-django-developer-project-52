@@ -17,7 +17,7 @@ ITEM_CREATE_URL = "/statuses/create/"
 @pytest.fixture(autouse=True)
 def default_db_setup():
     call_command('loaddata', 'tests/fixtures/test_statuses_base.json')
-    call_command('loaddata', 'tests/fixtures/test_users_additional.json')
+    call_command('loaddata', 'tests/fixtures/test_users_base.json')
 
 
 @pytest.fixture(scope='package')

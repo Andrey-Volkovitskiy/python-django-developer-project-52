@@ -29,10 +29,10 @@
           <td>{{ object.id }}</td>
           <td>{{ object.name }}</td>
           <td>{{ object.status }}</td>
-          <td>{{ object.author }}</td>
+          <td>{{ object.author.get_full_name }}</td>
           <td>
             {% if object.executor %}
-              {{ object.executor }}
+              {{ object.executor.get_full_name }}
             {% endif %}
           </td>
           <td>{{ object.created_at }}</td>

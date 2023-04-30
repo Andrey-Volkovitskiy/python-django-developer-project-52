@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-28 18:32+0600\n"
+"POT-Creation-Date: 2023-04-30 08:03+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,19 +35,19 @@ msgid "Name"
 msgstr "Имя"
 
 #: task_manager/statuses/views.py:20 task_manager/tasks/views.py:21
-#: task_manager/tasks/views.py:48 task_manager/users/views.py:50
+#: task_manager/tasks/views.py:49 task_manager/users/views.py:51
 msgid "You are not authorized! Please sign in."
 msgstr "Вы не авторизованы! Пожалуйста, выполните вход."
 
-#: task_manager/statuses/views.py:37
+#: task_manager/statuses/views.py:38
 msgid "Status successfully created"
 msgstr "Статус успешно создан"
 
-#: task_manager/statuses/views.py:48
+#: task_manager/statuses/views.py:49
 msgid "Status successfully updated"
 msgstr "Статус успешно изменён"
 
-#: task_manager/statuses/views.py:59
+#: task_manager/statuses/views.py:60
 msgid "Status successfully deleted"
 msgstr "Статус успешно удалён"
 
@@ -63,19 +63,19 @@ msgstr "Статус"
 msgid "Executor"
 msgstr "Исполнитель"
 
-#: task_manager/tasks/views.py:40
+#: task_manager/tasks/views.py:41
 msgid "The task can only be deleted by its author."
 msgstr "Задачу может удалить только её автор"
 
-#: task_manager/tasks/views.py:67
+#: task_manager/tasks/views.py:77
 msgid "Task successfully created"
 msgstr "Задача успешно создана"
 
-#: task_manager/tasks/views.py:78
+#: task_manager/tasks/views.py:89
 msgid "Task successfully updated"
 msgstr "Задача успешно изменена"
 
-#: task_manager/tasks/views.py:89
+#: task_manager/tasks/views.py:100
 msgid "Task successfully deleted"
 msgstr "Задача успешно удалена"
 
@@ -131,9 +131,8 @@ msgstr "Войти"
 
 #: task_manager/templates/statuses/create.html:7
 #: task_manager/templates/statuses/create.html:11
-#: task_manager/templates/tasks/create.html:7
-msgid "Craete new task"
-msgstr "Создать задачу"
+msgid "Craete new status"
+msgstr "Создать статус"
 
 #: task_manager/templates/statuses/create.html:17
 #: task_manager/templates/tasks/create.html:17
@@ -168,13 +167,13 @@ msgid "Created at"
 msgstr "Дата создания"
 
 #: task_manager/templates/statuses/list.html:30
-#: task_manager/templates/tasks/list.html:36
+#: task_manager/templates/tasks/list.html:40
 #: task_manager/templates/users/list.html:31
 msgid "Edit"
 msgstr "Изменить"
 
 #: task_manager/templates/statuses/list.html:32
-#: task_manager/templates/tasks/list.html:38
+#: task_manager/templates/tasks/list.html:42
 #: task_manager/templates/users/list.html:33
 msgid "Delete"
 msgstr "Удалить"
@@ -190,7 +189,13 @@ msgstr "Изменение статуса"
 msgid "Save"
 msgstr "Изменить"
 
+#: task_manager/templates/tasks/create.html:7
+#: task_manager/templates/tasks/create.html:11
+msgid "Craete new task"
+msgstr "Создать задачу"
+
 #: task_manager/templates/tasks/delete.html:7
+#: task_manager/templates/tasks/delete.html:12
 msgid "Delete task"
 msgstr "Удаление задачи"
 
@@ -203,8 +208,9 @@ msgid "Author"
 msgstr "Автор"
 
 #: task_manager/templates/tasks/update.html:7
+#: task_manager/templates/tasks/update.html:11
 msgid "Edit task"
-msgstr "Изменение статуса"
+msgstr "Изменение задачи"
 
 #: task_manager/templates/users/create.html:7
 #: task_manager/templates/users/create.html:11
@@ -258,19 +264,19 @@ msgstr ""
 msgid "The entered passwords do not match."
 msgstr "Введенные пароли не совпадают."
 
-#: task_manager/users/views.py:25
+#: task_manager/users/views.py:26
 msgid "User successfully created"
 msgstr "Пользователь успешно зарегистрирован"
 
-#: task_manager/users/views.py:42
+#: task_manager/users/views.py:43
 msgid "You do not have rights to change another user."
 msgstr "У вас нет прав для изменения другого пользователя."
 
-#: task_manager/users/views.py:64
+#: task_manager/users/views.py:65
 msgid "User successfully updated"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/users/views.py:76
+#: task_manager/users/views.py:77
 msgid "User successfully deleted"
 msgstr "Пользователь успешно удалён"
 
@@ -281,6 +287,3 @@ msgstr "Вы залогинены"
 #: task_manager/views.py:19
 msgid "You are logged out"
 msgstr "Вы разлогинены"
-
-msgid "Craete new status"
-msgstr "Создать статус"

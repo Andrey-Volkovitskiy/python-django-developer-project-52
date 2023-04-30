@@ -1,10 +1,11 @@
 import pytest
 import conftest
-from status import conftest as package_conftest
-from task_manager.statuses.models import Status as PackageModel
+from task import conftest as package_conftest
+from task_manager.tasks.models import Task as PackageModel
+from task_manager.statuses.models import Status
 from bs4 import BeautifulSoup
 from copy import deepcopy
-from fixtures.test_statuses_additional import TEST_STATUSES as TEST_ITEMS
+from fixtures.test_tasks_additional import TEST_TASKS as TEST_ITEMS
 from datetime import datetime
 
 TESTED_URL = package_conftest.ITEM_CREATE_URL
@@ -17,16 +18,28 @@ def test_basic_content(client, base_users):
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
-    assert "Создать статус" in content
+    assert "Создать задачу" in content
     assert "Имя" in content
+    assert "Описание" in content
+    assert "Статус" in content
+    assert "Исполнитель" in content
+    # assert "Метки" in content  # TODO
     assert "Создать" in content
 
 
 @pytest.mark.django_db
 def test_successfuly_crated(client, base_users):
     count_default_items_in_db = PackageModel.objects.all().count()
-    client.force_login(base_users[0])
+    author = base_users[0]
+    client.force_login(author)
     CORRECT_ITEM = deepcopy(TEST_ITEMS[0])
+
+    selected_status = Status.objects.last()
+    CORRECT_ITEM['status'] = selected_status.id
+
+    selected_executor = base_users[2]
+    CORRECT_ITEM['executor'] = selected_executor.id
+
     item_creation_time = datetime.utcnow()
 
     response = client.post(TESTED_URL, CORRECT_ITEM, follow=True)
@@ -34,13 +47,16 @@ def test_successfuly_crated(client, base_users):
         (SUCCESS_URL, 302)
     ]
     response_content = response.content.decode()
-    assert "Статус успешно создан" in response_content
+    assert package_conftest.CREATE_OK_MESSAGE in response_content
 
     # Is the item added to the list?
     list_response = client.get(package_conftest.ITEM_LIST_URL)
     list_content = list_response.content.decode()
     assert list_response.status_code == 200
     assert CORRECT_ITEM['name'] in list_content
+    assert selected_status.name in list_content
+    assert selected_executor.get_full_name() in list_content
+    assert author.get_full_name() in list_content
     expected_time = item_creation_time.strftime("%-H:%M")
     assert expected_time in list_content
 

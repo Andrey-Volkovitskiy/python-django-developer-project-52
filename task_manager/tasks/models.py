@@ -25,4 +25,6 @@ class Task(models.Model):
             on_delete=models.PROTECT,
             )
     # labels = models.ForeignKey(, on_delete=models.PROTECT, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(
+            auto_now_add=True
+            )
