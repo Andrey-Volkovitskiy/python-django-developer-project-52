@@ -4,11 +4,11 @@
 {% load i18n %}
 
 {% block title %}
-  {% translate "Craete new status" %}
+  {% translate "Craete new label" %}
 {% endblock %}
 
 {% block content %}
-<h1 class="my-4">{% translate "Craete new status" %}</h1>
+<h1 class="my-4">{% translate "Craete new label" %}</h1>
   <form method="post" class="form">
       {% csrf_token %}
       {% bootstrap_form form %}

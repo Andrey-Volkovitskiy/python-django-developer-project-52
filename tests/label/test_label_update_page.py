@@ -1,12 +1,12 @@
 import pytest
 import conftest
-from status import conftest as package_conftest
-from task_manager.statuses.models import Status as PackageModel
+from label import conftest as package_conftest
+from task_manager.labels.models import Label as PackageModel
 from bs4 import BeautifulSoup
 from copy import deepcopy
-from fixtures.test_statuses_additional import TEST_STATUSES as TEST_ITEMS
+from fixtures.test_labels_additional import TEST_LABELS as TEST_ITEMS
 
-TESTED_URL_PATTERN = "/statuses/???/update/"
+TESTED_URL_PATTERN = "/labels/???/update/"
 SUCCESS_URL = package_conftest.ITEM_LIST_URL
 
 
@@ -26,13 +26,13 @@ def test_basic_content(client, base_users):
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
-    assert "Изменение статуса" in content
+    assert "Изменение метки" in content
     assert "Имя" in content
     assert "Изменить" in content
 
 
 @pytest.mark.django_db
-def test_successfuly_updated_status(client, base_users):
+def test_successfuly_updated_label(client, base_users):
     count_default_items_in_db = PackageModel.objects.all().count()
     client.force_login(base_users[0])
     INITIAL_ITEM = deepcopy(TEST_ITEMS[0])
@@ -51,7 +51,7 @@ def test_successfuly_updated_status(client, base_users):
         (SUCCESS_URL, 302)
     ]
     response_content = response.content.decode()
-    assert "Статус успешно изменён" in response_content
+    assert "Метка успешно изменена" in response_content
 
     # Is new item added to the list?
     list_response = client.get(package_conftest.ITEM_LIST_URL)

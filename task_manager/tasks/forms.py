@@ -31,4 +31,5 @@ class TaskForm(forms.ModelForm):
             task.author = self.request.user
         if commit:
             task.save()
+            self.save_m2m()
         return task

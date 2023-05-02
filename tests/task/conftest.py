@@ -21,7 +21,9 @@ def base_users():
 def default_db_setup():
     call_command('loaddata', 'tests/fixtures/test_users_base.json')
     call_command('loaddata', 'tests/fixtures/test_statuses_base.json')
+    call_command('loaddata', 'tests/fixtures/test_labels_base.json')
 
+    # Load tasks with proper user_id, status_id
     with open('tests/fixtures/test_tasks_base.json') as f:
         users_in_bd = User.objects.all().order_by('id')
         statuses_in_db = Status.objects.all().order_by('id')

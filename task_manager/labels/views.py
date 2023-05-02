@@ -1,7 +1,7 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.db.models.deletion import ProtectedError
+from django.db import IntegrityError
 from django.views.generic import (ListView,
                                   CreateView,
                                   UpdateView,
@@ -62,8 +62,12 @@ class LabelDeleteView(
 
     def form_valid(self, form):
         try:
+            label = self.get_object()
+            related_tasks_count = label.task_set.count()
+            if related_tasks_count:
+                raise IntegrityError
             return super().form_valid(form)
-        except ProtectedError:
+        except IntegrityError:
             messages.add_message(
                         self.request,
                         messages.ERROR,

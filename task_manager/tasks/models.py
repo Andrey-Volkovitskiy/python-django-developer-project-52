@@ -30,7 +30,6 @@ class Task(models.Model):
             )
     labels = models.ManyToManyField(
             Label,
-            null=True,
             blank=True,
             )
     created_at = models.DateTimeField(

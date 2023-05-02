@@ -3,6 +3,7 @@ import conftest
 from task import conftest as package_conftest
 from task_manager.tasks.models import Task as PackageModel
 from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
 from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_tasks_additional import TEST_TASKS as TEST_ITEMS
@@ -23,7 +24,7 @@ def test_basic_content(client, base_users):
     assert "Описание" in content
     assert "Статус" in content
     assert "Исполнитель" in content
-    # assert "Метки" in content  # TODO
+    assert "Метки" in content
     assert "Создать" in content
 
 
@@ -39,6 +40,11 @@ def test_successfuly_crated(client, base_users):
 
     selected_executor = base_users[2]
     CORRECT_ITEM['executor'] = selected_executor.id
+
+    selected_labels = (
+        Label.objects.first().id,
+        Label.objects.last().id)
+    CORRECT_ITEM['labels'] = selected_labels
 
     item_creation_time = datetime.utcnow()
 
@@ -66,6 +72,15 @@ def test_successfuly_crated(client, base_users):
     assert len(rows) == (
         count_default_items_in_db +
         package_conftest.ITEM_LIST_HEADER_ROWS + 1)
+
+    # Is item.labels propertly saved in the database?
+    saved_object = PackageModel.objects.get(name=CORRECT_ITEM['name'])
+    saved_labels = saved_object.labels
+    assert saved_labels.count() == len(selected_labels)
+    saved_labels_ids = set(saved_labels.values_list(
+                                    'id', flat=True))
+    initial_labels_ids = set(selected_labels)
+    assert saved_labels_ids == initial_labels_ids
 
 
 @pytest.mark.django_db

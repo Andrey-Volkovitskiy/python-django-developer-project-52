@@ -1,0 +1,28 @@
+[
+    {
+        "model": "labels.label",
+        "pk": 1,
+        "fields": {
+            "name": "Label-1",
+            "created_at": "2023-04-26T09:31:50.998Z"
+        }
+    },
+
+    {
+        "model": "labels.label",
+        "pk": 2,
+        "fields": {
+            "name": "Label-2",
+            "created_at": "2023-04-26T09:32:50.998Z"
+        }
+    },
+
+    {
+        "model": "labels.label",
+        "pk": 3,
+        "fields": {
+            "name": "Label-3",
+            "created_at": "2023-04-26T09:33:50.998Z"
+        }
+    }
+    ]

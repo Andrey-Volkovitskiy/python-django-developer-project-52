@@ -1,10 +1,10 @@
 import pytest
 import conftest
-from status import conftest as package_conftest
-from task_manager.statuses.models import Status as PackageModel
+from label import conftest as package_conftest
+from task_manager.labels.models import Label as PackageModel
 from bs4 import BeautifulSoup
 from copy import deepcopy
-from fixtures.test_statuses_additional import TEST_STATUSES as TEST_ITEMS
+from fixtures.test_labels_additional import TEST_LABELS as TEST_ITEMS
 from datetime import datetime
 
 TESTED_URL = package_conftest.ITEM_CREATE_URL
@@ -17,7 +17,7 @@ def test_basic_content(client, base_users):
     response = client.get(TESTED_URL)
     content = response.content.decode()
     assert response.status_code == 200
-    assert "Создать статус" in content
+    assert "Создать метку" in content
     assert "Имя" in content
     assert "Создать" in content
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-30 16:38+0600\n"
+"POT-Creation-Date: 2023-04-30 18:30+0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,10 +155,8 @@ msgstr "Узнать больше"
 
 #: task_manager/templates/labels/create.html:7
 #: task_manager/templates/labels/create.html:11
-#: task_manager/templates/statuses/create.html:7
-#: task_manager/templates/statuses/create.html:11
-msgid "Craete new status"
-msgstr "Создать статус"
+msgid "Craete new label"
+msgstr "Создать метку"
 
 #: task_manager/templates/labels/create.html:17
 #: task_manager/templates/statuses/create.html:17
@@ -225,6 +223,11 @@ msgstr "Изменить"
 #: task_manager/templates/login.html:17
 msgid "Sign In "
 msgstr "Войти"
+
+#: task_manager/templates/statuses/create.html:7
+#: task_manager/templates/statuses/create.html:11
+msgid "Craete new status"
+msgstr "Создать статус"
 
 #: task_manager/templates/statuses/delete.html:7
 #: task_manager/templates/statuses/delete.html:12
