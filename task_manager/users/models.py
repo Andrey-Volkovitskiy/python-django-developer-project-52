@@ -1,6 +1,8 @@
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 
-# class User:
-#     def __str__(self):
-#         return self.get_full_name()
+def user_fullname_patch(self):
+    return f"{self.first_name} {self.last_name}"
+
+
+User.__str__ = user_fullname_patch
