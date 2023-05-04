@@ -1,12 +1,13 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.views.generic import (ListView,
-                                  CreateView,
+from django.views.generic import (CreateView,
                                   UpdateView,
                                   DeleteView)
+from django_filters.views import FilterView
 from task_manager.tasks.models import Task
 from task_manager.tasks.forms import TaskForm
+from task_manager.tasks.filters import TaskFilter
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.urls import reverse_lazy
@@ -60,10 +61,11 @@ class PassRequestToFormViewMixin:
 
 class TaskListView(
             TaskPermissionsForCRU,
-            ListView):
+            FilterView):
     model = Task
     template_name = "tasks/list.html"
     ordering = ['id']
+    filterset_class = TaskFilter
 
 
 class TaskCreateView(
