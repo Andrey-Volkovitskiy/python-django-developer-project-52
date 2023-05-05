@@ -163,3 +163,4 @@ ROLLBAR = {
     'code_version': '1.0',
     'root': str(BASE_DIR),
 }
+
