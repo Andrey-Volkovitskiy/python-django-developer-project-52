@@ -38,9 +38,8 @@ def service(request):
             'env': os.getenv('ENVIRONMENT'),
             'secret_key': ('OK' if settings.SECRET_KEY else 'none'),
             'db_connected': db_connected,
-            # 'rollbar_token': ('OK' if settings.ROLLBAR['access_token']
-            #                   else 'none'),
-            'rollbar_token': settings.ROLLBAR['access_token'],
+            'rollbar_token': ('OK' if settings.ROLLBAR['access_token']
+                              else 'none'),
             'rollbar_environment': settings.ROLLBAR['environment'],
         }
     )
