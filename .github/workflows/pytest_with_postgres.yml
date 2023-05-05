@@ -35,8 +35,8 @@ jobs:
         env:
           ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
           ROLLBAR_USERNAME: ${{ github.actor }}
-    
-    steps:
+
+
       - name: Check out repository code
         uses: actions/checkout@v3
 
@@ -75,7 +75,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: c3ed617db6a00bc88834ce14d56bb94bce112c406a71e75e2584354ea2a0bf1e
 
-    steps:
+
       - name: Notify finish deploy to Rollbar
         uses: rollbar/github-deploy-action@2.1.1
         id: rollbar_post_deploy
