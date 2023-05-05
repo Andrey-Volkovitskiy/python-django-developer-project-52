@@ -35,12 +35,13 @@ def service(request):
         request,
         'service.html',
         context={
-            'who': "Andrey",
+            'env': os.getenv('ENVIRONMENT'),
             'secret_key': ('OK' if settings.SECRET_KEY else 'none'),
             'db_connected': db_connected,
-            'rollbar_token': ('OK' if settings.ROLLBAR['access_token']
-                              else 'none'),
-            'env': os.getenv('ENVIRONMENT')
+            # 'rollbar_token': ('OK' if settings.ROLLBAR['access_token']
+            #                   else 'none'),
+            'rollbar_token': settings.ROLLBAR['access_token'],
+            'rollbar_environment': settings.ROLLBAR['environment'],
         }
     )
 

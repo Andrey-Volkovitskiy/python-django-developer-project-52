@@ -30,10 +30,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv('SECRET_KEY') or secrets.token_hex(16)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if os.getenv('ENVIRONMENT') == "dev":
-    DEBUG = True
-else:
-    DEBUG = False
+DEBUG = True if os.getenv('ENVIRONMENT') == "dev" else False
 
 ALLOWED_HOSTS = [
     'webserver',
