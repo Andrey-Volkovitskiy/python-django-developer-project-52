@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import (CreateView,
                                   UpdateView,
-                                  DeleteView)
+                                  DeleteView,
+                                  DetailView)
 from django_filters.views import FilterView
 from task_manager.tasks.models import Task
 from task_manager.tasks.forms import TaskForm
@@ -101,5 +102,10 @@ class TaskDeleteView(
     success_url = reverse_lazy("task-list")
     success_message = _("Task successfully deleted")
 
-    # def get_object(self, queryset=None):
-    #     return Task.objects.get(id=self.pk)
+
+class TaskDetailView(TaskPermissionsForCRU,
+                     PassRequestToFormViewMixin,
+                     SuccessMessageMixin,
+                     DetailView):
+    model = Task
+    template_name = "tasks/detail.html"
