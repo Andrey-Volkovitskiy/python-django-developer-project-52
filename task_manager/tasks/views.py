@@ -61,8 +61,8 @@ class PassRequestToFormViewMixin:
 
 
 class TaskListView(
-            TaskPermissionsForCRU,
-            FilterView):
+        TaskPermissionsForCRU,
+        FilterView):
     model = Task
     template_name = "tasks/list.html"
     ordering = ['id']
@@ -70,10 +70,10 @@ class TaskListView(
 
 
 class TaskCreateView(
-            TaskPermissionsForCRU,
-            PassRequestToFormViewMixin,
-            SuccessMessageMixin,
-            CreateView):
+        TaskPermissionsForCRU,
+        PassRequestToFormViewMixin,
+        SuccessMessageMixin,
+        CreateView):
     form_class = TaskForm
     template_name = "tasks/create.html"
     success_url = reverse_lazy("task-list")
@@ -81,10 +81,10 @@ class TaskCreateView(
 
 
 class TaskUpdateView(
-            TaskPermissionsForCRU,
-            PassRequestToFormViewMixin,
-            SuccessMessageMixin,
-            UpdateView):
+        TaskPermissionsForCRU,
+        PassRequestToFormViewMixin,
+        SuccessMessageMixin,
+        UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "tasks/update.html"
@@ -93,9 +93,9 @@ class TaskUpdateView(
 
 
 class TaskDeleteView(
-            TaskPermissionsForDelete,
-            SuccessMessageMixin,
-            DeleteView):
+        TaskPermissionsForDelete,
+        SuccessMessageMixin,
+        DeleteView):
     model = Task
     fields = []
     template_name = "tasks/delete.html"
@@ -103,9 +103,10 @@ class TaskDeleteView(
     success_message = _("Task successfully deleted")
 
 
-class TaskDetailView(TaskPermissionsForCRU,
-                     PassRequestToFormViewMixin,
-                     SuccessMessageMixin,
-                     DetailView):
+class TaskDetailView(
+        TaskPermissionsForCRU,
+        PassRequestToFormViewMixin,
+        SuccessMessageMixin,
+        DetailView):
     model = Task
     template_name = "tasks/detail.html"

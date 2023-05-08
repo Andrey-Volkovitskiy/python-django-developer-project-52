@@ -55,10 +55,10 @@ class UserPermissions(UserPassesTestMixin):
 
 
 class UserUpdateView(
-            LoginRequiredMixin,
-            UserPermissions,
-            SuccessMessageMixin,
-            UpdateView):
+        LoginRequiredMixin,
+        UserPermissions,
+        SuccessMessageMixin,
+        UpdateView):
     model = User
     form_class = UserForm
     template_name = "users/update.html"
@@ -67,10 +67,10 @@ class UserUpdateView(
 
 
 class UserDeleteView(
-            LoginRequiredMixin,
-            UserPermissions,
-            SuccessMessageMixin,
-            DeleteView):
+        LoginRequiredMixin,
+        UserPermissions,
+        SuccessMessageMixin,
+        DeleteView):
     model = User
     fields = []
     template_name = "users/delete.html"

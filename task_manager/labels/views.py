@@ -40,9 +40,9 @@ class LabelCreateView(LabelPermissions,
 
 
 class LabelUpdateView(
-            LabelPermissions,
-            SuccessMessageMixin,
-            UpdateView):
+        LabelPermissions,
+        SuccessMessageMixin,
+        UpdateView):
     model = Label
     form_class = LabelForm
     template_name = "labels/update.html"
@@ -51,9 +51,9 @@ class LabelUpdateView(
 
 
 class LabelDeleteView(
-            LabelPermissions,
-            SuccessMessageMixin,
-            DeleteView):
+        LabelPermissions,
+        SuccessMessageMixin,
+        DeleteView):
     model = Label
     fields = []
     template_name = "labels/delete.html"

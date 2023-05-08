@@ -29,7 +29,7 @@ class UserForm(forms.ModelForm):
         if len(password1) < 3:
             self.add_error(
                 "password1",
-                _("Your password is too short. " +
+                _("Your password is too short. "
                   "It must contain at least 3 characters."))
 
         password2 = cleaned_data.get('password2')
