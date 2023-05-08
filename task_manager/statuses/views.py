@@ -14,6 +14,7 @@ from django.utils.translation import gettext as _
 
 
 class StatusPermissions(LoginRequiredMixin):
+    '''Impements user permissions to CRUD statuses'''
     def handle_no_permission(self):
         messages.add_message(
             self.request,

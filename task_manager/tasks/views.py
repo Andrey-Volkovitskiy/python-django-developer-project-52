@@ -16,6 +16,7 @@ from django.utils.translation import gettext as _
 
 
 class TaskPermissionsForCRU(LoginRequiredMixin):
+    '''Impements user permissions to create/read/update tasks'''
     def handle_no_permission(self):
         messages.add_message(
             self.request,
@@ -26,6 +27,7 @@ class TaskPermissionsForCRU(LoginRequiredMixin):
 
 
 class TaskPermissionsForDelete(UserPassesTestMixin):
+    '''Impements user permissions to delete tasks'''
     def test_func(self):
         subject_user_id = self.request.user.id
         deleted_task = self.get_object()

@@ -28,6 +28,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 
 class UserPermissions(UserPassesTestMixin):
+    '''Impements user permissions to upd / del another users'''
     def test_func(self):
         subject_user_id = self.request.user.id
         object_user_id = self.kwargs['pk']
