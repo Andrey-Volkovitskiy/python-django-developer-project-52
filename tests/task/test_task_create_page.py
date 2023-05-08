@@ -70,15 +70,15 @@ def test_successfuly_crated(client, base_users):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        count_default_items_in_db +
-        package_conftest.ITEM_LIST_HEADER_ROWS + 1)
+        count_default_items_in_db
+        + package_conftest.ITEM_LIST_HEADER_ROWS + 1)
 
     # Is item.labels propertly saved in the database?
     saved_object = PackageModel.objects.get(name=CORRECT_ITEM['name'])
     saved_labels = saved_object.labels
     assert saved_labels.count() == len(selected_labels)
     saved_labels_ids = set(saved_labels.values_list(
-                                    'id', flat=True))
+        'id', flat=True))
     initial_labels_ids = set(selected_labels)
     assert saved_labels_ids == initial_labels_ids
 
@@ -102,8 +102,8 @@ def test_with_incorrect_existing_name(client, base_users):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        count_default_items_in_db +
-        package_conftest.ITEM_LIST_HEADER_ROWS + 1)
+        count_default_items_in_db
+        + package_conftest.ITEM_LIST_HEADER_ROWS + 1)
 
 
 @pytest.mark.django_db

@@ -30,7 +30,7 @@ def test_basic_content(client):
     assert "Пароль" in content
     assert "Подтверждение пароля" in content
     assert "Изменить" in content
-    assert ("Обязательное поле. Не более 150 символов. " +
+    assert ("Обязательное поле. Не более 150 символов. "
             "Только буквы, цифры и символы @/./+/-/_.") in content
     assert "Ваш пароль должен содержать как минимум 3 символа." in content
     assert "Для подтверждения введите, пожалуйста, пароль ещё раз." in content
@@ -75,8 +75,8 @@ def test_successfuly_updated_user(client):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        user_conftest.DEFAULT_USERS_COUNT + 1 +
-        user_conftest.USER_LIST_HEADER_ROWS)
+        user_conftest.DEFAULT_USERS_COUNT + 1
+        + user_conftest.USER_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db
@@ -96,7 +96,7 @@ def test_with_incorrect_chars_in_username(client):
     assert response.status_code == 200
     assert response.redirect_chain == []
     response_content = response.content.decode()
-    assert ("Введите правильное имя пользователя. Оно может содержать только" +
+    assert ("Введите правильное имя пользователя. Оно может содержать только"
             " буквы, цифры и знаки @/./+/-/_.") in response_content
 
 
@@ -141,7 +141,7 @@ def test_with_incorrect_short_pass(client):
     assert response.status_code == 200
     assert response.redirect_chain == []
     response_content = response.content.decode()
-    assert ("Введённый пароль слишком короткий. Он должен содержать " +
+    assert ("Введённый пароль слишком короткий. Он должен содержать "
             "как минимум 3 символа.") in response_content
 
 

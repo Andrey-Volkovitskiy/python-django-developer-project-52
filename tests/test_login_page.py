@@ -49,7 +49,7 @@ def test_deny_with_incorrect_pass(client):
     assert response.status_code == 200
     assert response.redirect_chain == []
     response_content = response.content.decode()
-    assert ("Пожалуйста, введите правильные имя пользователя и пароль. " +
+    assert ("Пожалуйста, введите правильные имя пользователя и пароль. "
             "Оба поля могут быть чувствительны к регистру."
             ) in response_content
 

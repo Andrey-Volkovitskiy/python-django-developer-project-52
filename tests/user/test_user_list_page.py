@@ -38,5 +38,5 @@ def test_all_users_are_displayed(client):
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        user_conftest.DEFAULT_USERS_COUNT +
-        user_conftest.USER_LIST_HEADER_ROWS)
+        user_conftest.DEFAULT_USERS_COUNT
+        + user_conftest.USER_LIST_HEADER_ROWS)

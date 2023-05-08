@@ -67,8 +67,8 @@ def test_successfuly_delete_user(client):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        user_conftest.DEFAULT_USERS_COUNT +
-        user_conftest.USER_LIST_HEADER_ROWS)
+        user_conftest.DEFAULT_USERS_COUNT
+        + user_conftest.USER_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db
@@ -135,7 +135,7 @@ def test_unable_delete_with_related_task(client):
 
     RELATED_TASK = deepcopy(TEST_TASKS[0])
     related_stsus_object = Status.objects.get(
-            name=RELATED_STATUS['name'])
+        name=RELATED_STATUS['name'])
     RELATED_TASK['status'] = related_stsus_object.id
     pre_response2 = client.post(task_conftest.ITEM_CREATE_URL,
                                 RELATED_TASK, follow=True)

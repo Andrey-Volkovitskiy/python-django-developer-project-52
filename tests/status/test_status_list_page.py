@@ -40,8 +40,8 @@ def test_all_items_are_displayed(client, base_users):
     # No redundant items are displayed
     soup = BeautifulSoup(response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == (len(default_items_in_db) +
-                         package_conftest.ITEM_LIST_HEADER_ROWS)
+    assert len(rows) == (len(default_items_in_db)
+                         + package_conftest.ITEM_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db

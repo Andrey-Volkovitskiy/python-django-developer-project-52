@@ -103,7 +103,7 @@ def test_unable_delete_with_related_task(client, base_users):
 
     RELATED_TASK = deepcopy(TEST_TASKS[0])
     related_status_object = PackageModel.objects.get(
-            name=RELATED_STATUS['name'])
+        name=RELATED_STATUS['name'])
     RELATED_TASK['status'] = related_status_object.id
     pre_response2 = client.post(task_conftest.ITEM_CREATE_URL,
                                 RELATED_TASK, follow=True)

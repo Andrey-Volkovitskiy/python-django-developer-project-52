@@ -23,7 +23,7 @@ def default_db_setup():
 
 def make_users(quantity):
     users = []
-    for i in range(1, quantity+1):
+    for i in range(1, quantity + 1):
         user = dict(
             username=f'Usr{i}',
             first_name=f'First_name{i}',
