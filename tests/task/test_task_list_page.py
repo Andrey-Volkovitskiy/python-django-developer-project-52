@@ -29,10 +29,10 @@ def test_basic_content(client, base_users):
     assert "Удалить" in content
 
     # Filters
-    assert "Статус:" in content
-    assert "Исполнитель:" in content
-    assert "Метка:" in content
-    assert "Только свои задачи:" in content
+    assert "Статус" in content
+    assert "Исполнитель" in content
+    assert "Метка" in content
+    assert "Только свои задачи" in content
     assert "Показать" in content
 
 
