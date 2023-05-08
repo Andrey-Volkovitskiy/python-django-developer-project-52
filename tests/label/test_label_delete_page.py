@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_labels_additional import TEST_LABELS as TEST_ITEMS
 
-TESTED_URL_PATTERN = "/labels/???/delete/"
+TESTED_URL_PATTERN = "/labels/<pk>/delete/"
 SUCCESS_URL = package_conftest.ITEM_LIST_URL
 
 

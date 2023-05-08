@@ -8,7 +8,7 @@ from copy import deepcopy
 from fixtures.test_tasks_additional import TEST_TASKS as TEST_ITEMS
 from datetime import datetime
 
-TESTED_URL_PATTERN = "/tasks/???/"
+TESTED_URL_PATTERN = "/tasks/<pk>/"
 
 
 @pytest.mark.django_db

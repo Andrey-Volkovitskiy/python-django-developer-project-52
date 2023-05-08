@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
-TESTED_URL_PATTERN = "/users/???/delete/"
+TESTED_URL_PATTERN = "/users/<pk>/delete/"
 SUCCESS_URL = user_conftest.USER_LIST_URL
 
 

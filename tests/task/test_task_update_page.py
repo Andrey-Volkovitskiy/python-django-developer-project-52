@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_tasks_additional import TEST_TASKS as TEST_ITEMS
 
-TESTED_URL_PATTERN = "/tasks/???/update/"
+TESTED_URL_PATTERN = "/tasks/<pk>/update/"
 SUCCESS_URL = package_conftest.ITEM_LIST_URL
 
 
