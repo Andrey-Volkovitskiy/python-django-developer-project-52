@@ -45,16 +45,3 @@ def add_users_to_db(users):
 @pytest.mark.django_db
 def get_user_from_db(username):
     return User.objects.get(username=username)
-
-
-@pytest.mark.django_db
-def get_max_user_id_from_db():
-    return User.objects.latest('id').id
-
-
-@pytest.mark.django_db
-def get_tested_url_for_next_id(url_pattern):
-    url_begin, url_end = url_pattern.split('<pk>')
-    next_id = get_max_user_id_from_db() + 1
-    full_url = url_begin + str(next_id) + url_end
-    return full_url
