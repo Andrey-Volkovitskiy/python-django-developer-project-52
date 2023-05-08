@@ -43,3 +43,6 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 - *make test* - to run tests
 
 (more service commands can be found in Makefile)
+
+---
+![er diagram](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/er_diagram.jpg?raw=true)
