@@ -29,7 +29,7 @@ This project was built using these tools:
 | [Code Climate](https://codeclimate.com/)               | Clean Code verification system |
 | [GitHub Actions](https://github.com/features/actions)               | Continuous Integration (CI) |
 | [Railway](https://railway.app)               | Deployment platform |
-| [Rollbar](https://rollbar.com/)               | Error Logging & Tracking |
+| [Rollbar](https://rollbar.com/)               | Error logging & tracking service |
 
 
 ---
