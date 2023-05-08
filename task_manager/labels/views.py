@@ -69,7 +69,7 @@ class LabelDeleteView(
             return super().form_valid(form)
         except IntegrityError:
             messages.add_message(
-                        self.request,
-                        messages.ERROR,
-                        _("The label cannot be deleted because it is in use"))
+                self.request,
+                messages.ERROR,
+                _("The label cannot be deleted because it is in use"))
         return redirect(reverse_lazy('label-list'))

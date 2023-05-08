@@ -82,7 +82,7 @@ class UserDeleteView(
             return super().form_valid(form)
         except ProtectedError:
             messages.add_message(
-                        self.request,
-                        messages.ERROR,
-                        _("The user cannot be deleted because it is in use"))
+                self.request,
+                messages.ERROR,
+                _("The user cannot be deleted because it is in use"))
         return redirect(reverse_lazy('user-list'))
