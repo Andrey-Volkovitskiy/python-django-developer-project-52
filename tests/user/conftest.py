@@ -40,8 +40,3 @@ def add_users_to_db(users):
             last_name=user['last_name'],
             password=user['password']
         )
-
-
-@pytest.mark.django_db
-def get_user_from_db(username):
-    return User.objects.get(username=username)

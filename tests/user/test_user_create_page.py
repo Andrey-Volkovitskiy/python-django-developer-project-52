@@ -1,6 +1,7 @@
 import pytest
 import conftest
 from user import conftest as package_conftest
+from django.contrib.auth.models import User as PackageModel
 from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
@@ -47,7 +48,7 @@ def test_successfuly_crated_user(client):
     assert CORRECT_USER['last_name'] in user_list_content
 
     # Is users password correcly added to the database?
-    new_user = package_conftest.get_user_from_db(CORRECT_USER['username'])
+    new_user = PackageModel.objects.get(username=CORRECT_USER['username'])
     assert new_user.check_password(CORRECT_USER['password1'])
 
     # Is only one user added to the list?

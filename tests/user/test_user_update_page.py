@@ -64,13 +64,13 @@ def test_successfuly_updated_user(client):
     assert UPDATED_USER['last_name'] in list_content
 
     # Is users password correcly added to the database?
-    updated_user = package_conftest.get_user_from_db(
-        UPDATED_USER['username'])
+    updated_user = PackageModel.objects.get(
+        username=UPDATED_USER['username'])
     assert updated_user.check_password(UPDATED_USER['password1'])
 
     # Is old username removed from the database?
     with pytest.raises(django.contrib.auth.models.User.DoesNotExist):
-        package_conftest.get_user_from_db(INITIAL_USER['username'])
+        PackageModel.objects.get(username=INITIAL_USER['username'])
 
     # Is the user list length the same as before the update?
     soup = BeautifulSoup(list_response.content, 'html.parser')

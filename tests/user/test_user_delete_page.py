@@ -62,7 +62,7 @@ def test_successfuly_delete_user(client):
 
     # Is the user removed from the database?
     with pytest.raises(django.contrib.auth.models.User.DoesNotExist):
-        package_conftest.get_user_from_db(INITIAL_USER['username'])
+        PackageModel.objects.get(username=INITIAL_USER['username'])
 
     # Is the user list shorter than it was before deletion?
     soup = BeautifulSoup(list_response.content, 'html.parser')
