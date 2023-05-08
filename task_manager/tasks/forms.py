@@ -12,14 +12,14 @@ class TaskForm(forms.ModelForm):
             'status',
             'executor',
             'labels',
-            ]
+        ]
         labels = {
             'name': _('Name'),
             'description': _('Description'),
             'status': _('Status'),
             'executor': _('Executor'),
             'labels': _('Labels')
-            }
+        }
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")

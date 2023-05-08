@@ -40,9 +40,9 @@ class StatusCreateView(StatusPermissions,
 
 
 class StatusUpdateView(
-            StatusPermissions,
-            SuccessMessageMixin,
-            UpdateView):
+        StatusPermissions,
+        SuccessMessageMixin,
+        UpdateView):
     model = Status
     form_class = StatusForm
     template_name = "statuses/update.html"
@@ -51,9 +51,9 @@ class StatusUpdateView(
 
 
 class StatusDeleteView(
-            StatusPermissions,
-            SuccessMessageMixin,
-            DeleteView):
+        StatusPermissions,
+        SuccessMessageMixin,
+        DeleteView):
     model = Status
     fields = []
     template_name = "statuses/delete.html"
@@ -69,14 +69,3 @@ class StatusDeleteView(
                         messages.ERROR,
                         _("The status cannot be deleted because it is in use"))
         return redirect(reverse_lazy('status-list'))
-
-    # def delete(self, request, *args, **kwargs):
-    #     try:
-    #         return super().delete(request, *args, **kwargs)
-    #     except ProtectedError:
-    #         messages.add_message(
-    #                     self.request,
-    #                     messages.ERROR,
-    #                     _("The status cannot be deleted "
-    #                       "because it is in use"))
-    #     return redirect(reverse_lazy('status-list'))

@@ -69,8 +69,8 @@ def test_successfuly_delete_status(client, base_users):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (
-        count_default_items_in_db +
-        package_conftest.ITEM_LIST_HEADER_ROWS)
+        count_default_items_in_db
+        + package_conftest.ITEM_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db

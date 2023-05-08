@@ -5,7 +5,7 @@ TEST_USER_A = {
     "password1": "password_A",
     "password2": "password_A",
     "password": "password_A",
-    }
+}
 
 TEST_USER_B = {
     "username": "username_B",
@@ -14,4 +14,4 @@ TEST_USER_B = {
     "password1": "password_B",
     "password2": "password_B",
     "password": "password_B",
-    }
+}
