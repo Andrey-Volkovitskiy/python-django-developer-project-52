@@ -11,6 +11,7 @@ CREATE_OK_MESSAGE = "Метка успешно создана"
 
 @pytest.fixture(autouse=True)
 def default_db_setup():
+    '''Populates the database with test data'''
     call_command('loaddata', 'tests/fixtures/test_labels_base.json')
     call_command('loaddata', 'tests/fixtures/test_users_base.json')
 

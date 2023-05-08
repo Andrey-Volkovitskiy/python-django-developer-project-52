@@ -10,14 +10,22 @@ USER_CREATE_URL = "/users/create/"
 CREATE_OK_MESSAGE = "Пользователь успешно зарегистрирован"
 
 
-# Populate default database with N users
 @pytest.fixture(autouse=True)
 def default_db_setup():
+    '''Populates default database with users'''
     users = make_users(quantity=DEFAULT_USERS_COUNT)
     add_users_to_db(users)
 
 
 def make_users(quantity):
+    '''Generates N test users
+
+    Agruments:
+        quantity - desired number of users
+
+    Returns:
+        list of dictionaries
+    '''
     users = []
     for i in range(1, quantity + 1):
         user = dict(
@@ -33,6 +41,11 @@ def make_users(quantity):
 
 @pytest.mark.django_db
 def add_users_to_db(users):
+    '''Adds test users to the database
+
+    Agruments:
+        users - list of dictionaries
+    '''
     for user in users:
         User.objects.create(
             username=user['username'],
