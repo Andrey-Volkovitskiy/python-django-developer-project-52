@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import User
 
 HOME_URL = "/"
 LOGIN_URL = "/login/"
@@ -9,6 +10,11 @@ LOGOUT_URL = "/logout/"
 def client():
     from django.test.client import Client
     return Client()
+
+
+@pytest.fixture(scope='package')
+def base_users():
+    return User.objects.all().order_by('id')
 
 
 @pytest.mark.django_db

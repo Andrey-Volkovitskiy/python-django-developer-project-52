@@ -12,7 +12,7 @@ CREATE_OK_MESSAGE = "Пользователь успешно зарегистр�
 
 @pytest.fixture(autouse=True)
 def default_db_setup():
-    '''Populates default database with users'''
+    '''Populates the test database with users'''
     users = make_users(quantity=DEFAULT_USERS_COUNT)
     add_users_to_db(users)
 

@@ -12,11 +12,6 @@ ITEM_CREATE_URL = "/tasks/create/"
 CREATE_OK_MESSAGE = "Задача успешно создана"
 
 
-@pytest.fixture(scope='package')
-def base_users():
-    return User.objects.all().order_by('id')
-
-
 @pytest.fixture(autouse=True)
 def default_db_setup():
     '''Populates the database with test data'''
