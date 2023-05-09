@@ -2,8 +2,8 @@
   "version": "2",
   "exclude_patterns": [
         "**/migrations/",
-        "**/tests/",
-      ]
+        "**/tests/"
+      ],
   "checks": {
     "argument-count": {
       "enabled": false,
