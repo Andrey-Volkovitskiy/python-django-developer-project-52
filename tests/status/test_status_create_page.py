@@ -23,7 +23,7 @@ def test_basic_content(client, base_users):
 
 
 @pytest.mark.django_db
-def test_successfuly_crated(client, base_users):
+def test_successfuly_created(client, base_users):
     count_default_items_in_db = PackageModel.objects.all().count()
     client.force_login(base_users[0])
     CORRECT_ITEM = deepcopy(TEST_ITEMS[0])

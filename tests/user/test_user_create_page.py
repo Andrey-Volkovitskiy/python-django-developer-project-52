@@ -29,7 +29,7 @@ def test_basic_content(client):
 
 
 @pytest.mark.django_db
-def test_successfuly_crated_user(client):
+def test_successfuly_created_user(client):
     CORRECT_USER = deepcopy(TEST_USER_A)
 
     response = client.post(TESTED_URL, CORRECT_USER, follow=True)

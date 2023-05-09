@@ -19,3 +19,6 @@ test_database
 
 # Data Bases
 *.sqlite3
+
+# Zone Identifier
+*:Zone.Identifier
