@@ -74,7 +74,7 @@ def test_successfuly_updated_user(client):
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
     assert len(rows) == (package_conftest.DEFAULT_USERS_COUNT + 1
-        + package_conftest.USER_LIST_HEADER_ROWS)
+                         + package_conftest.USER_LIST_HEADER_ROWS)
 
 
 @pytest.mark.django_db
