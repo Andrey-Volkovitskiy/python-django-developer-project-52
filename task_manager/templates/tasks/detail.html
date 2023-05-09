@@ -48,9 +48,9 @@
         </div>
         <div class="row p-1">
           <div class="col">
-            <a href="{% url 'task-update' object.id %}">Изменить</a>
+            <a href="{% url 'task-update' object.id %}">{% translate "Edit" %}</a>
             <br>
-            <a href="{% url 'task-delete' object.id %}">Удалить</a>
+            <a href="{% url 'task-delete' object.id %}">{% translate "Delete" %}</a>
           </div>
         </div>
       </div>

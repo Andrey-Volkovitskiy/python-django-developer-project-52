@@ -50,9 +50,7 @@ def test_successfuly_updated_user(client):
     TESTED_URL = conftest.get_tested_url_for_max_id(
         TESTED_URL_PATTERN, PackageModel)
     response = client.post(TESTED_URL, UPDATED_USER, follow=True)
-    assert response.redirect_chain == [
-        (SUCCESS_URL, 302)
-    ]
+    assert response.redirect_chain == [(SUCCESS_URL, 302)]
     response_content = response.content.decode()
     assert "Пользователь успешно изменён" in response_content
 
@@ -75,8 +73,7 @@ def test_successfuly_updated_user(client):
     # Is the user list length the same as before the update?
     soup = BeautifulSoup(list_response.content, 'html.parser')
     rows = soup.find_all('tr')
-    assert len(rows) == (
-        package_conftest.DEFAULT_USERS_COUNT + 1
+    assert len(rows) == (package_conftest.DEFAULT_USERS_COUNT + 1
         + package_conftest.USER_LIST_HEADER_ROWS)
 
 
