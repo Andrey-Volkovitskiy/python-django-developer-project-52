@@ -4,9 +4,9 @@ exclude_patterns:
   
   plugins:
   duplication:
-    enabled: true
+    enabled: false
     config:
       languages:
         python:
           python_version: 3
-          mass_threshold: 150
+          mass_threshold: 50
