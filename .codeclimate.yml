@@ -1,11 +1,3 @@
 exclude_patterns:
   - "**/migrations/"
-
-plugins:
-  duplication:
-    enabled: true
-    config:
-      languages:
-        python:
-          python_version: 3
-          mass_threshold: 150
+  - "**/tests/"
