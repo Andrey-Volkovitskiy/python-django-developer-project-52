@@ -12,6 +12,8 @@ from django.contrib.auth.mixins import (UserPassesTestMixin,
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
+from rest_framework import viewsets
+from .serializers import UserSerializer
 
 
 class UserListView(ListView):
@@ -87,3 +89,58 @@ class UserDeleteView(
                 messages.ERROR,
                 _("The user cannot be deleted because it is in use"))
         return redirect(reverse_lazy('user-list'))
+
+
+# class UserAPIView(APIView):
+#     def get(self, request):
+#         user_list = User.objects.all()
+#         return Response({'users': UserSerializer(
+#             user_list, many=True).data})
+
+#     def post(self, request):
+#         serializer = UserSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response({'user': serializer.data})
+
+#     def put(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk', None)
+#         if not pk:
+#             return Response({'error': "Method put not allowed"})
+
+#         try:
+#             instance = User.objects.get(pk=pk)
+#         except:
+#             return Response({'error': "Method put not allowed"})
+
+#         serializer = UserSerializer(data=request.data, instance=instance)
+#         serializer.is_valid(raise_exception=True)
+#         serializer.save()
+#         return Response({'user': serializer.data})
+
+#     def delete(self, request, *args, **kwargs):
+#         pk = kwargs.get('pk', None)
+#         if not pk:
+#             return Response({'error': "Method delete not allowed"})
+
+#         try:
+#             instance = User.objects.get(pk=pk)
+#         except:
+#             return Response({'error': "Method delete not allowed"})
+
+#         username = instance.username
+#         instance.delete()
+#         return Response({'user': f"User {pk} successfully deleted"})
+
+# class UserAPIView(generics.ListCreateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+
+# class UserAPIRUDView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+
+class UserAPIViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer

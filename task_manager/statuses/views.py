@@ -11,6 +11,8 @@ from task_manager.statuses.forms import StatusForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
+from rest_framework import viewsets
+from .serializers import StatusSerializer
 
 
 class StatusPermissions(LoginRequiredMixin):
@@ -70,3 +72,8 @@ class StatusDeleteView(
                 messages.ERROR,
                 _("The status cannot be deleted because it is in use"))
         return redirect(reverse_lazy('status-list'))
+
+
+class StatusAPIViewSet(viewsets.ModelViewSet):
+    queryset = Status.objects.all()
+    serializer_class = StatusSerializer
