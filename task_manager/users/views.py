@@ -44,7 +44,7 @@ class UserPermissions(UserPassesTestMixin):
                 messages.ERROR,
                 _("You do not have rights to change another user.")
             )
-            return redirect(reverse_lazy('user-list'))
+            return redirect('user-list')
 
         else:
             messages.add_message(
@@ -52,7 +52,7 @@ class UserPermissions(UserPassesTestMixin):
                 messages.ERROR,
                 _("You are not authorized! Please sign in.")
             )
-            return redirect(reverse_lazy('login'))
+            return redirect('login')
 
 
 class UserUpdateView(
@@ -86,4 +86,4 @@ class UserDeleteView(
                 self.request,
                 messages.ERROR,
                 _("The user cannot be deleted because it is in use"))
-        return redirect(reverse_lazy('user-list'))
+        return redirect('user-list')

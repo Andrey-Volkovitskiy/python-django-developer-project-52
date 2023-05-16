@@ -1,4 +1,3 @@
-from django.utils.translation import gettext_lazy as _
 from task_manager.tasks.models import Task
 from django import forms
 
@@ -13,13 +12,6 @@ class TaskForm(forms.ModelForm):
             'executor',
             'labels',
         ]
-        labels = {
-            'name': _('Name'),
-            'description': _('Description'),
-            'status': _('Status'),
-            'executor': _('Executor'),
-            'labels': _('Labels')
-        }
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")

@@ -1,7 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.db import IntegrityError
 from django.views.generic import (ListView,
                                   CreateView,
                                   UpdateView,
@@ -21,7 +20,7 @@ class LabelPermissions(LoginRequiredMixin):
             messages.ERROR,
             _("You are not authorized! Please sign in.")
         )
-        return redirect(reverse_lazy('login'))
+        return redirect('login')
 
 
 class LabelListView(LabelPermissions,
@@ -62,15 +61,11 @@ class LabelDeleteView(
     success_message = _("Label successfully deleted")
 
     def form_valid(self, form):
-        try:
-            label = self.get_object()
-            related_tasks_count = label.task_set.count()
-            if related_tasks_count:
-                raise IntegrityError
-            return super().form_valid(form)
-        except IntegrityError:
+        label = self.get_object()
+        if label.task_set.exists():
             messages.add_message(
                 self.request,
                 messages.ERROR,
                 _("The label cannot be deleted because it is in use"))
-        return redirect(reverse_lazy('label-list'))
+            return redirect('label-list')
+        return super().form_valid(form)

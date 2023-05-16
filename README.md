@@ -41,6 +41,7 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 - *make start* - to start the application
 - *make dev* - to start app on development web server
 - *make test* - to run tests
+- *make lint* - to run linter (Flake8h)
 
 (more service commands can be found in Makefile)
 

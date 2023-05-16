@@ -21,7 +21,7 @@ class StatusPermissions(LoginRequiredMixin):
             messages.ERROR,
             _("You are not authorized! Please sign in.")
         )
-        return redirect(reverse_lazy('login'))
+        return redirect('login')
 
 
 class StatusListView(StatusPermissions,
@@ -69,4 +69,4 @@ class StatusDeleteView(
                 self.request,
                 messages.ERROR,
                 _("The status cannot be deleted because it is in use"))
-        return redirect(reverse_lazy('status-list'))
+        return redirect('status-list')

@@ -23,7 +23,7 @@ class TaskPermissionsForCRU(LoginRequiredMixin):
             messages.ERROR,
             _("You are not authorized! Please sign in.")
         )
-        return redirect(reverse_lazy('login'))
+        return redirect('login')
 
 
 class TaskPermissionsForDelete(UserPassesTestMixin):
@@ -44,7 +44,7 @@ class TaskPermissionsForDelete(UserPassesTestMixin):
                 messages.ERROR,
                 _("The task can only be deleted by its author.")
             )
-            return redirect(reverse_lazy('task-list'))
+            return redirect('task-list')
 
         else:
             messages.add_message(
@@ -52,7 +52,7 @@ class TaskPermissionsForDelete(UserPassesTestMixin):
                 messages.ERROR,
                 _("You are not authorized! Please sign in.")
             )
-            return redirect(reverse_lazy('login'))
+            return redirect('login')
 
 
 class PassRequestToFormViewMixin:
