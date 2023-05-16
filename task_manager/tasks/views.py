@@ -29,10 +29,10 @@ class TaskPermissionsForCRU(LoginRequiredMixin):
 class TaskPermissionsForDelete(UserPassesTestMixin):
     '''Impements user permissions to delete tasks'''
     def test_func(self):
-        subject_user_id = self.request.user.id
+        subject_user = self.request.user
         deleted_task = self.get_object()
-        author_id = deleted_task.author.id
-        if subject_user_id == author_id:
+        author = deleted_task.author
+        if subject_user == author:
             return True
         else:
             return False
@@ -55,13 +55,6 @@ class TaskPermissionsForDelete(UserPassesTestMixin):
             return redirect('login')
 
 
-class PassRequestToFormViewMixin:
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['request'] = self.request
-        return kwargs
-
-
 class TaskListView(
         TaskPermissionsForCRU,
         FilterView):
@@ -73,7 +66,6 @@ class TaskListView(
 
 class TaskCreateView(
         TaskPermissionsForCRU,
-        PassRequestToFormViewMixin,
         SuccessMessageMixin,
         CreateView):
     form_class = TaskForm
@@ -81,10 +73,13 @@ class TaskCreateView(
     success_url = reverse_lazy("task-list")
     success_message = _("Task successfully created")
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 
 class TaskUpdateView(
         TaskPermissionsForCRU,
-        PassRequestToFormViewMixin,
         SuccessMessageMixin,
         UpdateView):
     model = Task
@@ -107,7 +102,6 @@ class TaskDeleteView(
 
 class TaskDetailView(
         TaskPermissionsForCRU,
-        PassRequestToFormViewMixin,
         SuccessMessageMixin,
         DetailView):
     model = Task

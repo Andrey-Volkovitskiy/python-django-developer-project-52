@@ -1,5 +1,4 @@
 from django.contrib.messages.views import SuccessMessageMixin
-from django.db.models.deletion import ProtectedError
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.views.generic import (ListView,
@@ -12,6 +11,7 @@ from django.contrib.auth.mixins import (UserPassesTestMixin,
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
+from task_manager.tasks.models import Task
 
 
 class UserListView(ListView):
@@ -30,9 +30,9 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 class UserPermissions(UserPassesTestMixin):
     '''Impements user permissions to upd / del another users'''
     def test_func(self):
-        subject_user_id = self.request.user.id
-        object_user_id = self.kwargs['pk']
-        if subject_user_id == object_user_id:
+        subject_user = self.request.user
+        object_user = self.get_object()
+        if subject_user == object_user:
             return True
         else:
             return False
@@ -79,11 +79,13 @@ class UserDeleteView(
     success_message = _("User successfully deleted")
 
     def form_valid(self, form):
-        try:
-            return super().form_valid(form)
-        except ProtectedError:
+        user = self.get_object()
+        is_author_of_tasks = Task.objects.filter(author=user).exists()
+        is_executor_of_tasks = Task.objects.filter(executor=user).exists()
+        if is_author_of_tasks or is_executor_of_tasks:
             messages.add_message(
                 self.request,
                 messages.ERROR,
                 _("The user cannot be deleted because it is in use"))
-        return redirect('user-list')
+            return redirect('user-list')
+        return super().form_valid(form)

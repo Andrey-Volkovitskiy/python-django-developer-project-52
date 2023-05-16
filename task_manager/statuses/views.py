@@ -1,7 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.db.models.deletion import ProtectedError
 from django.views.generic import (ListView,
                                   CreateView,
                                   UpdateView,
@@ -62,11 +61,11 @@ class StatusDeleteView(
     success_message = _("Status successfully deleted")
 
     def form_valid(self, form):
-        try:
-            return super().form_valid(form)
-        except ProtectedError:
+        status = self.get_object()
+        if status.task_set.exists():
             messages.add_message(
                 self.request,
                 messages.ERROR,
                 _("The status cannot be deleted because it is in use"))
-        return redirect('status-list')
+            return redirect('status-list')
+        return super().form_valid(form)

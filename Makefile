@@ -38,3 +38,6 @@ compile-msg:
 
 migrate:
 	poetry run python3 manage.py migrate
+
+shell:
+	poetry run python3 manage.py shell
