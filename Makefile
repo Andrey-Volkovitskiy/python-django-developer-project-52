@@ -38,3 +38,6 @@ compile-msg:
 
 migrate:
 	poetry run python3 manage.py migrate
+
+api-schema:
+	poetry run python3 manage.py spectacular --file api_schema.yml

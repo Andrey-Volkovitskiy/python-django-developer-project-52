@@ -23,6 +23,8 @@ from .users import views as user_views
 from .statuses import views as status_views
 from .labels import views as label_views
 from .tasks import views as task_views
+from drf_spectacular.views import (SpectacularAPIView,
+                                   SpectacularSwaggerView)
 
 
 api_router = routers.DefaultRouter()
@@ -48,4 +50,7 @@ urlpatterns = [
     path('tasks/', include('task_manager.tasks.urls')),
     path('labels/', include('task_manager.labels.urls')),
     path('api/v1/', include(api_router.urls)),
+    path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('api/v1/schema/docs/', SpectacularSwaggerView.as_view(
+        url_name='schema')),
 ]

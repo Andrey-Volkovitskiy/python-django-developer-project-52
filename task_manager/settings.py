@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'task_manager.tasks',
     'task_manager.labels',
     'rest_framework',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -163,4 +164,16 @@ ROLLBAR = {
     'environment': 'development' if DEBUG else 'production',
     'code_version': '1.0',
     'root': str(BASE_DIR),
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Task manager API',
+    'DESCRIPTION': 'Training API project (DRF, OpenAPI Schema, Swagger UI)',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }
