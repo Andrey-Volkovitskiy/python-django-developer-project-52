@@ -10,6 +10,8 @@ from task_manager.labels.forms import LabelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
+from rest_framework import viewsets
+from .serializers import LabelSerializer
 
 
 class LabelPermissions(LoginRequiredMixin):
@@ -69,3 +71,8 @@ class LabelDeleteView(
                 _("The label cannot be deleted because it is in use"))
             return redirect('label-list')
         return super().form_valid(form)
+
+
+class LabelAPIViewSet(viewsets.ModelViewSet):
+    queryset = Label.objects.all()
+    serializer_class = LabelSerializer

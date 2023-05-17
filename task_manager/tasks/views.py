@@ -13,6 +13,8 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         UserPassesTestMixin)
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
+from rest_framework import viewsets
+from .serializers import TaskSerializer
 
 
 class TaskPermissionsForCRU(LoginRequiredMixin):
@@ -106,3 +108,9 @@ class TaskDetailView(
         DetailView):
     model = Task
     template_name = "tasks/detail.html"
+
+
+class TaskAPIViewSet(viewsets.ModelViewSet):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    # permission_classes = [permissions.IsAuthenticated]
