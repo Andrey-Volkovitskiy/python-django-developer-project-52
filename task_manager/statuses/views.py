@@ -10,12 +10,13 @@ from task_manager.statuses.forms import StatusForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
+from rest_framework.response import Response
 from .serializers import StatusSerializer
 
 
 class StatusPermissions(LoginRequiredMixin):
-    '''Impements user permissions to CRUD statuses'''
+    '''Impements user permissions for CRUD statuses'''
     def handle_no_permission(self):
         messages.add_message(
             self.request,
@@ -74,5 +75,15 @@ class StatusDeleteView(
 
 
 class StatusAPIViewSet(viewsets.ModelViewSet):
+    '''Only authenticateed user can CRUD statuses.
+    A status associated with a task cannot be deleted.'''
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.task_set.exists():
+            message = _("The status cannot be deleted because it is in use")
+            return Response({'detail': message}, status=405)
+        return super().destroy(request, *args, **kwargs)

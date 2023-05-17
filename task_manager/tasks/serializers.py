@@ -3,7 +3,9 @@ from .models import Task
 
 
 class TaskSerializer(serializers.ModelSerializer):
+
+    author = serializers.ReadOnlyField(source='author.username')
+
     class Meta:
         model = Task
         fields = '__all__'
-        read_only_fields = ['author']

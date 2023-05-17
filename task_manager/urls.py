@@ -28,14 +28,14 @@ from drf_spectacular.views import (SpectacularAPIView,
 
 
 api_router = routers.DefaultRouter()
-api_router.register(r'users', user_views.UserAPIViewSet,
-                    basename='users-api')
+api_router.register(r'user', user_views.UserAPIViewSet,
+                    basename='user-api')
 api_router.register(r'statuses', status_views.StatusAPIViewSet,
-                    basename='statuses-api')
+                    basename='status-api')
 api_router.register(r'labels', label_views.LabelAPIViewSet,
-                    basename='labels-api')
+                    basename='label-api')
 api_router.register(r'tasks', task_views.TaskAPIViewSet,
-                    basename='tasks-api')
+                    basename='task-api')
 
 urlpatterns = [
     path('', TemplateView.as_view(
@@ -49,8 +49,17 @@ urlpatterns = [
     path('statuses/', include('task_manager.statuses.urls')),
     path('tasks/', include('task_manager.tasks.urls')),
     path('labels/', include('task_manager.labels.urls')),
-    path('api/v1/', include(api_router.urls)),
     path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/v1/schema/docs/', SpectacularSwaggerView.as_view(
         url_name='schema')),
+    path('api/v1/auth/', include('rest_framework.urls')),
+    # path('api/v1/users/', user_views.UserListAPIView.as_view(),
+    #      name='user-list-api'),
+    # path('api/v1/users/<int:pk>/', user_views.UserDetailAPIView.as_view(),
+    #      name='user-detail-api'),
+    # path('api/v1/tasks/', task_views.TaskListAPIView.as_view(),
+    #      name='task-list-api'),
+    # path('api/v1/tasks/<int:pk>/', task_views.TaskDetailAPIView.as_view(),
+    #      name='task-detail-api'),
+    path('api/v1/', include(api_router.urls)),
 ]

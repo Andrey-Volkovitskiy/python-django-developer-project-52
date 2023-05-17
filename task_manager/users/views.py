@@ -13,7 +13,9 @@ from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
 from task_manager.tasks.models import Task
 from rest_framework import viewsets
+from rest_framework.response import Response
 from .serializers import UserSerializer
+from .permissions import IsHimselfOrReadOnly
 
 
 class UserListView(ListView):
@@ -93,56 +95,19 @@ class UserDeleteView(
         return super().form_valid(form)
 
 
-# class UserAPIView(APIView):
-#     def get(self, request):
-#         user_list = User.objects.all()
-#         return Response({'users': UserSerializer(
-#             user_list, many=True).data})
-
-#     def post(self, request):
-#         serializer = UserSerializer(data=request.data)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response({'user': serializer.data})
-
-#     def put(self, request, *args, **kwargs):
-#         pk = kwargs.get('pk', None)
-#         if not pk:
-#             return Response({'error': "Method put not allowed"})
-
-#         try:
-#             instance = User.objects.get(pk=pk)
-#         except:
-#             return Response({'error': "Method put not allowed"})
-
-#         serializer = UserSerializer(data=request.data, instance=instance)
-#         serializer.is_valid(raise_exception=True)
-#         serializer.save()
-#         return Response({'user': serializer.data})
-
-#     def delete(self, request, *args, **kwargs):
-#         pk = kwargs.get('pk', None)
-#         if not pk:
-#             return Response({'error': "Method delete not allowed"})
-
-#         try:
-#             instance = User.objects.get(pk=pk)
-#         except:
-#             return Response({'error': "Method delete not allowed"})
-
-#         username = instance.username
-#         instance.delete()
-#         return Response({'user': f"User {pk} successfully deleted"})
-
-# class UserAPIView(generics.ListCreateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-
-# class UserAPIRUDView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializer
-
-class UserAPIViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
+class UserAPIViewSet(viewsets.ModelViewSet):
+    '''An anonymous user can create, retrieve and list users.
+    Only the user himself can change or delete his account.
+    A user associated with a task cannot be deleted.'''
+    queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
+    permission_classes = [IsHimselfOrReadOnly]
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        is_author = instance.author_set.exists()
+        is_executor = instance.executor_set.exists()
+        if is_author or is_executor:
+            message = _("The user cannot be deleted because it is in use")
+            return Response({'detail': message}, status=405)
+        return super().destroy(request, *args, **kwargs)
