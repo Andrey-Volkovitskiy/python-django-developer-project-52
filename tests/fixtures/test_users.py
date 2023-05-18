@@ -15,3 +15,17 @@ TEST_USER_B = {
     "password2": "password_B",
     "password": "password_B",
 }
+
+TEST_API_USER_C = {
+    "username": "username_C",
+    "first_name": "first_name_C",
+    "last_name": "last_name_C",
+    "password": "password_C",
+}
+
+TEST_API_USER_D = {
+    "username": "username_D",
+    "first_name": "first_name_D",
+    "last_name": "last_name_D",
+    "password": "password_D",
+}

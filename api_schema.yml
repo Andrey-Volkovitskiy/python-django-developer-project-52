@@ -2,9 +2,10 @@ openapi: 3.0.3
 info:
   title: Task manager API
   version: 1.0.0
-  description: "Training API project (DRF, OpenAPI Schema, Swagger UI). \n    Please\
-    \ create a new user and log in through basicAuth to be able to work with statuses,\
-    \ labels and tasks."
+  description: |-
+    Training API project (DRF, OpenAPI Schema, Swagger UI).
+        Please create a new user and log in through basicAuth to be able to work
+        with statuses, labels and tasks.
 paths:
   /api/v1/labels/:
     get:
@@ -501,15 +502,15 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/user/:
+  /api/v1/users/:
     get:
-      operationId: user_list
+      operationId: users_list
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       tags:
-      - user
+      - users
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -523,13 +524,13 @@ paths:
                   $ref: '#/components/schemas/User'
           description: ''
     post:
-      operationId: user_create
+      operationId: users_create
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       tags:
-      - user
+      - users
       requestBody:
         content:
           application/json:
@@ -552,9 +553,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
-  /api/v1/user/{id}/:
+  /api/v1/users/{id}/:
     get:
-      operationId: user_retrieve
+      operationId: users_retrieve
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
@@ -567,7 +568,7 @@ paths:
         description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - user
+      - users
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -579,7 +580,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     put:
-      operationId: user_update
+      operationId: users_update
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
@@ -592,7 +593,7 @@ paths:
         description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - user
+      - users
       requestBody:
         content:
           application/json:
@@ -616,7 +617,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     patch:
-      operationId: user_partial_update
+      operationId: users_partial_update
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
@@ -629,7 +630,7 @@ paths:
         description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - user
+      - users
       requestBody:
         content:
           application/json:
@@ -652,7 +653,7 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     delete:
-      operationId: user_destroy
+      operationId: users_destroy
       description: |-
         An anonymous user can create, retrieve and list users.
         Only the user himself can change or delete his account.
@@ -665,7 +666,7 @@ paths:
         description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - user
+      - users
       security:
       - cookieAuth: []
       - basicAuth: []
