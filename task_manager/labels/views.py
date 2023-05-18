@@ -7,7 +7,7 @@ from django.views.generic import (ListView,
                                   DeleteView)
 from task_manager.labels.models import Label
 from task_manager.labels.forms import LabelForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from task_manager.views import CustomLoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, permissions
@@ -15,15 +15,9 @@ from rest_framework.response import Response
 from .serializers import LabelSerializer
 
 
-class LabelPermissions(LoginRequiredMixin):
+class LabelPermissions(CustomLoginRequiredMixin):
     '''Impements user permissions to CRUD labels'''
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            _("You are not authorized! Please sign in.")
-        )
-        return redirect('login')
+    permission_denied_message = _("You are not authorized! Please sign in.")
 
 
 class LabelListView(LabelPermissions,

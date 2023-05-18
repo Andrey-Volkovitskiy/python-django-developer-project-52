@@ -9,8 +9,8 @@ from django_filters.views import FilterView
 from task_manager.tasks.models import Task
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.filters import TaskFilter
-from django.contrib.auth.mixins import (LoginRequiredMixin,
-                                        UserPassesTestMixin)
+from task_manager.views import CustomLoginRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, permissions
@@ -18,19 +18,15 @@ from .serializers import TaskSerializer
 from .permissions import DeleteOnlyByAuthor
 
 
-class TaskPermissionsForCRU(LoginRequiredMixin):
+class TaskPermissionsForCRU(CustomLoginRequiredMixin):
     '''Impements user permissions to create/read/update tasks'''
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            _("You are not authorized! Please sign in.")
-        )
-        return redirect('login')
+    permission_denied_message = _("You are not authorized! Please sign in.")
 
 
-class TaskPermissionsForDelete(UserPassesTestMixin):
+class TaskPermissionsForDelete(CustomLoginRequiredMixin, UserPassesTestMixin):
     '''Impements user permissions to delete tasks'''
+    permission_denied_message = _("You are not authorized! Please sign in.")
+
     def test_func(self):
         subject_user = self.request.user
         deleted_task = self.get_object()
@@ -48,14 +44,7 @@ class TaskPermissionsForDelete(UserPassesTestMixin):
                 _("The task can only be deleted by its author.")
             )
             return redirect('task-list')
-
-        else:
-            messages.add_message(
-                self.request,
-                messages.ERROR,
-                _("You are not authorized! Please sign in.")
-            )
-            return redirect('login')
+        return super().handle_no_permission()
 
 
 class TaskListView(

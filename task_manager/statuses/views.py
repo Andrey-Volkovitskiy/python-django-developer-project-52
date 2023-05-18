@@ -7,7 +7,7 @@ from django.views.generic import (ListView,
                                   DeleteView)
 from task_manager.statuses.models import Status
 from task_manager.statuses.forms import StatusForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from task_manager.views import CustomLoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, permissions
@@ -15,15 +15,9 @@ from rest_framework.response import Response
 from .serializers import StatusSerializer
 
 
-class StatusPermissions(LoginRequiredMixin):
+class StatusPermissions(CustomLoginRequiredMixin):
     '''Impements user permissions for CRUD statuses'''
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            _("You are not authorized! Please sign in.")
-        )
-        return redirect('login')
+    permission_denied_message = _("You are not authorized! Please sign in.")
 
 
 class StatusListView(StatusPermissions,

@@ -6,12 +6,12 @@ from django.views.generic import (ListView,
                                   UpdateView,
                                   DeleteView)
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import (UserPassesTestMixin,
-                                        LoginRequiredMixin)
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
 from task_manager.tasks.models import Task
+from task_manager.views import CustomLoginRequiredMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import UserSerializer
@@ -31,8 +31,10 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     success_message = _("User successfully created")
 
 
-class UserPermissions(UserPassesTestMixin):
+class UserPermissions(CustomLoginRequiredMixin, UserPassesTestMixin):
     '''Impements user permissions to upd / del another users'''
+    permission_denied_message = _("You are not authorized! Please sign in.")
+
     def test_func(self):
         subject_user = self.request.user
         object_user = self.get_object()
@@ -49,18 +51,10 @@ class UserPermissions(UserPassesTestMixin):
                 _("You do not have rights to change another user.")
             )
             return redirect('user-list')
-
-        else:
-            messages.add_message(
-                self.request,
-                messages.ERROR,
-                _("You are not authorized! Please sign in.")
-            )
-            return redirect('login')
+        return super().handle_no_permission()
 
 
 class UserUpdateView(
-        LoginRequiredMixin,
         UserPermissions,
         SuccessMessageMixin,
         UpdateView):
@@ -72,7 +66,6 @@ class UserUpdateView(
 
 
 class UserDeleteView(
-        LoginRequiredMixin,
         UserPermissions,
         SuccessMessageMixin,
         DeleteView):

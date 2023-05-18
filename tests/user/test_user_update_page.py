@@ -174,9 +174,9 @@ def test_with_anonymous_user(client):
         TESTED_URL_PATTERN, PackageModel)
     response = client.get(TESTED_URL, follow=True)
     content = response.content.decode()
-    assert response.redirect_chain == [
-        (conftest.LOGIN_URL, 302)
-    ]
+    redirect_url_with_query, status_code = response.redirect_chain[0]
+    assert status_code == 302
+    assert redirect_url_with_query.split('?')[0] == conftest.LOGIN_URL
     assert "Вы не авторизованы! Пожалуйста, выполните вход." in content
 
 
