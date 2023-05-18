@@ -51,7 +51,7 @@ def test_successfuly_updated_status(client, base_users):
         (SUCCESS_URL, 302)
     ]
     response_content = response.content.decode()
-    assert "Статус успешно изменён" in response_content
+    assert "Статус успешно изменен" in response_content
 
     # Is new item added to the list?
     list_response = client.get(package_conftest.ITEM_LIST_URL)

@@ -54,7 +54,7 @@ def test_successfuly_delete_status(client, base_users):
     assert response.redirect_chain == [
         (SUCCESS_URL, 302)
     ]
-    assert "Статус успешно удалён" in response_content
+    assert "Статус успешно удален" in response_content
 
     # Item not listed?
     list_response = client.get(package_conftest.ITEM_LIST_URL)
