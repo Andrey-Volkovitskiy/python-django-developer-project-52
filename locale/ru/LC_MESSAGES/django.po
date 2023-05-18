@@ -357,7 +357,7 @@ msgstr "У вас нет прав для изменения другого по�
 
 #: task_manager/users/views.py:67
 msgid "User successfully updated"
-msgstr "Пользователь успешно изменён"
+msgstr "Пользователь успешно изменен"
 
 #: task_manager/users/views.py:79
 msgid "User successfully deleted"
