@@ -4,18 +4,19 @@ from copy import deepcopy
 from datetime import datetime
 from drf import conftest as package_conftest
 from fixtures.test_users import TEST_API_USER_C
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as PackageModel
 from django.contrib.auth.hashers import check_password
 
+TESTED_ENDPOINT = '/users/'
 pytestmark = pytest.mark.django_db
 
 
 class TestUserListAPI:
-    endpoint = package_conftest.get_endpoint('/users/')
+    full_endpoint = package_conftest.get_list_endpoint(TESTED_ENDPOINT)
 
     def test_api_user_get(self, api_client, user_factory):
         initial_data = user_factory.create_batch(3)
-        response = api_client.get(self.endpoint)
+        response = api_client.get(self.full_endpoint)
 
         assert response.status_code == 200
 
@@ -35,7 +36,7 @@ class TestUserListAPI:
         expected_data = deepcopy(TEST_API_USER_C)
         expected_time = datetime.utcnow().isoformat().split('.')[0]
         response = api_client.post(
-            path=self.endpoint,
+            path=self.full_endpoint,
             data=expected_data,
             format='json',
             follow=True)
@@ -49,8 +50,8 @@ class TestUserListAPI:
         assert expected_time == received_data['date_joined'].split('.')[0]
 
         # Check database data
-        assert User.objects.count() == len(initial_data) + 1
-        db_user = User.objects.last()
+        assert PackageModel.objects.count() == len(initial_data) + 1
+        db_user = PackageModel.objects.last()
         assert expected_data['username'] == db_user.username
         assert expected_data['first_name'] == db_user.first_name
         assert expected_data['last_name'] == db_user.last_name
@@ -60,17 +61,35 @@ class TestUserListAPI:
     def test_api_user_post_existing_username(self, api_client, user_factory):
         same_data = deepcopy(TEST_API_USER_C)
         response = api_client.post(
-            path=self.endpoint,
+            path=self.full_endpoint,
             data=same_data,
             format='json',
             follow=True)
         assert response.status_code == 201
 
         response = api_client.post(
-            path=self.endpoint,
+            path=self.full_endpoint,
             data=same_data,
             format='json',
             follow=True)
         assert response.status_code == 400
         received_data = json.loads(response.content)
         assert received_data['username'] == ["Пользователь с таким именем уже существует."]
+
+
+class TestUserItemAPI:
+
+    def test_api_user_get(self, api_client, user_factory):
+        initial_data = user_factory.create_batch(3)
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+
+        response = api_client.get(full_endpoint)
+
+        assert response.status_code == 200
+
+        received_data = json.loads(response.content)
+        expected_data = initial_data[-1]
+        assert expected_data.username == received_data['username']
+        assert expected_data.first_name == received_data['first_name']
+        assert expected_data.last_name == received_data['last_name']
