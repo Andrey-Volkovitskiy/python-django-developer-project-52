@@ -3,6 +3,9 @@ MANAGE := poetry run python3 manage.py
 install:
 	poetry install
 
+collectstatic:
+	poetry run python3 manage.py collectstatic
+
 start:
 	poetry run gunicorn task_manager.wsgi
 

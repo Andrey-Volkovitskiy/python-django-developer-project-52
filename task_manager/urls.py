@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 from task_manager import views
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework import routers
 from .users import views as user_views
 from .statuses import views as status_views
@@ -62,4 +64,4 @@ urlpatterns = [
     # path('api/v1/tasks/<int:pk>/', task_views.TaskDetailAPIView.as_view(),
     #      name='task-detail-api'),
     path('api/v1/', include(api_router.urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

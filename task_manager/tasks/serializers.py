@@ -4,7 +4,7 @@ from .models import Task
 
 class TaskSerializer(serializers.ModelSerializer):
 
-    author = serializers.ReadOnlyField(source='author.username')
+    author = serializers.ReadOnlyField(source='author.id')
 
     class Meta:
         model = Task
