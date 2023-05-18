@@ -27,6 +27,9 @@ lint:
 test:
 	poetry run python3 -m pytest -ra -s -vvv tests/
 
+test-drf:
+	poetry run python3 -m pytest -ra -s -vvv tests/drf/
+
 cov:
 	poetry run python3 -m pytest --cov=task_manager/ tests/
 

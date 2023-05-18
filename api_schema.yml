@@ -2,8 +2,175 @@ openapi: 3.0.3
 info:
   title: Task manager API
   version: 1.0.0
-  description: Training API project (DRF, OpenAPI Schema, Swagger UI)
+  description: "Training API project (DRF, OpenAPI Schema, Swagger UI). \n    Please\
+    \ create a new user and log in through basicAuth to be able to work with statuses,\
+    \ labels and tasks."
 paths:
+  /api/v1/labels/:
+    get:
+      operationId: labels_list
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      tags:
+      - labels
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Label'
+          description: ''
+    post:
+      operationId: labels_create
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Label'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Label'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Label'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+          description: ''
+  /api/v1/labels/{id}/:
+    get:
+      operationId: labels_retrieve
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this label.
+        required: true
+      tags:
+      - labels
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+          description: ''
+    put:
+      operationId: labels_update
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this label.
+        required: true
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Label'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Label'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Label'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+          description: ''
+    patch:
+      operationId: labels_partial_update
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this label.
+        required: true
+      tags:
+      - labels
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLabel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLabel'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLabel'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Label'
+          description: ''
+    delete:
+      operationId: labels_destroy
+      description: |-
+        Only authenticateed user can CRUD labels.
+        A label associated with a task cannot be deleted.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this label.
+        required: true
+      tags:
+      - labels
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      responses:
+        '204':
+          description: No response body
   /api/v1/statuses/:
     get:
       operationId: statuses_list
@@ -172,7 +339,9 @@ paths:
   /api/v1/tasks/:
     get:
       operationId: tasks_list
-      description: Only authenticateed user can list or create tasks
+      description: |-
+        Only authenticateed user can CRUD tasks.
+        A task can only be deleted by its author.
       tags:
       - tasks
       security:
@@ -189,7 +358,9 @@ paths:
           description: ''
     post:
       operationId: tasks_create
-      description: Only authenticateed user can list or create tasks
+      description: |-
+        Only authenticateed user can CRUD tasks.
+        A task can only be deleted by its author.
       tags:
       - tasks
       requestBody:
@@ -218,13 +389,14 @@ paths:
     get:
       operationId: tasks_retrieve
       description: |-
-        Only authenticateed user can retrieve or edit tasks.
+        Only authenticateed user can CRUD tasks.
         A task can only be deleted by its author.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this task.
         required: true
       tags:
       - tasks
@@ -241,13 +413,14 @@ paths:
     put:
       operationId: tasks_update
       description: |-
-        Only authenticateed user can retrieve or edit tasks.
+        Only authenticateed user can CRUD tasks.
         A task can only be deleted by its author.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this task.
         required: true
       tags:
       - tasks
@@ -276,13 +449,14 @@ paths:
     patch:
       operationId: tasks_partial_update
       description: |-
-        Only authenticateed user can retrieve or edit tasks.
+        Only authenticateed user can CRUD tasks.
         A task can only be deleted by its author.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this task.
         required: true
       tags:
       - tasks
@@ -310,13 +484,14 @@ paths:
     delete:
       operationId: tasks_destroy
       description: |-
-        Only authenticateed user can retrieve or edit tasks.
+        Only authenticateed user can CRUD tasks.
         A task can only be deleted by its author.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this task.
         required: true
       tags:
       - tasks
@@ -326,16 +501,18 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v1/users/:
+  /api/v1/user/:
     get:
-      operationId: users_list
-      description: An anonymous user can create, retrieve and list users.
+      operationId: user_list
+      description: |-
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
+        A user associated with a task cannot be deleted.
       tags:
-      - users
+      - user
       security:
       - cookieAuth: []
       - basicAuth: []
-      - {}
       responses:
         '200':
           content:
@@ -346,10 +523,13 @@ paths:
                   $ref: '#/components/schemas/User'
           description: ''
     post:
-      operationId: users_create
-      description: An anonymous user can create, retrieve and list users.
+      operationId: user_create
+      description: |-
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
+        A user associated with a task cannot be deleted.
       tags:
-      - users
+      - user
       requestBody:
         content:
           application/json:
@@ -365,7 +545,6 @@ paths:
       security:
       - cookieAuth: []
       - basicAuth: []
-      - {}
       responses:
         '201':
           content:
@@ -373,20 +552,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
-  /api/v1/users/{id}/:
+  /api/v1/user/{id}/:
     get:
-      operationId: users_retrieve
+      operationId: user_retrieve
       description: |-
-        Only the user himself can change or delete himself.
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - users
+      - user
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -398,18 +579,20 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     put:
-      operationId: users_update
+      operationId: user_update
       description: |-
-        Only the user himself can change or delete himself.
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - users
+      - user
       requestBody:
         content:
           application/json:
@@ -433,18 +616,20 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     patch:
-      operationId: users_partial_update
+      operationId: user_partial_update
       description: |-
-        Only the user himself can change or delete himself.
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - users
+      - user
       requestBody:
         content:
           application/json:
@@ -467,18 +652,20 @@ paths:
                 $ref: '#/components/schemas/User'
           description: ''
     delete:
-      operationId: users_destroy
+      operationId: user_destroy
       description: |-
-        Only the user himself can change or delete himself.
+        An anonymous user can create, retrieve and list users.
+        Only the user himself can change or delete his account.
         A user associated with a task cannot be deleted.
       parameters:
       - in: path
         name: id
         schema:
           type: integer
+        description: A unique integer value identifying this пользователь.
         required: true
       tags:
-      - users
+      - user
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -487,6 +674,38 @@ paths:
           description: No response body
 components:
   schemas:
+    Label:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Имя
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - name
+    PatchedLabel:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Имя
+          maxLength: 100
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
     PatchedStatus:
       type: object
       properties:
@@ -508,16 +727,7 @@ components:
           type: integer
           readOnly: true
         author:
-          type: string
-          title: Имя пользователя
-          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
-            и символы @/./+/-/_.
-          readOnly: true
-        executor:
-          type: string
-          title: Имя пользователя
-          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
-            и символы @/./+/-/_.
+          type: integer
           readOnly: true
         name:
           type: string
@@ -534,6 +744,10 @@ components:
         status:
           type: integer
           title: Статус
+        executor:
+          type: integer
+          nullable: true
+          title: Исполнитель
         labels:
           type: array
           items:
@@ -606,16 +820,7 @@ components:
           type: integer
           readOnly: true
         author:
-          type: string
-          title: Имя пользователя
-          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
-            и символы @/./+/-/_.
-          readOnly: true
-        executor:
-          type: string
-          title: Имя пользователя
-          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
-            и символы @/./+/-/_.
+          type: integer
           readOnly: true
         name:
           type: string
@@ -632,6 +837,10 @@ components:
         status:
           type: integer
           title: Статус
+        executor:
+          type: integer
+          nullable: true
+          title: Исполнитель
         labels:
           type: array
           items:
@@ -641,7 +850,6 @@ components:
       required:
       - author
       - created_at
-      - executor
       - id
       - name
       - status

@@ -30,7 +30,7 @@ from drf_spectacular.views import (SpectacularAPIView,
 
 
 api_router = routers.DefaultRouter()
-api_router.register(r'user', user_views.UserAPIViewSet,
+api_router.register(r'users', user_views.UserAPIViewSet,
                     basename='user-api')
 api_router.register(r'statuses', status_views.StatusAPIViewSet,
                     basename='status-api')
@@ -44,8 +44,8 @@ urlpatterns = [
         template_name="index.html"), name='home'),
     path('login/', views.SiteLoginView.as_view(), name='login'),
     path('logout/', views.SiteLogoutView.as_view(), name='logout'),
-    # path('service/', views.service),
-    # path('error/', views.intendent_error),
+    # path('service/', views.service),  # Debug page
+    # path('error/', views.intendent_error),  # Debug page
     path('admin/', admin.site.urls),
     path('users/', include('task_manager.users.urls')),
     path('statuses/', include('task_manager.statuses.urls')),
@@ -55,13 +55,5 @@ urlpatterns = [
     path('api/v1/schema/docs/', SpectacularSwaggerView.as_view(
         url_name='schema')),
     path('api/v1/auth/', include('rest_framework.urls')),
-    # path('api/v1/users/', user_views.UserListAPIView.as_view(),
-    #      name='user-list-api'),
-    # path('api/v1/users/<int:pk>/', user_views.UserDetailAPIView.as_view(),
-    #      name='user-detail-api'),
-    # path('api/v1/tasks/', task_views.TaskListAPIView.as_view(),
-    #      name='task-list-api'),
-    # path('api/v1/tasks/<int:pk>/', task_views.TaskDetailAPIView.as_view(),
-    #      name='task-detail-api'),
     path('api/v1/', include(api_router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
