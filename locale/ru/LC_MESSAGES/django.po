@@ -361,7 +361,7 @@ msgstr "Пользователь успешно изменен"
 
 #: task_manager/users/views.py:79
 msgid "User successfully deleted"
-msgstr "Пользователь успешно удалён"
+msgstr "Пользователь успешно удален"
 
 #: task_manager/users/views.py:88
 msgid "The user cannot be deleted because it is in use"

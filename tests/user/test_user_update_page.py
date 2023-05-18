@@ -52,7 +52,7 @@ def test_successfuly_updated_user(client):
     response = client.post(TESTED_URL, UPDATED_USER, follow=True)
     assert response.redirect_chain == [(SUCCESS_URL, 302)]
     response_content = response.content.decode()
-    assert "Пользователь успешно изменён" in response_content
+    assert "Пользователь успешно изменен" in response_content
 
     # Is new user added to the list?
     list_response = client.get(package_conftest.USER_LIST_URL)

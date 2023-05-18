@@ -51,7 +51,7 @@ def test_successfuly_delete_user(client):
         (SUCCESS_URL, 302)
     ]
     response_content = response.content.decode()
-    assert "Пользователь успешно удалён" in response_content
+    assert "Пользователь успешно удален" in response_content
 
     # User not listed?
     list_response = client.get(package_conftest.USER_LIST_URL)
