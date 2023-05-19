@@ -96,6 +96,7 @@ class UserAPIViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('id')
     serializer_class = UserSerializer
     permission_classes = [IsHimselfOrReadOnly]
+    http_method_names = ['get', 'post', 'head', 'put', 'delete']
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

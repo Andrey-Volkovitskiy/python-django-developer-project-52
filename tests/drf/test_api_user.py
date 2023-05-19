@@ -6,6 +6,7 @@ from drf import conftest as package_conftest
 from fixtures.test_users import TEST_API_USER_C
 from django.contrib.auth.models import User as PackageModel
 from django.contrib.auth.hashers import check_password
+from drf.factories import DEFAULT_PASSWORD
 
 TESTED_ENDPOINT = '/users/'
 pytestmark = pytest.mark.django_db
@@ -30,6 +31,12 @@ class TestUserListAPI:
             initial_time = item.date_joined.isoformat().replace("+00:00", "Z")
             received_time = received_data[i]['date_joined']
             assert initial_time == received_time
+
+######################################################################
+
+
+class TestUserCreateAPI:
+    full_endpoint = package_conftest.get_list_endpoint(TESTED_ENDPOINT)
 
     def test_api_user_post_success(self, api_client, user_factory):
         initial_data = user_factory.create_batch(3)
@@ -92,9 +99,10 @@ class TestUserListAPI:
         assert received_data['password'] == [
             "Ваш пароль должен содержать как минимум 3 символа."]
 
+######################################################################
 
-class TestUserItemAPI:
 
+class TestUserRetriveAPI:
     def test_api_user_get(self, api_client, user_factory):
         initial_data = user_factory.create_batch(3)
         full_endpoint = package_conftest.get_last_item_endpoint(
@@ -109,3 +117,128 @@ class TestUserItemAPI:
         assert expected_data.username == received_data['username']
         assert expected_data.first_name == received_data['first_name']
         assert expected_data.last_name == received_data['last_name']
+
+
+class TestUserPutAPI:
+    def test_api_user_put_success(self, api_client, user_factory):
+        initial_data = user_factory.create_batch(3)
+        old_data = PackageModel.objects.last()
+        api_client.login(
+            username=old_data.username, password=DEFAULT_PASSWORD)
+
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+        new_data = deepcopy(TEST_API_USER_C)
+        response = api_client.put(
+            path=full_endpoint,
+            data=new_data,
+            format='json',
+            follow=True)
+
+        # Check JSON response
+        received_data = json.loads(response.content)
+        assert response.status_code == 200
+        assert new_data['username'] == received_data['username']
+        assert new_data['first_name'] == received_data['first_name']
+        assert new_data['last_name'] == received_data['last_name']
+
+        # Check database content
+        assert PackageModel.objects.all().count() == len(initial_data)
+        db_user = PackageModel.objects.last()
+        assert new_data['username'] == db_user.username
+        assert new_data['first_name'] == db_user.first_name
+        assert new_data['last_name'] == db_user.last_name
+        assert check_password(new_data['password'], db_user.password)
+        assert not PackageModel.objects.filter(
+            username=old_data.username).exists()
+
+    def test_api_user_put_reject_another_user(
+            self, api_client, user_factory):
+        user_factory.create_batch(3)
+        another_user = PackageModel.objects.first()
+        api_client.login(
+            username=another_user.username, password=DEFAULT_PASSWORD)
+
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+        new_data = deepcopy(TEST_API_USER_C)
+        response = api_client.put(
+            path=full_endpoint,
+            data=new_data,
+            format='json',
+            follow=True)
+
+        received_data = json.loads(response.content)
+        assert response.status_code == 403
+        assert received_data["detail"] == \
+            "У вас недостаточно прав для выполнения данного действия."
+
+    def test_api_user_put_reject_anonymous_user(
+            self, api_client, user_factory):
+        user_factory.create_batch(3)
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+
+        new_data = deepcopy(TEST_API_USER_C)
+        response = api_client.put(
+            path=full_endpoint,
+            data=new_data,
+            format='json',
+            follow=True)
+
+        received_data = json.loads(response.content)
+        assert response.status_code == 403
+        assert received_data["detail"] == \
+            "Учетные данные не были предоставлены."
+
+######################################################################
+
+
+class TestUserDeleteAPI:
+    def test_api_user_delete_success(self, api_client, user_factory):
+        initial_data = user_factory.create_batch(3)
+        old_data = PackageModel.objects.last()
+        api_client.login(
+            username=old_data.username, password=DEFAULT_PASSWORD)
+
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+        response = api_client.delete(path=full_endpoint)
+
+        # Check JSON response
+        assert response.status_code == 204
+        assert response.content == b''
+
+        # Check database content
+        assert PackageModel.objects.all().count() == len(initial_data) - 1
+        assert not PackageModel.objects.filter(
+            username=old_data.username).exists()
+
+    def test_api_user_delete_reject_another_user(
+            self, api_client, user_factory):
+        user_factory.create_batch(3)
+        another_user = PackageModel.objects.first()
+        api_client.login(
+            username=another_user.username, password=DEFAULT_PASSWORD)
+
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+        response = api_client.delete(path=full_endpoint)
+
+        received_data = json.loads(response.content)
+        assert response.status_code == 403
+        assert received_data["detail"] == \
+            "У вас недостаточно прав для выполнения данного действия."
+
+    def test_api_user_delete_reject_anonymous_user(
+            self, api_client, user_factory):
+        user_factory.create_batch(3)
+        full_endpoint = package_conftest.get_last_item_endpoint(
+            TESTED_ENDPOINT, PackageModel)
+
+        response = api_client.delete(path=full_endpoint)
+
+        received_data = json.loads(response.content)
+        assert response.status_code == 403
+        assert received_data["detail"] == \
+            "Учетные данные не были предоставлены."

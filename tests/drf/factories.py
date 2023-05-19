@@ -1,6 +1,8 @@
 import factory
 from django.contrib.auth.models import User
 
+DEFAULT_PASSWORD = 'defaultpassword'
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -11,4 +13,4 @@ class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.Sequence(lambda n: "first_name_%d" % (n + 1))
     last_name = factory.Sequence(lambda n: "last_name_%d" % (n + 1))
     password = factory.PostGenerationMethodCall(
-        'set_password', 'defaultpassword')
+        'set_password', DEFAULT_PASSWORD)
