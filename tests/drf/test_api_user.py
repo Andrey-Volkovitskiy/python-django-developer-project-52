@@ -58,7 +58,7 @@ class TestUserListAPI:
         assert check_password(expected_data['password'], db_user.password)
         assert expected_time == db_user.date_joined.isoformat().split('.')[0]
 
-    def test_api_user_post_existing_username(self, api_client, user_factory):
+    def test_api_user_post_reject_existing_username(self, api_client):
         same_data = deepcopy(TEST_API_USER_C)
         response = api_client.post(
             path=self.full_endpoint,
@@ -76,6 +76,21 @@ class TestUserListAPI:
         received_data = json.loads(response.content)
         assert received_data['username'] == [
             "Пользователь с таким именем уже существует."]
+
+    def test_api_user_post_reject_short_password(self, api_client):
+        problem_data = deepcopy(TEST_API_USER_C)
+        problem_data['password'] = '12'
+
+        response = api_client.post(
+            path=self.full_endpoint,
+            data=problem_data,
+            format='json',
+            follow=True)
+
+        assert response.status_code == 400
+        received_data = json.loads(response.content)
+        assert received_data['password'] == [
+            "Ваш пароль должен содержать как минимум 3 символа."]
 
 
 class TestUserItemAPI:

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from task_manager.tasks.models import Task
+from django.utils.translation import gettext as _
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -37,3 +38,9 @@ class UserSerializer(serializers.ModelSerializer):
             password = validated_data.pop('password', None)
             instance.set_password(password)
         return super().update(instance, validated_data)
+
+    def validate_password(self, value):
+        if len(str(value)) < 3:
+            raise serializers.ValidationError(
+                _("Your password must contain at least 3 characters."))
+        return value
