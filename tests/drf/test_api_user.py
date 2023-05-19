@@ -242,3 +242,33 @@ class TestUserDeleteAPI:
         assert response.status_code == 403
         assert received_data["detail"] == \
             "Учетные данные не были предоставлены."
+
+    def test_api_user_delete_reject_user_associated_with_task(
+            self, api_client, user_factory, task_factory):
+        user_factory.create_batch(3)
+        author = PackageModel.objects.last()
+        executor = PackageModel.objects.first()
+        task_factory(author=author, executor=executor)
+
+        # Try to delete user associated as author
+        api_client.login(
+            username=author.username, password=DEFAULT_PASSWORD)
+        full_endpoint = package_conftest.get_id_endpoint(
+            TESTED_ENDPOINT, author.id)
+        response = api_client.delete(path=full_endpoint)
+        received_data = json.loads(response.content)
+        assert response.status_code == 405
+        assert received_data["detail"] == \
+            "Невозможно удалить пользователя, потому что он используется"
+
+        # Try to delete user associated as executor
+        api_client.logout()
+        api_client.login(
+            username=executor.username, password=DEFAULT_PASSWORD)
+        full_endpoint = package_conftest.get_id_endpoint(
+            TESTED_ENDPOINT, executor.id)
+        response = api_client.delete(path=full_endpoint)
+        received_data = json.loads(response.content)
+        assert response.status_code == 405
+        assert received_data["detail"] == \
+            "Невозможно удалить пользователя, потому что он используется"

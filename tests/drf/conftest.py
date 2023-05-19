@@ -1,7 +1,10 @@
 import pytest
 from rest_framework.test import APIClient
 from pytest_factoryboy import register
-from .factories import UserFactory
+from .factories import (UserFactory,
+                        StatusFactory,
+                        LabelFactory,
+                        TaskFactory)
 
 API_PREFIX = "/api/v1"
 API_LOGIN_URL = "/api/v1/login/"
@@ -10,6 +13,9 @@ API_LOGOUT_URL = "/api/v1/logout/"
 DEFAULT_ITEMS_COUNT = 3
 
 register(UserFactory)
+register(StatusFactory)
+register(LabelFactory)
+register(TaskFactory)
 
 
 @pytest.fixture
