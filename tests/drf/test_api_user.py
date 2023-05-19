@@ -74,7 +74,8 @@ class TestUserListAPI:
             follow=True)
         assert response.status_code == 400
         received_data = json.loads(response.content)
-        assert received_data['username'] == ["Пользователь с таким именем уже существует."]
+        assert received_data['username'] == [
+            "Пользователь с таким именем уже существует."]
 
 
 class TestUserItemAPI:
