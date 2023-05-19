@@ -2,8 +2,8 @@ import pytest
 import conftest
 from user import conftest as package_conftest
 from django.contrib.auth.models import User as PackageModel
-from bs4 import BeautifulSoup
 from copy import deepcopy
+from datetime import datetime, timezone
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
 
@@ -30,33 +30,28 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_successfuly_created_user(client):
-    CORRECT_USER = deepcopy(TEST_USER_A)
+    count_default_items_in_db = PackageModel.objects.all().count()
+    CORRECT_ITEM = deepcopy(TEST_USER_A)
 
-    response = client.post(TESTED_URL, CORRECT_USER, follow=True)
+    item_creation_time = datetime.now(timezone.utc)
+    response = client.post(TESTED_URL, CORRECT_ITEM, follow=True)
     assert response.redirect_chain == [
         (SUCCESS_URL, 302)
     ]
     response_content = response.content.decode()
     assert package_conftest.CREATE_OK_MESSAGE in response_content
 
-    # Is the user added to the list?
-    user_list_response = client.get(package_conftest.USER_LIST_URL)
-    user_list_content = user_list_response.content.decode()
-    assert user_list_response.status_code == 200
-    assert CORRECT_USER['username'] in user_list_content
-    assert CORRECT_USER['first_name'] in user_list_content
-    assert CORRECT_USER['last_name'] in user_list_content
+    # Is the item added to the database?
+    db_item = PackageModel.objects.last()
+    assert db_item.username == CORRECT_ITEM['username']
+    assert db_item.first_name == CORRECT_ITEM['first_name']
+    assert db_item.last_name == CORRECT_ITEM['last_name']
+    time_difference = db_item.date_joined - item_creation_time
+    assert time_difference.total_seconds() < 1
+    assert db_item.check_password(CORRECT_ITEM['password1'])
 
-    # Is users password correcly added to the database?
-    new_user = PackageModel.objects.get(username=CORRECT_USER['username'])
-    assert new_user.check_password(CORRECT_USER['password1'])
-
-    # Is only one user added to the list?
-    soup = BeautifulSoup(user_list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (
-        package_conftest.DEFAULT_USERS_COUNT
-        + package_conftest.USER_LIST_HEADER_ROWS + 1)
+    # Is only one item added to the database?
+    assert PackageModel.objects.all().count() == count_default_items_in_db + 1
 
 
 @pytest.mark.django_db

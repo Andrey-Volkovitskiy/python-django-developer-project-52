@@ -2,7 +2,6 @@ import pytest
 import conftest
 from label import conftest as package_conftest
 from task_manager.labels.models import Label as PackageModel
-from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_labels_additional import TEST_LABELS as TEST_ITEMS
 
@@ -56,21 +55,12 @@ def test_successfuly_delete_label(client, base_users):
     ]
     assert "Метка успешно удалена" in response_content
 
-    # Item not listed?
-    list_response = client.get(package_conftest.ITEM_LIST_URL)
-    list_content = list_response.content.decode()
-    assert INITIAL_ITEM['name'] not in list_content
-
     # Is the item removed from the database?
     with pytest.raises(PackageModel.DoesNotExist):
         PackageModel.objects.get(name=INITIAL_ITEM['name'])
 
-    # Is the item list shorter than it was before deletion?
-    soup = BeautifulSoup(list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (
-        count_default_items_in_db
-        + package_conftest.ITEM_LIST_HEADER_ROWS)
+    # Is only one item removed from the database?
+    assert PackageModel.objects.all().count() == count_default_items_in_db
 
 
 @pytest.mark.django_db

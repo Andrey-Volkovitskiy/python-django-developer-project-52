@@ -2,8 +2,6 @@ import pytest
 import conftest
 from user import conftest as package_conftest
 from django.contrib.auth.models import User as PackageModel
-import django
-from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
@@ -37,12 +35,13 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_successfuly_delete_user(client):
-    INITIAL_USER = deepcopy(TEST_USER_A)
-    client.post(package_conftest.USER_CREATE_URL, INITIAL_USER)
+    count_default_items_in_db = PackageModel.objects.all().count()
+    INITIAL_ITEM = deepcopy(TEST_USER_A)
+    client.post(package_conftest.USER_CREATE_URL, INITIAL_ITEM)
 
     assert client.login(
-        username=INITIAL_USER['username'],
-        password=INITIAL_USER['password'])
+        username=INITIAL_ITEM['username'],
+        password=INITIAL_ITEM['password'])
 
     TESTED_URL = conftest.get_tested_url_for_max_id(
         TESTED_URL_PATTERN, PackageModel)
@@ -53,23 +52,16 @@ def test_successfuly_delete_user(client):
     response_content = response.content.decode()
     assert "Пользователь успешно удален" in response_content
 
-    # User not listed?
-    list_response = client.get(package_conftest.USER_LIST_URL)
-    list_content = list_response.content.decode()
-    assert INITIAL_USER['username'] not in list_content
-    assert INITIAL_USER['first_name'] not in list_content
-    assert INITIAL_USER['last_name'] not in list_content
+    # Is the item removed from the database?
+    with pytest.raises(PackageModel.DoesNotExist):
+        PackageModel.objects.get(username=INITIAL_ITEM['username'])
+    with pytest.raises(PackageModel.DoesNotExist):
+        PackageModel.objects.get(first_name=INITIAL_ITEM['first_name'])
+    with pytest.raises(PackageModel.DoesNotExist):
+        PackageModel.objects.get(last_name=INITIAL_ITEM['last_name'])
 
-    # Is the user removed from the database?
-    with pytest.raises(django.contrib.auth.models.User.DoesNotExist):
-        PackageModel.objects.get(username=INITIAL_USER['username'])
-
-    # Is the user list shorter than it was before deletion?
-    soup = BeautifulSoup(list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (
-        package_conftest.DEFAULT_USERS_COUNT
-        + package_conftest.USER_LIST_HEADER_ROWS)
+    # Is only one item removed from the database?
+    assert PackageModel.objects.all().count() == count_default_items_in_db
 
 
 @pytest.mark.django_db

@@ -7,6 +7,7 @@ from django.views.generic import (ListView,
                                   DeleteView)
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
@@ -77,9 +78,9 @@ class UserDeleteView(
 
     def form_valid(self, form):
         user = self.get_object()
-        is_author_of_tasks = Task.objects.filter(author=user).exists()
-        is_executor_of_tasks = Task.objects.filter(executor=user).exists()
-        if is_author_of_tasks or is_executor_of_tasks:
+        is_author_or_executor = Task.objects.filter(
+            Q(author=user) | Q(executor=user)).exists()
+        if is_author_or_executor:
             messages.add_message(
                 self.request,
                 messages.ERROR,

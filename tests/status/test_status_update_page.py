@@ -2,7 +2,6 @@ import pytest
 import conftest
 from status import conftest as package_conftest
 from task_manager.statuses.models import Status as PackageModel
-from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_statuses_additional import TEST_STATUSES as TEST_ITEMS
 
@@ -53,21 +52,15 @@ def test_successfuly_updated_status(client, base_users):
     response_content = response.content.decode()
     assert "Статус успешно изменен" in response_content
 
-    # Is new item added to the list?
-    list_response = client.get(package_conftest.ITEM_LIST_URL)
-    list_content = list_response.content.decode()
-    assert UPDATED_ITEM['name'] in list_content
+    # Is new item added to the database?
+    assert PackageModel.objects.filter(name=UPDATED_ITEM['name']).exists()
 
     # Is old item removed from the database?
     with pytest.raises(PackageModel.DoesNotExist):
         PackageModel.objects.get(name=INITIAL_ITEM['name'])
 
-    # Is the user list length the same as before the update?
-    soup = BeautifulSoup(list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (
-        count_default_items_in_db + 1
-        + package_conftest.ITEM_LIST_HEADER_ROWS)
+    # Is number of items the same as before the update?
+    assert PackageModel.objects.all().count() == count_default_items_in_db + 1
 
 
 @pytest.mark.django_db

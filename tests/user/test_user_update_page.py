@@ -3,7 +3,6 @@ import conftest
 from user import conftest as package_conftest
 from django.contrib.auth.models import User as PackageModel
 import django
-from bs4 import BeautifulSoup
 from copy import deepcopy
 from fixtures.test_users import TEST_USER_A, TEST_USER_B
 
@@ -39,6 +38,7 @@ def test_basic_content(client):
 
 @pytest.mark.django_db
 def test_successfuly_updated_user(client):
+    count_default_items_in_db = PackageModel.objects.all().count()
     INITIAL_USER = deepcopy(TEST_USER_A)
     UPDATED_USER = deepcopy(TEST_USER_B)
     client.post(package_conftest.USER_CREATE_URL, INITIAL_USER)
@@ -61,20 +61,18 @@ def test_successfuly_updated_user(client):
     assert UPDATED_USER['first_name'] in list_content
     assert UPDATED_USER['last_name'] in list_content
 
-    # Is users password correcly added to the database?
-    updated_user = PackageModel.objects.get(
-        username=UPDATED_USER['username'])
-    assert updated_user.check_password(UPDATED_USER['password1'])
+    # Is new user present in the database?
+    db_user = PackageModel.objects.get(username=UPDATED_USER['username'])
+    assert db_user.first_name == UPDATED_USER['first_name']
+    assert db_user.last_name == UPDATED_USER['last_name']
+    assert db_user.check_password(UPDATED_USER['password1'])
 
     # Is old username removed from the database?
     with pytest.raises(django.contrib.auth.models.User.DoesNotExist):
         PackageModel.objects.get(username=INITIAL_USER['username'])
 
-    # Is the user list length the same as before the update?
-    soup = BeautifulSoup(list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (package_conftest.DEFAULT_USERS_COUNT + 1
-                         + package_conftest.USER_LIST_HEADER_ROWS)
+    # Is number of items the same as before the update?
+    assert PackageModel.objects.all().count() == count_default_items_in_db + 1
 
 
 @pytest.mark.django_db

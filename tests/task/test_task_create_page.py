@@ -55,6 +55,9 @@ def test_successfuly_created(client, base_users):
     response_content = response.content.decode()
     assert package_conftest.CREATE_OK_MESSAGE in response_content
 
+    # Is only one item added to the database?
+    assert PackageModel.objects.all().count() == count_default_items_in_db + 1
+
     # Is the item added to the list?
     list_response = client.get(package_conftest.ITEM_LIST_URL)
     list_content = list_response.content.decode()
@@ -65,13 +68,6 @@ def test_successfuly_created(client, base_users):
     assert author.get_full_name() in list_content
     expected_time = item_creation_time.strftime("%-H:%M")
     assert expected_time in list_content
-
-    # Is only one item added to the list?
-    soup = BeautifulSoup(list_response.content, 'html.parser')
-    rows = soup.find_all('tr')
-    assert len(rows) == (
-        count_default_items_in_db
-        + package_conftest.ITEM_LIST_HEADER_ROWS + 1)
 
     # Is item.labels propertly saved in the database?
     saved_object = PackageModel.objects.get(name=CORRECT_ITEM['name'])
