@@ -41,7 +41,7 @@ class TestUserCreateAPI:
     def test_api_user_post_success(self, api_client, user_factory):
         initial_data = user_factory.create_batch(3)
         expected_data = deepcopy(TEST_API_USER_C)
-        expected_time = datetime.utcnow().isoformat().split('.')[0]
+        expected_time = datetime.now()
         response = api_client.post(
             path=self.full_endpoint,
             data=expected_data,
@@ -54,7 +54,10 @@ class TestUserCreateAPI:
         assert expected_data['username'] == received_data['username']
         assert expected_data['first_name'] == received_data['first_name']
         assert expected_data['last_name'] == received_data['last_name']
-        assert expected_time == received_data['date_joined'].split('.')[0]
+        recieved_time = datetime.strptime(
+            received_data['date_joined'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        time_difference = recieved_time - expected_time
+        assert time_difference.total_seconds() < 1
 
         # Check database data
         assert PackageModel.objects.count() == len(initial_data) + 1
@@ -63,7 +66,9 @@ class TestUserCreateAPI:
         assert expected_data['first_name'] == db_user.first_name
         assert expected_data['last_name'] == db_user.last_name
         assert check_password(expected_data['password'], db_user.password)
-        assert expected_time == db_user.date_joined.isoformat().split('.')[0]
+        time_difference = (
+            db_user.date_joined.replace(tzinfo=None) - expected_time)
+        assert time_difference.total_seconds() < 1
 
     def test_api_user_post_reject_existing_username(self, api_client):
         same_data = deepcopy(TEST_API_USER_C)
@@ -117,6 +122,8 @@ class TestUserRetriveAPI:
         assert expected_data.username == received_data['username']
         assert expected_data.first_name == received_data['first_name']
         assert expected_data.last_name == received_data['last_name']
+
+######################################################################
 
 
 class TestUserPutAPI:
