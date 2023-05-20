@@ -117,41 +117,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Label'
           description: ''
-    patch:
-      operationId: labels_partial_update
-      description: |-
-        Only authenticateed user can CRUD labels.
-        A label associated with a task cannot be deleted.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this label.
-        required: true
-      tags:
-      - labels
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedLabel'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedLabel'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedLabel'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Label'
-          description: ''
     delete:
       operationId: labels_destroy
       description: |-
@@ -282,41 +247,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Status'
           description: ''
-    patch:
-      operationId: statuses_partial_update
-      description: |-
-        Only authenticateed user can CRUD statuses.
-        A status associated with a task cannot be deleted.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this status.
-        required: true
-      tags:
-      - statuses
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedStatus'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedStatus'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedStatus'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Status'
-          description: ''
     delete:
       operationId: statuses_destroy
       description: |-
@@ -437,41 +367,6 @@ paths:
             schema:
               $ref: '#/components/schemas/Task'
         required: true
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'
-          description: ''
-    patch:
-      operationId: tasks_partial_update
-      description: |-
-        Only authenticateed user can CRUD tasks.
-        A task can only be deleted by its author.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this task.
-        required: true
-      tags:
-      - tasks
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedTask'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedTask'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedTask'
       security:
       - cookieAuth: []
       - basicAuth: []
@@ -616,42 +511,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
-    patch:
-      operationId: users_partial_update
-      description: |-
-        An anonymous user can create, retrieve and list users.
-        Only the user himself can change or delete his account.
-        A user associated with a task cannot be deleted.
-      parameters:
-      - in: path
-        name: id
-        schema:
-          type: integer
-        description: A unique integer value identifying this пользователь.
-        required: true
-      tags:
-      - users
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/PatchedUser'
-      security:
-      - cookieAuth: []
-      - basicAuth: []
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: ''
     delete:
       operationId: users_destroy
       description: |-
@@ -693,109 +552,6 @@ components:
       - created_at
       - id
       - name
-    PatchedLabel:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: Имя
-          maxLength: 100
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedStatus:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: Имя
-          maxLength: 100
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-    PatchedTask:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        author:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          title: Имя
-          maxLength: 150
-        description:
-          type: string
-          title: Описание
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-          title: Дата создания
-        status:
-          type: integer
-          title: Статус
-        executor:
-          type: integer
-          nullable: true
-          title: Исполнитель
-        labels:
-          type: array
-          items:
-            type: integer
-            title: Метки
-          title: Метки
-    PatchedUser:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        username:
-          type: string
-          title: Имя пользователя
-          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
-            и символы @/./+/-/_.
-          pattern: ^[\w.@+-]+$
-          maxLength: 150
-        first_name:
-          type: string
-          title: Имя
-          maxLength: 150
-        last_name:
-          type: string
-          title: Фамилия
-          maxLength: 150
-        date_joined:
-          type: string
-          format: date-time
-          readOnly: true
-          title: Дата регистрации
-        password:
-          type: string
-          writeOnly: true
-          title: Пароль
-          maxLength: 128
-        author_set:
-          type: array
-          items:
-            type: integer
-          readOnly: true
-        executor_set:
-          type: array
-          items:
-            type: integer
-          readOnly: true
     Status:
       type: object
       properties:

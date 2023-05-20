@@ -56,7 +56,7 @@ class TestTaskCreateAPI:
     full_endpoint = package_conftest.get_list_endpoint(TESTED_ENDPOINT)
 
     def test_api_task_post_success(
-            self, api_client, task_factory,\
+            self, api_client, task_factory,
             user_factory, label_factory, status_factory):
         author = user_factory()
         api_client.login(username=author.username, password=DEFAULT_PASSWORD)
@@ -191,7 +191,7 @@ class TestTaskRetriveAPI:
 
 class TestTaskPutAPI:
     def test_api_task_put_success(
-            self, api_client, task_factory,\
+            self, api_client, task_factory,
             user_factory, label_factory, status_factory):
         user = user_factory()
         api_client.login(username=user.username, password=DEFAULT_PASSWORD)
