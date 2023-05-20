@@ -7,8 +7,6 @@ from .factories import (UserFactory,
                         TaskFactory)
 
 API_PREFIX = "/api/v1"
-API_LOGIN_URL = "/api/v1/login/"
-API_LOGOUT_URL = "/api/v1/logout/"
 
 DEFAULT_ITEMS_COUNT = 3
 

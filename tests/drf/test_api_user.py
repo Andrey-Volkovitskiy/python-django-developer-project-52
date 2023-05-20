@@ -70,7 +70,7 @@ class TestUserCreateAPI:
             db_user.date_joined.replace(tzinfo=None) - expected_time)
         assert time_difference.total_seconds() < 1
 
-    def test_api_user_post_reject_existing_username(self, api_client):
+    def test_api_user_post_reject_existing_name(self, api_client):
         same_data = deepcopy(TEST_API_USER_C)
         response = api_client.post(
             path=self.full_endpoint,

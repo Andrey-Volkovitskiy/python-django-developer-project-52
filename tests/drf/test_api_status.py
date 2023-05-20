@@ -32,9 +32,7 @@ class TestStatusListAPI:
             received_time = received_data[i]['created_at']
             assert initial_time == received_time
 
-    def test_api_status_get_reject_anonymous_user(
-            self, api_client, status_factory, user_factory):
-        status_factory.create_batch(3)
+    def test_api_status_get_reject_anonymous_user(self, api_client):
         response = api_client.get(self.full_endpoint)
 
         received_data = json.loads(response.content)
@@ -79,7 +77,7 @@ class TestStatusCreateAPI:
             db_user.created_at.replace(tzinfo=None) - expected_time)
         assert time_difference.total_seconds() < 1
 
-    def test_api_status_post_reject_existing_username(
+    def test_api_status_post_reject_existing_name(
             self, api_client, user_factory):
         user = user_factory()
         api_client.login(username=user.username, password=DEFAULT_PASSWORD)
@@ -101,8 +99,7 @@ class TestStatusCreateAPI:
         assert "Имя уже существует" in received_data['name'][0]
 
     def test_api_status_post_reject_anonymous_user(
-            self, api_client, status_factory, user_factory):
-        status_factory.create_batch(3)
+            self, api_client):
         expected_data = deepcopy(TEST_ITEMS[0])
 
         response = api_client.post(
@@ -137,7 +134,7 @@ class TestStatusRetriveAPI:
         assert expected_data.name == received_data['name']
 
     def test_api_status_get_reject_anonymous_user(
-            self, api_client, status_factory, user_factory):
+            self, api_client, status_factory):
         status_factory.create_batch(3)
         full_endpoint = package_conftest.get_last_item_endpoint(
             TESTED_ENDPOINT, PackageModel)
@@ -179,7 +176,7 @@ class TestStatusPutAPI:
         assert new_data['name'] == db_user.name
 
     def test_api_status_put_reject_anonymous_user(
-            self, api_client, status_factory, user_factory):
+            self, api_client, status_factory):
         status_factory.create_batch(3)
         full_endpoint = package_conftest.get_last_item_endpoint(
             TESTED_ENDPOINT, PackageModel)
@@ -220,7 +217,7 @@ class TestStatusDeleteAPI:
         assert not PackageModel.objects.filter(name=old_data.name).exists()
 
     def test_api_status_delete_reject_anonymous_user(
-            self, api_client, status_factory, user_factory):
+            self, api_client, status_factory):
         status_factory.create_batch(3)
         full_endpoint = package_conftest.get_last_item_endpoint(
             TESTED_ENDPOINT, PackageModel)

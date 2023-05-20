@@ -74,6 +74,7 @@ class StatusAPIViewSet(viewsets.ModelViewSet):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
     permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ['get', 'post', 'head', 'put', 'delete']
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

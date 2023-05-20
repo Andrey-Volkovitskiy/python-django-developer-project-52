@@ -74,6 +74,7 @@ class LabelAPIViewSet(viewsets.ModelViewSet):
     queryset = Label.objects.all()
     serializer_class = LabelSerializer
     permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ['get', 'post', 'head', 'put', 'delete']
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
