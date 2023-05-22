@@ -2,7 +2,7 @@
 
 **This is the 4th training project of "Python Developer" course.**
 
-Django web application for practicing CRUD operations and user permissions using ClassBasedViews, Models and TDD principles.
+Django web application for practicing CRUD operations and user permissions using ClassBasedViews, Models and TDD principles. Extended with DRF API.
 
 Deployed at: https://task-man.up.railway.app/
 
@@ -20,16 +20,19 @@ This project was built using these tools:
 |-----------------------------------------------------------------------------|---------------------------------------------------------|
 | [Django](https://www.djangoproject.com/)         | Web framework  |
 | [Django ORM](https://docs.djangoproject.com/en/4.2/topics/db/)         | Database-abstraction API  |
+| [Django REST Framework](https://www.django-rest-framework.org/)         | Web-API toolkit  |
 | [PostgreSQL](https://www.postgresql.org)         | Database management system  |
 | [Bootstrap](https://getbootstrap.com/)         | CSS framework  |
 | [Docker](https://www.docker.com)       | Container-based platform for building apps  |
 | [Poetry](https://poetry.eustace.io/)         | Python dependency manager  |
 | [Pytest](https://docs.pytest.org/)               | Testing framework |
+| [Factory Boy](https://factoryboy.readthedocs.io/)      | Factories as fixtures replacement |
 | [Flake8](https://flake8.pycqa.org/)               | Linter to check code style |
 | [Code Climate](https://codeclimate.com/)               | Clean Code verification system |
 | [GitHub Actions](https://github.com/features/actions)               | Continuous Integration (CI) |
 | [Railway](https://railway.app)               | Deployment platform |
 | [Rollbar](https://rollbar.com/)               | Error logging & tracking service |
+| [Swagger UI](https://swagger.io/tools/swagger-ui/)               | API documentation |
 
 
 ---
@@ -46,4 +49,22 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 (more service commands can be found in Makefile)
 
 ---
-![er diagram](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/er_diagram.jpg?raw=true)
+
+### REST-API
+- https://task-man.up.railway.app/api/v1/ - API root
+- https://task-man.up.railway.app/api/v1/schema/docs/ - Swagger UI documentation
+
+---
+
+*ER diagram*
+![er diagram](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/staticfiles/readme/er_diagram.jpg?raw=true)
+
+---
+
+*Bootstrap interface*
+![Bootstrap interface](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/staticfiles/readme/task_manager.jpg?raw=true)
+
+---
+
+*Error tracking (Rollbar)*
+![Error tracking (Rollbar)](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/staticfiles/readme/rollbar.jpgraw=true)

@@ -174,7 +174,8 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Task manager API',
-    'DESCRIPTION': '''Training API project (DRF, OpenAPI Schema, Swagger UI).
+    'DESCRIPTION': '''Training REST-API project (DRF, Swagger UI,
+    end-to-end testing).
     Please create a new user and log in through basicAuth to be able to work
     with statuses, labels and tasks.''',
     'VERSION': '1.0.0',
