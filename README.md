@@ -2,7 +2,7 @@
 
 **This is the 4th training project of "Python Developer" course.**
 
-Django web application for practicing CRUD operations and user permissions using ClassBasedViews, Models and TDD principles. Extended with DRF API.
+Django web application for practicing CRUD operations and user permissions using ClassBasedViews, Models and TDD principles. Extended with REST API.
 
 Deployed at: https://task-man.up.railway.app/
 
@@ -41,10 +41,10 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 
 - *make install* - to install dependencies
 - *make migrate* - to migrate a database
-- *make start* - to start the application
+- *make start* - to start the app
 - *make dev* - to start app on development web server
 - *make test* - to run tests
-- *make lint* - to run linter (Flake8h)
+- *make lint* - to run linter (Flake8)
 
 (more service commands can be found in Makefile)
 
@@ -67,4 +67,4 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 ---
 
 *Error tracking (Rollbar)*
-![Error tracking (Rollbar)](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/staticfiles/readme/rollbar.jpgraw=true)
+![Error tracking (Rollbar)](https://github.com/Andrey-Volkovitskiy/python-project-52/blob/main/staticfiles/readme/rollbar.jpg?raw=true)
