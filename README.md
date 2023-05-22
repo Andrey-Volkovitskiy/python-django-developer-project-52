@@ -2,7 +2,7 @@
 
 **This is the 4th training project of "Python Developer" course.**
 
-Django web application for practicing CRUD operations and user permissions using ClassBasedViews, Models and TDD principles. Extended with REST API.
+Django web application for practicing CRUD operations and user permissions with ClassBasedViews, Models, and high test coverage. Extended with REST API.
 
 Deployed at: https://task-man.up.railway.app/
 
