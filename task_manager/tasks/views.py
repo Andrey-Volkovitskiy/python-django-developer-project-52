@@ -13,6 +13,9 @@ from task_manager.views import CustomLoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
+from rest_framework import viewsets, permissions
+from .serializers import TaskSerializer
+from .permissions import DeleteOnlyByAuthor
 
 
 class TaskPermissionsForCRU(CustomLoginRequiredMixin):
@@ -95,3 +98,19 @@ class TaskDeleteView(
     template_name = "tasks/delete.html"
     success_url = reverse_lazy("task-list")
     success_message = _("Task successfully deleted")
+
+
+class TaskAPIViewSet(viewsets.ModelViewSet):
+    '''Only authenticateed user can CRUD tasks.
+    A task can only be deleted by its author.'''
+    queryset = Task.objects.all().order_by('id')
+    serializer_class = TaskSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DeleteOnlyByAuthor
+    ]
+    http_method_names = ['get', 'post', 'head', 'put', 'delete']
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+        return super().perform_create(serializer)
