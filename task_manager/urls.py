@@ -20,24 +20,7 @@ from task_manager import views
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework import routers
-from .users import views as user_views
-from .statuses import views as status_views
-from .labels import views as label_views
-from .tasks import views as task_views
-from drf_spectacular.views import (SpectacularAPIView,
-                                   SpectacularSwaggerView)
 
-
-api_router = routers.DefaultRouter()
-api_router.register(r'users', user_views.UserAPIViewSet,
-                    basename='user-api')
-api_router.register(r'statuses', status_views.StatusAPIViewSet,
-                    basename='status-api')
-api_router.register(r'labels', label_views.LabelAPIViewSet,
-                    basename='label-api')
-api_router.register(r'tasks', task_views.TaskAPIViewSet,
-                    basename='task-api')
 
 urlpatterns = [
     path('', TemplateView.as_view(
@@ -51,9 +34,4 @@ urlpatterns = [
     path('statuses/', include('task_manager.statuses.urls')),
     path('tasks/', include('task_manager.tasks.urls')),
     path('labels/', include('task_manager.labels.urls')),
-    path('api/v1/schema/', SpectacularAPIView.as_view(), name='schema'),
-    path('api/v1/schema/docs/', SpectacularSwaggerView.as_view(
-        url_name='schema')),
-    path('api/v1/auth/', include('rest_framework.urls')),
-    path('api/v1/', include(api_router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

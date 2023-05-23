@@ -167,18 +167,3 @@ ROLLBAR = {
     'code_version': '1.0',
     'root': str(BASE_DIR),
 }
-
-REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-}
-
-SPECTACULAR_SETTINGS = {
-    'TITLE': 'Task manager API',
-    'DESCRIPTION': '''Training REST-API project (DRF, Swagger UI,
-    end-to-end testing).
-    Please create a new user and log in through basicAuth to be able to work
-    with statuses, labels and tasks.''',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
-    # OTHER SETTINGS
-}

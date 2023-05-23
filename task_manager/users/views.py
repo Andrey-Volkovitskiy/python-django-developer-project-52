@@ -13,10 +13,6 @@ from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
 from task_manager.tasks.models import Task
 from task_manager.views import CustomLoginRequiredMixin
-from rest_framework import viewsets
-from rest_framework.response import Response
-from .serializers import UserSerializer
-from .permissions import IsHimselfOrReadOnly
 
 
 class UserListView(ListView):
@@ -87,22 +83,3 @@ class UserDeleteView(
                 _("The user cannot be deleted because it is in use"))
             return redirect('user-list')
         return super().form_valid(form)
-
-
-class UserAPIViewSet(viewsets.ModelViewSet):
-    '''An anonymous user can create, retrieve and list users.
-    Only the user himself can change or delete his account.
-    A user associated with a task cannot be deleted.'''
-    queryset = User.objects.all().order_by('id')
-    serializer_class = UserSerializer
-    permission_classes = [IsHimselfOrReadOnly]
-    http_method_names = ['get', 'post', 'head', 'put', 'delete']
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        is_author = instance.author_set.exists()
-        is_executor = instance.executor_set.exists()
-        if is_author or is_executor:
-            message = _("The user cannot be deleted because it is in use")
-            return Response({'detail': message}, status=405)
-        return super().destroy(request, *args, **kwargs)
