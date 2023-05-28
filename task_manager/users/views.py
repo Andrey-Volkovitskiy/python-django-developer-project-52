@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from task_manager.users.forms import UserForm
 from task_manager.tasks.models import Task
-from task_manager.views import CustomLoginRequiredMixin
+from task_manager.mixins import CustomLoginRequiredMixin
 from rest_framework import viewsets
 from rest_framework.response import Response
 from .serializers import UserSerializer

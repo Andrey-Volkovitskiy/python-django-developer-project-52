@@ -3,7 +3,6 @@ from . import settings
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.db import connections
 from django.db.utils import OperationalError
@@ -22,15 +21,6 @@ class SiteLogoutView(LogoutView):
         response = super().dispatch(request, *args, **kwargs)
         messages.add_message(request, messages.INFO, _("You are logged out"))
         return response
-
-
-class CustomLoginRequiredMixin(LoginRequiredMixin):
-    def handle_no_permission(self):
-        messages.add_message(
-            self.request,
-            messages.ERROR,
-            self.permission_denied_message)
-        return super().handle_no_permission()
 
 
 def service(request):

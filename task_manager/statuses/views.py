@@ -7,7 +7,7 @@ from django.views.generic import (ListView,
                                   DeleteView)
 from task_manager.statuses.models import Status
 from task_manager.statuses.forms import StatusForm
-from task_manager.views import CustomLoginRequiredMixin
+from task_manager.mixins import CustomLoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, permissions

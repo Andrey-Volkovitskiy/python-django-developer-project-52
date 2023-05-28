@@ -7,7 +7,7 @@ from django.views.generic import (ListView,
                                   DeleteView)
 from task_manager.labels.models import Label
 from task_manager.labels.forms import LabelForm
-from task_manager.views import CustomLoginRequiredMixin
+from task_manager.mixins import CustomLoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
 from rest_framework import viewsets, permissions

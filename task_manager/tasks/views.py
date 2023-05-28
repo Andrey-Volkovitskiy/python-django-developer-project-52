@@ -9,7 +9,7 @@ from django_filters.views import FilterView
 from task_manager.tasks.models import Task
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.filters import TaskFilter
-from task_manager.views import CustomLoginRequiredMixin
+from task_manager.mixins import CustomLoginRequiredMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext as _
