@@ -16,7 +16,7 @@ from .serializers import LabelSerializer
 
 
 class LabelPermissions(CustomLoginRequiredMixin):
-    '''Impements user permissions to CRUD labels'''
+    '''Implements user permissions to CRUD labels'''
     permission_denied_message = _("You are not authorized! Please sign in.")
 
 

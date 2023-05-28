@@ -16,7 +16,7 @@ from .serializers import StatusSerializer
 
 
 class StatusPermissions(CustomLoginRequiredMixin):
-    '''Impements user permissions for CRUD statuses'''
+    '''Implements user permissions for CRUD statuses'''
     permission_denied_message = _("You are not authorized! Please sign in.")
 
 

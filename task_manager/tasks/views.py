@@ -19,12 +19,12 @@ from .permissions import DeleteOnlyByAuthor
 
 
 class TaskPermissionsForCRU(CustomLoginRequiredMixin):
-    '''Impements user permissions to create/read/update tasks'''
+    '''Implements user permissions to create/read/update tasks'''
     permission_denied_message = _("You are not authorized! Please sign in.")
 
 
 class TaskPermissionsForDelete(CustomLoginRequiredMixin, UserPassesTestMixin):
-    '''Impements user permissions to delete tasks'''
+    '''Implements user permissions to delete tasks'''
     permission_denied_message = _("You are not authorized! Please sign in.")
 
     def test_func(self):

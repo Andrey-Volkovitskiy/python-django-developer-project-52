@@ -33,7 +33,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
 
 
 class UserPermissions(CustomLoginRequiredMixin, UserPassesTestMixin):
-    '''Impements user permissions to upd / del another users'''
+    '''Implements user permissions to upd / del another users'''
     permission_denied_message = _("You are not authorized! Please sign in.")
 
     def test_func(self):
