@@ -1,2 +1,2 @@
 # Staticfiles excluded from GitHub language analysis
-- (^|/)staticfiles/
+- /staticfiles/
