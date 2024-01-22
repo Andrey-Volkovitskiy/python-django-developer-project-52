@@ -9,7 +9,7 @@ Deployed at: https://task-man.up.railway.app/
 * Implemented the web app using Django ClassBasdViews
 * Practiced implementation of CRUD operations and user permissions
 * The UI localized in two languages (Eng/Ru) using i18n
-* REST API added using DFR
+* The REST API added using DFR
 * The app covered with 126 tests (unit & end-to-end)
 * Parametrized fixtures and fixture factories used
 * The code refactored to follow DRY, KISS
