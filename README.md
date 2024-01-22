@@ -1,6 +1,6 @@
 # Task manager
 
-**This is the 4th training project of "Python Developer" course.**
+**This is the final training project of "Python Developer" specialization.**
 
 Django web application for practicing CRUD operations and user permissions with ClassBasedViews, Models, and high test coverage. Extended with REST API.
 
@@ -8,7 +8,7 @@ Deployed at: https://task-man.up.railway.app/
 
 ---
 ### Tests and code quality assessment:
-[![Actions Status](https://github.com/Andrey-Volkovitskiy/python-django-developer-project-52/workflows/hexlet-check/badge.svg)](https://github.com/Andrey-Volkovitskiy/python-django-developer-project-52/actions)    [![Linter](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/flake8_linter.yml/badge.svg)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/flake8_linter.yml)    [![Pytest (with postgres)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/pytest_with_postgres.yml/badge.svg)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/pytest_with_postgres.yml)
+[![Linter](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/flake8_linter.yml/badge.svg)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/flake8_linter.yml)    [![Pytest (with postgres)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/pytest_with_postgres.yml/badge.svg)](https://github.com/Andrey-Volkovitskiy/python-project-52/actions/workflows/pytest_with_postgres.yml)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/b06b8d9b092a3a4c9712/maintainability)](https://codeclimate.com/github/Andrey-Volkovitskiy/python-project-52/maintainability)    [![Test Coverage](https://api.codeclimate.com/v1/badges/b06b8d9b092a3a4c9712/test_coverage)](https://codeclimate.com/github/Andrey-Volkovitskiy/python-project-52/test_coverage)
 
