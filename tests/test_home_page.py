@@ -13,8 +13,9 @@ def test_basic_content(client):
     responce = client.get(TESTED_URL)
     content = responce.content.decode()
     assert responce.status_code == 200
-    assert "Практические курсы по программированию" in content
-    assert "Узнать больше" in content
+    assert ("Авторизуйтесь как пользователь, управляйте статусами, "
+            "отслеживайте свои задачи и ищите их с помощью меток") in content
+    assert "Начать" in content
     assert "Пользователи" in content
     assert "Вход" in content
     assert "Регистрация" in content

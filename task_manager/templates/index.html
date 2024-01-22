@@ -10,10 +10,10 @@
 {% block content %}
       <div class="card">
         <div class="card-body p-5 bg-light">
-          <div class="display-4">{% translate "Hello from Hexlet!" %}</div>
-          <p class="lead">{% translate "Practical programming courses" %}</p>
+          <div class="display-4">{% translate "Task Manager" %}</div>
+          <p class="lead my-2">{% translate "Log in as a user, manage statuses, track your tasks and search for them by labels." %}</p>
           <hr>
-          <a class="btn btn-primary btn-lg" href="https://ru.hexlet.io">{% translate "Learn more" %}</a>
+          <a class="btn btn-primary btn-lg" href="{% url 'user-create' %}">{% translate "Start" %}</a>
         </div>
       </div>
 {% endblock %}
