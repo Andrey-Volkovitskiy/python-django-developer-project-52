@@ -3,7 +3,6 @@
 **This is the final training project of "Python Developer" specialization.**
 
 *Django / DRF web app that helps office workers manage tasks*
-Django web application for practicing CRUD operations and user permissions with ClassBasedViews, Models, and high test coverage. Extended with REST API. Locilized
 
 Deployed at: https://task-man.up.railway.app/
 
