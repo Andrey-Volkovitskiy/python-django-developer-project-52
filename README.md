@@ -42,6 +42,11 @@ This project was built using these tools:
 | [Rollbar](https://rollbar.com/)               | Error logging & tracking service |
 | [Swagger UI](https://swagger.io/tools/swagger-ui/)               | API documentation |
 
+---
+
+### REST-API
+- https://task-man.up.railway.app/api/v1/ - API root
+- https://task-man.up.railway.app/api/v1/schema/docs/ - Swagger UI documentation
 
 ---
 ### Installation and running
@@ -55,12 +60,6 @@ The application stores data using PostgresSQL (connected via DATABASE_URL).
 - *make lint* - to run linter (Flake8)
 
 (more service commands can be found in Makefile)
-
----
-
-### REST-API
-- https://task-man.up.railway.app/api/v1/ - API root
-- https://task-man.up.railway.app/api/v1/schema/docs/ - Swagger UI documentation
 
 ---
 
