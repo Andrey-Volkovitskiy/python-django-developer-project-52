@@ -11,7 +11,7 @@ Deployed at: https://task-man.up.railway.app/
 * The UI localized in two languages (Eng/Ru) using i18n
 * The REST API added using DFR
 * The app covered with 126 tests (unit & end-to-end)
-* Parametrized fixtures and fixture factories used
+* Parameterized fixtures and fixture factories used
 * The code refactored to follow DRY, KISS
 
 ---
